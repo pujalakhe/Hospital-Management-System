@@ -1,0 +1,6 @@
+i. private/ 
+→ Modules/components that require authentication.
+private-module.ts → Declares all private components.
+
+
+private-routing-module.ts → Contains routes accessible only after login.

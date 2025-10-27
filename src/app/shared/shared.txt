@@ -1,0 +1,4 @@
+Purpose:
+ Holds reusable components, directives, pipes, and modules (like Angular Material).
+Why:
+ Anything used in multiple features should go here instead of duplicating in each module. Helps maintain DRY principles.

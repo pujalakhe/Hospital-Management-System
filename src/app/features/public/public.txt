@@ -1,0 +1,10 @@
+→ Modules/components accessible without authentication.
+Example: login, signup.
+
+
+public-module.ts → Declares public components.
+
+
+public-routing-module.ts → Contains public routes.
+Why:
+ Feature modules keep functionality organized, improve lazy loading, and prevent the main app.module.ts from getting bloated. Separating private and public makes authentication logic easier.

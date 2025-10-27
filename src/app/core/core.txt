@@ -1,0 +1,3 @@
+Holds singleton services, app-wide utilities, and constants.
+
+Why: Core contains things shared across the app but not directly tied to a feature. E.g., AuthService, route constants, API utilities.
