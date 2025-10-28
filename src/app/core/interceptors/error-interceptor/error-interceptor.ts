@@ -77,12 +77,6 @@ export class ErrorInterceptor implements HttpInterceptor {
               SNACKBAR_DURATION.MEDIUM
             );
             break;
-          case status === API_ERROR_CODES.NETWORK_ERROR:
-            this.snackbar.error(
-              'Network error.Please check your connection.',
-              SNACKBAR_DURATION.LONG
-            );
-            break;
           default:
             this.snackbar.error(message, SNACKBAR_DURATION.MEDIUM);
             break;

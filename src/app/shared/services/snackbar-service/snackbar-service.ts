@@ -1,7 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-type NotificationType = 'success' | 'error' | 'info' | 'warning';
-type NotificationAction = 'Close' | 'Undo';
+import {
+  SnackbarAction,
+  SNACKBAR_POSITION,
+  SnackbarType,
+  SNACKBAR_DURATION,
+  SNACKBAR_TYPE,
+  SNACKBAR_ACTION,
+} from '../../constants/snackbar-constants/snackbar.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -10,14 +16,14 @@ export class SnackbarService {
   private snackBar = inject(MatSnackBar);
 
   private defaultConfig: MatSnackBarConfig = {
-    duration: 3000,
-    horizontalPosition: 'right',
-    verticalPosition: 'top',
+    duration: SNACKBAR_DURATION.SHORT,
+    horizontalPosition: SNACKBAR_POSITION.HORIZONTAL,
+    verticalPosition: SNACKBAR_POSITION.VERTICAL,
   };
   private show(
     message: string,
-    type: NotificationType = 'info',
-    action: NotificationAction = 'Close',
+    type: SnackbarType = SNACKBAR_TYPE.INFO,
+    action: SnackbarAction = SNACKBAR_ACTION.CLOSE,
     config?: MatSnackBarConfig
   ) {
     const configWithDefaults = {
@@ -25,15 +31,19 @@ export class SnackbarService {
       panelClass: [`snackbar-${type}`],
       ...config,
     };
-    this.snackBar.open(message, action ?? 'Close', configWithDefaults);
+    this.snackBar.open(
+      message,
+      action ?? SNACKBAR_ACTION.CLOSE,
+      configWithDefaults
+    );
   }
   success(
     message: string,
     duration?: number,
-    action?: NotificationAction,
+    action?: SnackbarAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'success', action ?? 'Close', {
+    this.show(message, SNACKBAR_TYPE.SUCCESS, action ?? SNACKBAR_ACTION.CLOSE, {
       ...config,
       ...(duration ? { duration } : {}),
     });
@@ -42,10 +52,10 @@ export class SnackbarService {
   error(
     message: string,
     duration?: number,
-    action?: NotificationAction,
+    action?: SnackbarAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'error', action ?? 'Close', {
+    this.show(message, SNACKBAR_TYPE.ERROR, action ?? SNACKBAR_ACTION.CLOSE, {
       ...config,
       ...(duration ? { duration } : {}),
     });
@@ -54,10 +64,10 @@ export class SnackbarService {
   info(
     message: string,
     duration?: number,
-    action?: NotificationAction,
+    action?: SnackbarAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'info', action ?? 'Close', {
+    this.show(message, SNACKBAR_TYPE.INFO, action ?? SNACKBAR_ACTION.CLOSE, {
       ...config,
       ...(duration ? { duration } : {}),
     });
@@ -66,10 +76,10 @@ export class SnackbarService {
   warning(
     message: string,
     duration?: number,
-    action?: NotificationAction,
+    action?: SnackbarAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'warning', action ?? 'Close', {
+    this.show(message, SNACKBAR_TYPE.ERROR, action ?? SNACKBAR_ACTION.CLOSE, {
       ...config,
       ...(duration ? { duration } : {}),
     });
