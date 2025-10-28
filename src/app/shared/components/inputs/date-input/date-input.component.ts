@@ -11,6 +11,6 @@ import { MaterialModule } from '../../../angular-material.module';
 })
 export class DateInputComponent {
   @Input({ required: true }) control: FormControl = new FormControl('');
-  @Input({ required: true }) label!: string;
+  @Input({ required: true }) label?: string;
   @Input({ required: true }) placeholder: string = '';
 }
