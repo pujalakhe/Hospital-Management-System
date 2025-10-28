@@ -60,8 +60,10 @@ describe('AutoFocusInvalid Directive', () => {
 
     spyOn(firstInput, 'focus');
 
+    // Ensure form is invalid
     expect(component.form.invalid).toBeTrue();
 
+    // Trigger form submit with bubbling
     const formEl = fixture.debugElement.query(By.css('form')).nativeElement;
     formEl.dispatchEvent(new Event('submit', { bubbles: true }));
     fixture.detectChanges();
@@ -82,6 +84,7 @@ describe('AutoFocusInvalid Directive', () => {
 
     expect(component.form.valid).toBeTrue();
 
+    // Verify that focus was not called on any input
     inputs.forEach((input) => {
       expect(input.nativeElement.focus).not.toHaveBeenCalled();
     });
