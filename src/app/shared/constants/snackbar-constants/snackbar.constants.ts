@@ -1,0 +1,5 @@
+export const SNACKBAR_DURATION = {
+  SHORT: 2500,
+  MEDIUM: 4000,
+  LONG: 5000,
+};
