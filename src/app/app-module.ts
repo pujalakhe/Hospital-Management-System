@@ -8,6 +8,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideHttpClient } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { BaseTableComponent } from "./shared/components/tableComponent/base-table-component/base-table-component";
 
 @NgModule({
   declarations: [App],
@@ -16,7 +17,8 @@ import { EffectsModule } from '@ngrx/effects';
     AppRoutingModule,
     StoreModule.forRoot(),
     EffectsModule.forRoot(),
-  ],
+    BaseTableComponent
+],
   providers: [provideStoreDevtools(), provideHttpClient()],
   bootstrap: [App],
 })
