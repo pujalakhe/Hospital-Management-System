@@ -4,8 +4,8 @@ import {
   Input,
   SimpleChanges,
 } from '@angular/core';
-import { MaterialModule } from '../../../material/material.module';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../../../angular-material.module';
 
 @Component({
   selector: 'app-input-select',
