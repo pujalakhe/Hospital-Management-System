@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 type NotificationType = 'success' | 'error' | 'info' | 'warning';
+type NotificationAction = 'Close' | 'Undo';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,13 @@ export class SnackbarService {
 
   private defaultConfig: MatSnackBarConfig = {
     duration: 3000,
-    horizontalPosition: 'center',
-    verticalPosition: 'bottom',
+    horizontalPosition: 'right',
+    verticalPosition: 'top',
   };
-  show(
+  private show(
     message: string,
     type: NotificationType = 'info',
-    action = 'Close',
+    action: NotificationAction = 'Close',
     config?: MatSnackBarConfig
   ) {
     const configWithDefaults = {
@@ -24,41 +25,53 @@ export class SnackbarService {
       panelClass: [`snackbar-${type}`],
       ...config,
     };
-    this.snackBar.open(message, action, configWithDefaults);
+    this.snackBar.open(message, action ?? 'Close', configWithDefaults);
   }
   success(
     message: string,
     duration?: number,
-    action = 'Close',
+    action?: NotificationAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'success', action, { ...config, duration });
+    this.show(message, 'success', action ?? 'Close', {
+      ...config,
+      ...(duration ? { duration } : {}),
+    });
   }
 
   error(
     message: string,
     duration?: number,
-    action = 'Close',
+    action?: NotificationAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'error', action, { ...config, duration });
+    this.show(message, 'error', action ?? 'Close', {
+      ...config,
+      ...(duration ? { duration } : {}),
+    });
   }
 
   info(
     message: string,
     duration?: number,
-    action = 'Close',
+    action?: NotificationAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'info', action, { ...config, duration });
+    this.show(message, 'info', action ?? 'Close', {
+      ...config,
+      ...(duration ? { duration } : {}),
+    });
   }
 
   warning(
     message: string,
     duration?: number,
-    action = 'Close',
+    action?: NotificationAction,
     config?: MatSnackBarConfig
   ) {
-    this.show(message, 'warning', action, { ...config, duration });
+    this.show(message, 'warning', action ?? 'Close', {
+      ...config,
+      ...(duration ? { duration } : {}),
+    });
   }
 }
