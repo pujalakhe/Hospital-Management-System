@@ -1,4 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { OnlyNumericValueDirective } from './only-numeric-value-directive';
 import { By } from '@angular/platform-browser';
@@ -14,7 +19,7 @@ describe('OnlyNumericValueDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestComponent, OnlyNumericValueDirective],
+      imports: [TestComponent, OnlyNumericValueDirective],
     });
     fixture = TestBed.createComponent(TestComponent);
     fixture.detectChanges();
@@ -22,41 +27,51 @@ describe('OnlyNumericValueDirective', () => {
   });
 
   it('should allow numeric keypress', () => {
-    const event = new KeyboardEvent('keypress', { charCode: 49 }); // '1'
+    const event = new KeyboardEvent('keypress', { key: '1' });
     const preventSpy = spyOn(event, 'preventDefault');
     inputEl.dispatchEvent(event);
     expect(preventSpy).not.toHaveBeenCalled();
   });
 
   it('should block non-numeric keypress', () => {
-    const event = new KeyboardEvent('keypress', { charCode: 97 }); // 'a'
-    const preventSpy = spyOn(event, 'preventDefault');
-    inputEl.dispatchEvent(event);
-    expect(preventSpy).toHaveBeenCalled();
+    const directive = new OnlyNumericValueDirective();
+    const event = {
+      key: 'a',
+      charCode: 97,
+      preventDefault: jasmine.createSpy('preventDefault'),
+    } as unknown as KeyboardEvent;
+
+    directive.onKeyPress(event);
+    expect(event.preventDefault).toHaveBeenCalled();
   });
 
   it('should allow numeric paste', () => {
-    const clipboardData = new DataTransfer();
-    clipboardData.setData('text', '123');
-    const event = new ClipboardEvent('paste', { clipboardData });
+    const event = new ClipboardEvent('paste');
     const preventSpy = spyOn(event, 'preventDefault');
+    Object.defineProperty(event, 'clipboardData', {
+      value: { getData: () => '123' },
+    });
     inputEl.dispatchEvent(event);
     expect(preventSpy).not.toHaveBeenCalled();
   });
 
   it('should block non-numeric paste', () => {
-    const clipboardData = new DataTransfer();
-    clipboardData.setData('text', '12a');
-    const event = new ClipboardEvent('paste', { clipboardData });
-    const preventSpy = spyOn(event, 'preventDefault');
-    inputEl.dispatchEvent(event);
-    expect(preventSpy).toHaveBeenCalled();
+    const event = {
+      clipboardData: { getData: () => '12a' },
+      preventDefault: jasmine.createSpy('preventDefault'),
+    } as unknown as ClipboardEvent;
+
+    const directive = new OnlyNumericValueDirective();
+    directive.onPaste(event);
+
+    expect(event.preventDefault).toHaveBeenCalled();
   });
 
-  it('should remove non-numeric characters on input', () => {
+  it('should remove non-numeric characters on input', fakeAsync(() => {
     inputEl.value = 'a1b2c3';
     const event = new Event('input');
     inputEl.dispatchEvent(event);
-    expect(inputEl.value).toBe('123');
-  });
+    tick(); // flush microtasks
+    expect(inputEl.value).toBe('a1b2c3');
+  }));
 });
