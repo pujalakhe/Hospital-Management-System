@@ -11,13 +11,13 @@ import { MaterialModule } from '../../../angular-material.module';
 })
 export class FileInputComponent {
   @Input({ required: true }) control: FormControl = new FormControl('');
-  @Input({ required: true }) label!: string;
+  @Input({ required: true }) label?: string;
   @Input({ required: true }) accept: string = '*';
 
-  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;
 
   openFilePicker() {
-    this.fileInput.nativeElement.click();
+    this.fileInput?.nativeElement.click();
   }
 
   onFileChange(event: Event) {
