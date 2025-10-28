@@ -10,10 +10,10 @@ import { MaterialModule } from '../../../angular-material.module';
   styleUrl: './text-input.component.scss',
 })
 export class TextInputComponent {
-  @Input() control!: FormControl;
-  @Input() label!: string;
-  @Input() placeholder: string = '';
-  @Input() type: string = 'text';
+  @Input() control: FormControl = new FormControl('');
+  @Input({ required: true }) label?: string;
+  @Input({ required: true }) placeholder: string = '';
+  @Input({ required: true }) type: string = 'text';
 
   hide = true;
 

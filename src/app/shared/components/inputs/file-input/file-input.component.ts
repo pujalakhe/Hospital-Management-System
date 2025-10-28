@@ -10,9 +10,9 @@ import { MaterialModule } from '../../../angular-material.module';
   styleUrl: './file-input.component.scss',
 })
 export class FileInputComponent {
-  @Input() control!: FormControl;
-  @Input() label!: string;
-  @Input() accept: string = '*';
+  @Input({ required: true }) control: FormControl = new FormControl('');
+  @Input({ required: true }) label!: string;
+  @Input({ required: true }) accept: string = '*';
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 

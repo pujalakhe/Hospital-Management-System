@@ -10,7 +10,7 @@ import { MaterialModule } from '../../../angular-material.module';
   styleUrl: './date-input.component.scss',
 })
 export class DateInputComponent {
-  @Input() control!: FormControl;
-  @Input() label!: string;
-  @Input() placeholder: string = '';
+  @Input({ required: true }) control: FormControl = new FormControl('');
+  @Input({ required: true }) label!: string;
+  @Input({ required: true }) placeholder: string = '';
 }
