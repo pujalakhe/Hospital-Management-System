@@ -1,0 +1,28 @@
+<div class="w-full">
+  <label class="block mb-2 font-medium text-gray-700">{{ label }}</label>
+
+  <button
+    mat-stroked-button
+    color="primary"
+    type="button"
+    (click)="openFilePicker()"
+  >
+    Choose File
+  </button>
+
+  <input
+    #fileInput
+    type="file"
+    hidden
+    [accept]="accept"
+    (change)="onFileChange($event)"
+  />
+
+  @if (fileName) {
+  <div class="mt-2 text-sm text-gray-600">
+    Selected: <strong>{{ fileName }}</strong>
+  </div>
+  } @if (control.hasError('required')) {
+  <mat-error>{{ label }} is required</mat-error>
+  }
+</div>
