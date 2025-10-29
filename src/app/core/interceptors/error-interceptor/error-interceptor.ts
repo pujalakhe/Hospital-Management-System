@@ -10,79 +10,70 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { SnackbarService } from '../../../shared/services/snackbar-service/snackbar-service';
-import { API_ERROR_CODES } from '../../constants/api-error-code-constants/api-error-codes.constant';
+import {
+  API_ERROR_CODES,
+  API_ERROR_MESSAGES,
+  API_SUCCESS_MESSAGE,
+} from '../../constants/api-error-code-constants/api-error-codes.constant';
 import { SNACKBAR_DURATION } from '../../../shared/constants/snackbar-constants/snackbar.constants';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private router: Router, private snackbar: SnackbarService) {}
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      map((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          const code = event.body?.code;
-          switch (code) {
-            case API_ERROR_CODES.SUCCESS:
-            case API_ERROR_CODES.CREATED:
-              this.snackbar.success(
-                event.body?.message || 'Operation Successful',
-                SNACKBAR_DURATION.SHORT
-              );
-              break;
-            default:
-              break;
-          }
-        }
-        return event;
-      }),
-
-      catchError((error: HttpErrorResponse) => {
-        const code = error?.error?.code;
-        const status = error?.status;
-        const message = error?.error?.message || 'something went wrong';
-
-        switch (true) {
-          case code === API_ERROR_CODES.UNAUTHORIZED ||
-            status === API_ERROR_CODES.UNAUTHORIZED:
-            this.snackbar.error(
-              'Session expired.Please log in again.',
-              SNACKBAR_DURATION.LONG
-            );
-            this.router.navigate(['/login']);
-            break;
-          case status === API_ERROR_CODES.BAD_REQUEST:
-            this.snackbar.error(
-              message || 'Invalid request. Please check your input.',
-              SNACKBAR_DURATION.MEDIUM
-            );
-            break;
-
-          case status === API_ERROR_CODES.FORBIDDEN:
-            this.snackbar.error(
-              'You do not have permission to perform this action.',
-              SNACKBAR_DURATION.LONG
-            );
-            break;
-          case status === API_ERROR_CODES.NOT_FOUND:
-            this.snackbar.error(
-              'Requested resource not found.',
-              SNACKBAR_DURATION.MEDIUM
-            );
-            break;
-          case status === API_ERROR_CODES.INTERNAL_SERVER_ERROR:
-            this.snackbar.error(
-              'Internal server error.Please try again later.',
-              SNACKBAR_DURATION.MEDIUM
-            );
-            break;
-          default:
-            this.snackbar.error(message, SNACKBAR_DURATION.MEDIUM);
-            break;
-        }
-        return throwError(() => error);
-      })
+      map((event) => this.handleSuccess(event, req.method)),
+      catchError((error) => this.handleError(error))
     );
+  }
+
+  private handleSuccess(event: HttpEvent<any>, method: string): HttpEvent<any> {
+    if (event instanceof HttpResponse && method !== 'GET') {
+      const { code, message = 'Operation successful' } = event.body || {};
+      const config = API_SUCCESS_MESSAGE[
+        code as keyof typeof API_SUCCESS_MESSAGE
+      ] || {
+        message: message || 'Operation successful',
+        duration: SNACKBAR_DURATION.SHORT,
+      };
+      if ([API_ERROR_CODES.SUCCESS, API_ERROR_CODES.CREATED].includes(code)) {
+        this.snackbar.success(config.message, config.duration);
+      }
+    }
+    return event;
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    const { status, error: errBody } = error;
+    const { code, message } = errBody || {};
+
+    if (
+      code === API_ERROR_CODES.UNAUTHORIZED ||
+      status === API_ERROR_CODES.UNAUTHORIZED
+    ) {
+      const config = API_ERROR_MESSAGES.UNAUTHORIZED;
+      this.snackbar.error(config.message, config.duration);
+      this.router.navigate(['/login']);
+      return throwError(() => error);
+    }
+
+    const errorMap: Record<number, { message: string; duration: number }> = {
+      [API_ERROR_CODES.BAD_REQUEST]: API_ERROR_MESSAGES.BAD_REQUEST,
+      [API_ERROR_CODES.FORBIDDEN]: API_ERROR_MESSAGES.FORBIDDEN,
+      [API_ERROR_CODES.NOT_FOUND]: API_ERROR_MESSAGES.NOT_FOUND,
+      [API_ERROR_CODES.INTERNAL_SERVER_ERROR]:
+        API_ERROR_MESSAGES.INTERNAL_SERVER_ERROR,
+    };
+
+    const config = errorMap[status] || {
+      message: message || API_ERROR_MESSAGES.DEFAULT.message,
+      duration: API_ERROR_MESSAGES.DEFAULT.duration,
+    };
+
+    this.snackbar.error(config.message, config.duration);
+    return throwError(() => error);
   }
 }
