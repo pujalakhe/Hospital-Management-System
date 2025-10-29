@@ -1,13 +1,14 @@
+import { DEFAULT_TOTAL, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '../constants/basetable.constant';
 import { BaseTableState } from "../models/table-column.model";
 
 
 export const initialState: BaseTableState = {
   items: [],
-  total: 0,
+  total: DEFAULT_TOTAL,
   loading: false,
   error: null,
-  page: 1,
-  pageSize: 10,
+  page: DEFAULT_PAGE_NUMBER,
+  pageSize: DEFAULT_PAGE_SIZE,
   sort: null,
   lastRequest: null
 };
