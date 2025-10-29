@@ -1,15 +1,5 @@
-import { BaseTableRequest, BaseTableResponse } from '../models/table-column.model';
+import { BaseTableState } from "../models/table-column.model";
 
-export interface BaseTableState {
-  items: any[];
-  total: number;
-  loading: boolean;
-  error: any;
-  page: number;
-  pageSize: number;
-  sort: { field: string; direction: 'asc' | 'desc' } | null;
-  lastRequest: BaseTableRequest | null;
-}
 
 export const initialState: BaseTableState = {
   items: [],
