@@ -23,3 +23,9 @@ body {
 
   margin: 0;
 }
+
+mat-form-field input[type="number"]::-webkit-inner-spin-button,
+mat-form-field input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
