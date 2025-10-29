@@ -15,8 +15,9 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MaterialModule } from '../../../angular-material.module';
-import { DEFAULT_DIALOG_WIDTH, DEFAULT_PAGE, DEFAULT_PAGE_SIZE, EMPTY_FILTER, LOWERCASE, SortDirection, TableColumn } from '../models/table-column.model';
+import { DEFAULT_DIALOG_WIDTH, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE, DEFAULT_TOTAL, EMPTY_FILTER, LOWERCASE, SortDirection } from '../constants/basetable.constant';
 import { FilterComponent } from '../../filter-component/filter.component';
+import { TableColumn } from '../models/table-column.model';
 
 
 @Component({
@@ -29,8 +30,8 @@ import { FilterComponent } from '../../filter-component/filter.component';
 export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
   @Input() columns: TableColumn<T>[] = [];
   @Input() rows: T[] = [];
-  @Input() total = 0;
-  @Input() page = DEFAULT_PAGE;
+  @Input() total = DEFAULT_TOTAL;
+  @Input() page = DEFAULT_PAGE_NUMBER;
   @Input() pageSize = DEFAULT_PAGE_SIZE;
   @Input() loading = false;
   @Input() customCellTemplates?: Record<string, TemplateRef<any>>;
@@ -82,7 +83,7 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
     if (!this.serverSide) return;
 
     const event = sortState.direction
-      ? { field: sortState.active, direction: sortState.direction as 'asc' | 'desc' }
+      ? { field: sortState.active, direction: sortState.direction as SortDirection }
       : null;
 
     this.sortChange.emit(event);
@@ -92,7 +93,7 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
     if (!this.serverSide) return;
 
     this.pageChange.emit({
-      page: event.pageIndex + DEFAULT_PAGE,
+      page: event.pageIndex + DEFAULT_PAGE_NUMBER,
       pageSize: event.pageSize,
     });
   }
