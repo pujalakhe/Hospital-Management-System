@@ -3,6 +3,7 @@ export const SNACKBAR_DURATION = {
   MEDIUM: 4000,
   LONG: 5000,
 } as const;
+
 export const SNACKBAR_POSITION = {
   HORIZONTAL: 'right',
   VERTICAL: 'top',
@@ -14,9 +15,12 @@ export const SNACKBAR_TYPE = {
   INFO: 'info',
   WARNING: 'warning',
 } as const;
+
 export const SNACKBAR_ACTION = {
   CLOSE: 'Close',
   UNDO: 'Undo',
 } as const;
+
 export type SnackbarType = 'success' | 'error' | 'info' | 'warning';
+
 export type SnackbarAction = 'Close' | 'Undo';
