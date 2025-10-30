@@ -14,12 +14,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngrx/store';
+
 import { MaterialModule } from '../../../angular-material.module';
-import { DEFAULT_DIALOG_WIDTH, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE, DEFAULT_TOTAL, EMPTY_FILTER, LOWERCASE, SortDirection } from '../constants/basetable.constant';
+import {
+  DEFAULT_DIALOG_WIDTH,
+  DEFAULT_PAGE_NUMBER,
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_TOTAL,
+  EMPTY_FILTER,
+  LOWERCASE,
+  SortDirection,
+} from '../constants/basetable.constant';
 import { FilterComponent } from '../../filter-component/filter.component';
 import { TableColumn } from '../models/table-column.model';
 import { LoaderComponent } from '../../loader-component/loader-component';
-
+import { selectBaseTableLoading } from '../store/table.selectors';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-base-table-component',
@@ -34,7 +45,6 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
   @Input() total = DEFAULT_TOTAL;
   @Input() page = DEFAULT_PAGE_NUMBER;
   @Input() pageSize = DEFAULT_PAGE_SIZE;
-  @Input() loading = false;
   @Input() customCellTemplates?: Record<string, TemplateRef<any>>;
   @Input() serverSide = false;
 
@@ -50,7 +60,11 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
-  constructor(private dialog: MatDialog) {}
+  loading$: Observable<boolean>;
+
+  constructor(private dialog: MatDialog, private store: Store) {
+    this.loading$ = this.store.select(selectBaseTableLoading);
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator ?? undefined;
@@ -60,18 +74,14 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
   ngOnChanges(_: SimpleChanges) {
     this.dataSource.data = this.rows ?? [];
     this.displayedColumns = this.columns.map(col => String(col.field));
-
     this.dataSource.filterPredicate = (data: T, filter: string) => {
       if (!filter) return true;
-
       try {
         const filters = JSON.parse(filter);
         return Object.entries(filters).every(([field, value]) => {
           if (value == null || value === EMPTY_FILTER) return true;
-
           const cellValue = data[field as keyof T];
           if (cellValue == null) return false;
-
           return LOWERCASE(cellValue) === LOWERCASE(value);
         });
       } catch {
@@ -82,17 +92,14 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
 
   onSortChange(sortState: Sort) {
     if (!this.serverSide) return;
-
     const event = sortState.direction
       ? { field: sortState.active, direction: sortState.direction as SortDirection }
       : null;
-
     this.sortChange.emit(event);
   }
 
   onPageChange(event: PageEvent) {
     if (!this.serverSide) return;
-
     this.pageChange.emit({
       page: event.pageIndex + DEFAULT_PAGE_NUMBER,
       pageSize: event.pageSize,
@@ -131,8 +138,7 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
         this.applyFilters();
         return;
       }
-
-      if (result === null) return; // Cancel — keep state
+      if (result === null) return;
     });
   }
 
@@ -141,7 +147,6 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
       this.filterChange.emit(this.currentFilters);
       return;
     }
-
     this.dataSource.filter = Object.keys(this.currentFilters).length
       ? JSON.stringify(this.currentFilters)
       : EMPTY_FILTER;
