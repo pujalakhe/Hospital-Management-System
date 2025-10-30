@@ -8,6 +8,7 @@ import {
   AfterViewInit,
   SimpleChanges,
   OnChanges,
+  OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +16,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
 import { MaterialModule } from '../../../angular-material.module';
 import {
@@ -30,7 +32,6 @@ import { FilterComponent } from '../../filter-component/filter.component';
 import { TableColumn } from '../models/table-column.model';
 import { LoaderComponent } from '../../loader-component/loader-component';
 import { selectBaseTableLoading } from '../store/table.selectors';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-base-table-component',
@@ -39,7 +40,7 @@ import { Observable } from 'rxjs';
   templateUrl: './base-table-component.html',
   styleUrls: ['./base-table-component.scss'],
 })
-export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
+export class BaseTableComponent<T = any> implements OnInit, AfterViewInit, OnChanges {
   @Input() columns: TableColumn<T>[] = [];
   @Input() rows: T[] = [];
   @Input() total = DEFAULT_TOTAL;
@@ -60,9 +61,11 @@ export class BaseTableComponent<T = any> implements AfterViewInit, OnChanges {
   @ViewChild(MatPaginator) paginator?: MatPaginator;
   @ViewChild(MatSort) sort?: MatSort;
 
-  loading$: Observable<boolean>;
+  loading$!: Observable<boolean>;
 
-  constructor(private dialog: MatDialog, private store: Store) {
+  constructor(private dialog: MatDialog, private store: Store) {}
+
+  ngOnInit() {
     this.loading$ = this.store.select(selectBaseTableLoading);
   }
 
