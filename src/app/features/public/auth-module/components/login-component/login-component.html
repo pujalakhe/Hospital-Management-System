@@ -1,3 +1,7 @@
+@if( (loading$ | async)){
+<app-loader-component></app-loader-component>
+} @if(!(loading$ | async)){
+
 <div
   class="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 to-white px-4"
 >
@@ -9,7 +13,7 @@
       [subHeading]="'Log In to your account'"
     ></app-form-header-component>
 
-    @if(loginForm){
+    @if(loginForm ){
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <app-input-text
@@ -44,3 +48,4 @@
     }
   </mat-card>
 </div>
+}
