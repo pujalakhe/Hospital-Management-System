@@ -8,7 +8,7 @@ import { disableControls, enableControls } from '../../utils/form.util';
 export abstract class BaseFormService {
   #formGroup?: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  protected constructor(protected formBuilder: FormBuilder) {}
 
   get form(): FormGroup | undefined {
     return this.#formGroup;
