@@ -17,71 +17,14 @@ const { SUCCESS, ERROR, INFO } = SNACKBAR_TYPE;
   providedIn: 'root',
 })
 export class SnackbarService {
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackbar: MatSnackBar) {}
 
-  private defaultConfig: MatSnackBarConfig = {
-    duration: SHORT,
+  defaultConfig: MatSnackBarConfig = {
     horizontalPosition: HORIZONTAL,
     verticalPosition: VERTICAL,
   };
-  private show(
-    message: string,
-    type: SnackbarType = INFO,
-    action: SnackbarAction = CLOSE,
-    config?: MatSnackBarConfig
-  ) {
-    const configWithDefaults = {
-      ...this.defaultConfig,
-      panelClass: [`snackbar-${type}`],
-      ...config,
-    };
-    this.snackBar.open(message, action ?? CLOSE, configWithDefaults);
-  }
-  success(
-    message: string,
-    duration?: number,
-    action?: SnackbarAction,
-    config?: MatSnackBarConfig
-  ) {
-    this.show(message, SUCCESS, action ?? CLOSE, {
-      ...config,
-      ...(duration ? { duration } : {}),
-    });
-  }
 
-  error(
-    message: string,
-    duration?: number,
-    action?: SnackbarAction,
-    config?: MatSnackBarConfig
-  ) {
-    this.show(message, ERROR, action ?? CLOSE, {
-      ...config,
-      ...(duration ? { duration } : {}),
-    });
-  }
-
-  info(
-    message: string,
-    duration?: number,
-    action?: SnackbarAction,
-    config?: MatSnackBarConfig
-  ) {
-    this.show(message, INFO, action ?? CLOSE, {
-      ...config,
-      ...(duration ? { duration } : {}),
-    });
-  }
-
-  warning(
-    message: string,
-    duration?: number,
-    action?: SnackbarAction,
-    config?: MatSnackBarConfig
-  ) {
-    this.show(message, ERROR, action ?? CLOSE, {
-      ...config,
-      ...(duration ? { duration } : {}),
-    });
+  show(message: string, type: string = INFO, duration: number = SHORT) {
+    this.snackbar.open(message, CLOSE, { ...this.defaultConfig, duration });
   }
 }
