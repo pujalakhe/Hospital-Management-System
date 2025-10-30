@@ -1,16 +1,23 @@
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
+
 import * as AuthActions from './auth.action';
 
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth-service/auth-service';
+import { SnackbarService } from '../../../../shared/services/Snackbar/snackbar-service';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_TYPE,
+} from '../../../../shared/constants/snackbar.constant';
 
 @Injectable()
 export class AuthEffects {
   private actions$ = inject(Actions);
-  private authService = inject(AuthService);
   private router = inject(Router);
+  private authService = inject(AuthService);
+  private snackbarService = inject(SnackbarService);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -18,11 +25,14 @@ export class AuthEffects {
       mergeMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
           map(({ user, token }) => AuthActions.loginSuccess({ user, token })),
-          catchError((err) =>
-            of(
-              AuthActions.loginFailure({ error: err.message || 'Login failed' })
-            )
-          )
+          catchError((err) => {
+            this.snackbarService.show(
+              'Login Failed',
+              SNACKBAR_TYPE.ERROR,
+              SNACKBAR_DURATION.SHORT
+            );
+            return of(AuthActions.loginFailure({ error: err.message }));
+          })
         )
       )
     )
