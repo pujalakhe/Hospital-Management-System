@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { FilterOption } from '../model/filter.constants';
+import { FilterOption } from '../model/filter.model';
 
 
 
@@ -11,13 +11,7 @@ import { FilterOption } from '../model/filter.constants';
 })
 export class FilterOptionsService {
   constructor(private http: HttpClient) {}
-
-  /**
-   * Fetch filter options from API endpoint
-   * @param endpoint API endpoint to fetch options from
-   * @param field Field name to get options for
-   * @returns Observable of filter options
-   */
+  
   getFilterOptions(endpoint: string, field: string): Observable<FilterOption[]> {
     return this.http.get<any[]>(`${endpoint}/filter-options/${field}`).pipe(
       map((options) =>
