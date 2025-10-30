@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 
 import { LoginFormService } from '../../services/login-form-service/login-form-service';
 import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
-import { SnackbarService } from '../../../../../shared/services/Snackbar/snackbar-service';
 
 import { login } from '../../store/auth.action';
 import { selectError, selectLoading } from '../../store/auth.selector';
@@ -27,7 +26,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private store: Store
   ) {}
-  private snackbarService = inject(SnackbarService);
+
   ngOnInit() {
     this.buildLoginForm();
     this.loading$ = this.store.select(selectLoading);
