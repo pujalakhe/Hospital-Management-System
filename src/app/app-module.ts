@@ -5,9 +5,10 @@ import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { ErrorInterceptor } from './core/interceptor/error-interceptor/error-interceptor';
 
 @NgModule({
   declarations: [App],
@@ -15,9 +16,13 @@ import { EffectsModule } from '@ngrx/effects';
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot(),
-    EffectsModule.forRoot()
-],
-  providers: [provideStoreDevtools(), provideHttpClient()],
+    EffectsModule.forRoot(),
+  ],
+  providers: [
+    provideStoreDevtools(),
+    provideHttpClient(),
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [App],
 })
 export class AppModule {}

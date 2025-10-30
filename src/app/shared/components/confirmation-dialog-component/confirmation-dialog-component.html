@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Confirm {{ data.action | titlecase }}</h2>
+<mat-dialog-content>
+  Are you sure you want to {{ data.action }} <strong>{{ data.name }}</strong
+  >?
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="dialog-actions">
+  <button mat-button (click)="onCancel()" class="dialog-button">
+    <mat-icon>close</mat-icon>
+    Cancel
+  </button>
+
+  <button
+    mat-raised-button
+    [color]="color"
+    class="dialog-button"
+    (click)="onConfirm()"
+  >
+    <mat-icon>{{ icon }}</mat-icon>
+    {{ icon | titlecase }}
+  </button>
+</mat-dialog-actions>

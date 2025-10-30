@@ -1,0 +1,24 @@
+<mat-form-field class="w-full">
+  <mat-label>{{ label }}</mat-label>
+
+  <input
+    matInput
+    [type]="type === 'password' ? (hide ? 'password' : 'text') : type"
+    [formControl]="control"
+    [placeholder]="placeholder"
+  />
+  @if(type === 'password'){
+  <button
+    mat-icon-button
+    matSuffix
+    type="button"
+    (click)="toggleVisibility()"
+    [attr.aria-label]="'Hide password'"
+    [attr.aria-pressed]="!hide"
+  >
+    <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+  </button>
+  } @if(control.hasError('required')){
+  <mat-error>{{ label }} is required</mat-error>
+  }
+</mat-form-field>
