@@ -4,9 +4,7 @@ export const DIALOG_ACTIONS = {
   ADD: 'add',
 } as const;
 
-export const DIALOG_WIDTH = {
-  width: '350px',
-} as const;
+export const DIALOG_WIDTH = '350px' as const;
 
 export const DIALOG_ACTIONS_COLOR = {
   WARN: 'warn',
