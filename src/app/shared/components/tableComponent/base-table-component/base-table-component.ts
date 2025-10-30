@@ -18,12 +18,13 @@ import { MaterialModule } from '../../../angular-material.module';
 import { DEFAULT_DIALOG_WIDTH, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE, DEFAULT_TOTAL, EMPTY_FILTER, LOWERCASE, SortDirection } from '../constants/basetable.constant';
 import { FilterComponent } from '../../filter-component/filter.component';
 import { TableColumn } from '../models/table-column.model';
+import { LoaderComponent } from '../../loader-component/loader-component';
 
 
 @Component({
   selector: 'app-base-table-component',
   standalone: true,
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, LoaderComponent],
   templateUrl: './base-table-component.html',
   styleUrls: ['./base-table-component.scss'],
 })

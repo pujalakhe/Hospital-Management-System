@@ -1,6 +1,4 @@
-@if (loading) {
-<div class="mb-4 text-center text-blue-600 font-medium">Loading...</div>
-}
+<app-loader-component *ngIf="loading"></app-loader-component>
 
 <div class="base-table space-y-6 m-3">
   <div class="flex justify-end mb-4">
