@@ -5,13 +5,11 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_POSITION,
   SNACKBAR_TYPE,
-  SnackbarAction,
-  SnackbarType,
 } from '../../constants/snackbar.constant';
 const { CLOSE } = SNACKBAR_ACTION;
 const { SHORT } = SNACKBAR_DURATION;
 const { HORIZONTAL, VERTICAL } = SNACKBAR_POSITION;
-const { SUCCESS, ERROR, INFO } = SNACKBAR_TYPE;
+const { INFO } = SNACKBAR_TYPE;
 
 @Injectable({
   providedIn: 'root',

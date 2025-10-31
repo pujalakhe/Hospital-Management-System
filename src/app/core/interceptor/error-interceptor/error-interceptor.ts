@@ -15,9 +15,13 @@ import {
   API_ERROR_MESSAGES,
   API_SUCCESS_MESSAGE,
 } from '../../constants/error-interceptor.constant';
-import { SNACKBAR_DURATION } from '../../../shared/constants/snackbar.constant';
+import {
+  SNACKBAR_DURATION,
+  SNACKBAR_TYPE,
+} from '../../../shared/constants/snackbar.constant';
 
 const { SHORT } = SNACKBAR_DURATION;
+const { SUCCESS, ERROR, INFO, WARNING } = SNACKBAR_TYPE;
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -43,7 +47,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         duration: SHORT,
       };
       if ([API_ERROR_CODES.SUCCESS, API_ERROR_CODES.CREATED].includes(code)) {
-        this.snackbar.success(config.message, config.duration);
+        this.snackbar.show(config.message, SUCCESS, config.duration);
       }
     }
     return event;
@@ -58,7 +62,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       status === API_ERROR_CODES.UNAUTHORIZED
     ) {
       const config = API_ERROR_MESSAGES.UNAUTHORIZED;
-      this.snackbar.error(config.message, config.duration);
+      this.snackbar.show(config.message, ERROR, config.duration);
       this.router.navigate(['/login']);
       return throwError(() => error);
     }
@@ -76,7 +80,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       duration: API_ERROR_MESSAGES.DEFAULT.duration,
     };
 
-    this.snackbar.error(config.message, config.duration);
+    this.snackbar.show(config.message, ERROR, config.duration);
     return throwError(() => error);
   }
 }
