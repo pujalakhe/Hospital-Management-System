@@ -13,7 +13,7 @@ export class ConfirmationService {
 
   confirm(data: ConfirmDialogData) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: DIALOG_WIDTH.width,
+      width: DIALOG_WIDTH,
       data,
     });
     return dialogRef.afterClosed();
