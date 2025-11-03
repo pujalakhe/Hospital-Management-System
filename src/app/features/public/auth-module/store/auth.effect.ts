@@ -6,11 +6,11 @@ import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import * as AuthActions from './auth.action';
 
 import { AuthService } from '../services/auth-service/auth-service';
-import { SnackbarService } from '../../../../shared/services/Snackbar/snackbar-service';
+import { SnackbarService } from '../../../../shared/services/Snackbar/snackbarservice';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_TYPE,
-} from '../../../../shared/constants/snackbar.constant';
+} from '../../../../shared/constants/snackbar.constants';
 
 @Injectable()
 export class AuthEffects {
