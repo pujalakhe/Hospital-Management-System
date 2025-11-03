@@ -8,3 +8,6 @@ export enum DialogActions {
 }
 
 export const DIALOG_WIDTH = '350px' as const;
+
+export const UNSAVED_CHANGE_MESSAGE =
+  'You have unsaved changes.Are you sure you want to leave?';

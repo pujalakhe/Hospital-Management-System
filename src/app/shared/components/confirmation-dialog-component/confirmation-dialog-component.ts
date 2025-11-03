@@ -24,8 +24,4 @@ export class ConfirmationDialogComponent {
   onCancel(): void {
     this.dialogRef.close(false);
   }
-
-  get btnLabel(): string {
-    return this.data.action; // just return the enum value
-  }
 }
