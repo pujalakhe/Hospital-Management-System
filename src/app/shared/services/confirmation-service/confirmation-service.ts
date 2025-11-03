@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfirmationDialogComponent } from '../../components/confirmation-dialog-component/confirmation-dialog-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogData } from '../../model/confirm-dialog-data';
-import { DIALOG_WIDTH, DialogActions } from '../../constants/dialog.constant';
+import { DIALOG_WIDTH, DialogActions } from '../../constants/dialog.constants';
 
 @Injectable({
   providedIn: 'root',

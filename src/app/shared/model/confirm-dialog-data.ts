@@ -1,4 +1,4 @@
-import { DialogActions } from '../constants/dialog.constant';
+import { DialogActions } from '../constants/dialog.constants';
 
 export interface ConfirmDialogData {
   title: string;
