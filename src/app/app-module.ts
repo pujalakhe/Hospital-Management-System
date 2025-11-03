@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { GenericHttpInterceptor } from './core/auth-interceptor/http-interceptor';
+import { AuthInterceptor } from './core/auth-interceptor/auth-interceptor';
 
 @NgModule({
   declarations: [App],
@@ -25,7 +25,7 @@ import { GenericHttpInterceptor } from './core/auth-interceptor/http-interceptor
     provideHttpClient(),
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: GenericHttpInterceptor,
+      useClass: AuthInterceptor,
       multi: true,
     },
   ],
