@@ -6,7 +6,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_POSITION,
   SNACKBAR_TYPE,
-} from '../../constants/snackbar.constant';
+} from '../../constants/snackbar.constants';
 
 describe('SnackbarService', () => {
   let service: SnackbarService;
