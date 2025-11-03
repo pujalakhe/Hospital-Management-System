@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideHttpClient } from '@angular/common/http';
 
+
 @NgModule({
   declarations: [App],
   imports: [
@@ -19,7 +20,10 @@ import { provideHttpClient } from '@angular/common/http';
     StoreModule.forRoot(),
     EffectsModule.forRoot(),
   ],
-  providers: [provideStoreDevtools(), provideHttpClient()],
+  providers: [
+    provideStoreDevtools(),
+    provideHttpClient(),
+  ],
   bootstrap: [App],
 })
 export class AppModule {}

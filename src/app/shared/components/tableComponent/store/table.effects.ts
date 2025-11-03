@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
 import { BaseTableResponse } from '../models/table-column.model';
-import { BaseTableService } from '../services/table.service';
+import { BaseTableService } from '../services/table-service';
 
 import * as BaseTableActions from './table.actions';
 import * as BaseTableSelectors from './table.selectors';
