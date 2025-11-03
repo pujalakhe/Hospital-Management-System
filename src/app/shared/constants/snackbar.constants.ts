@@ -18,9 +18,5 @@ export const SNACKBAR_TYPE = {
 
 export const SNACKBAR_ACTION = {
   CLOSE: 'Close',
-  UNDO: 'Undo',
+  OK: 'ok',
 } as const;
-
-export type SnackbarType = 'success' | 'error' | 'info' | 'warning';
-
-export type SnackbarAction = 'Close' | 'Undo';

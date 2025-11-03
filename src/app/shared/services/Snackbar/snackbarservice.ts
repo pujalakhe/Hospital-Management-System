@@ -5,26 +5,23 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_POSITION,
   SNACKBAR_TYPE,
-  SnackbarAction,
-  SnackbarType,
-} from '../../constants/snackbar.constant';
+} from '../../constants/snackbar.constants';
 const { CLOSE } = SNACKBAR_ACTION;
 const { SHORT } = SNACKBAR_DURATION;
 const { HORIZONTAL, VERTICAL } = SNACKBAR_POSITION;
-const { SUCCESS, ERROR, INFO } = SNACKBAR_TYPE;
+const { INFO } = SNACKBAR_TYPE;
 
 @Injectable({
   providedIn: 'root',
 })
 export class SnackbarService {
-  constructor(private snackbar: MatSnackBar) {}
+  constructor(private snackBar: MatSnackBar) {}
 
   defaultConfig: MatSnackBarConfig = {
     horizontalPosition: HORIZONTAL,
     verticalPosition: VERTICAL,
   };
-
   show(message: string, type: string = INFO, duration: number = SHORT) {
-    this.snackbar.open(message, CLOSE, { ...this.defaultConfig, duration });
+    this.snackBar.open(message, CLOSE, { ...this.defaultConfig, duration });
   }
 }
