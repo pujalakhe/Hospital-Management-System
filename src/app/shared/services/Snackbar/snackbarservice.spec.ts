@@ -9,50 +9,39 @@ import {
 } from '../../constants/snackbar.constants';
 
 describe('SnackbarService', () => {
-  describe('SnackbarService', () => {
-    let service: SnackbarService;
-    let snackBarSpy: jasmine.SpyObj<MatSnackBar>;
+  let service: SnackbarService;
+  let snackBarSpy: jasmine.SpyObj<MatSnackBar>;
 
-    beforeEach(() => {
-      beforeEach(() => {
-        TestBed.configureTestingModule({});
-        const spy = jasmine.createSpyObj('MatSnackBar', ['open']);
+  beforeEach(() => {
+    const spy = jasmine.createSpyObj('MatSnackBar', ['open']);
 
-        TestBed.configureTestingModule({
-          providers: [SnackbarService, { provide: MatSnackBar, useValue: spy }],
-        });
-
-        service = TestBed.inject(SnackbarService);
-        service = TestBed.inject(SnackbarService);
-        snackBarSpy = TestBed.inject(
-          MatSnackBar
-        ) as jasmine.SpyObj<MatSnackBar>;
-      });
+    TestBed.configureTestingModule({
+      providers: [SnackbarService, { provide: MatSnackBar, useValue: spy }],
     });
 
-    it('should be created', () => {
-      it('should be created', () => {
-        expect(service).toBeTruthy();
-        expect(service).toBeTruthy();
-      });
-    });
+    service = TestBed.inject(SnackbarService);
+    snackBarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
+  });
 
-    it('should call MatSnackBar.open() with correct arguments', () => {
-      const message = 'Test message';
-      const type = SNACKBAR_TYPE.INFO;
-      const duration = SNACKBAR_DURATION.SHORT;
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-      service.show(message, type, duration);
+  it('should call MatSnackBar.open() with correct arguments', () => {
+    const message = 'Test message';
+    const type = SNACKBAR_TYPE.INFO;
+    const duration = SNACKBAR_DURATION.SHORT;
 
-      expect(snackBarSpy.open).toHaveBeenCalledWith(
-        message,
-        SNACKBAR_ACTION.CLOSE,
-        jasmine.objectContaining({
-          horizontalPosition: SNACKBAR_POSITION.HORIZONTAL,
-          verticalPosition: SNACKBAR_POSITION.VERTICAL,
-          duration: duration,
-        })
-      );
-    });
+    service.show(message, type, duration);
+
+    expect(snackBarSpy.open).toHaveBeenCalledWith(
+      message,
+      SNACKBAR_ACTION.CLOSE,
+      jasmine.objectContaining({
+        horizontalPosition: SNACKBAR_POSITION.HORIZONTAL,
+        verticalPosition: SNACKBAR_POSITION.VERTICAL,
+        duration: duration,
+      })
+    );
   });
 });
