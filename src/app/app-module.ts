@@ -8,9 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterModule } from '@angular/router';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-
-import { ErrorInterceptor } from './core/interceptor/error-interceptor/error-interceptor';
+import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [App],
@@ -21,11 +19,7 @@ import { ErrorInterceptor } from './core/interceptor/error-interceptor/error-int
     StoreModule.forRoot(),
     EffectsModule.forRoot(),
   ],
-  providers: [
-    provideStoreDevtools(),
-    provideHttpClient(),
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-  ],
+  providers: [provideStoreDevtools(), provideHttpClient()],
   bootstrap: [App],
 })
 export class AppModule {}
