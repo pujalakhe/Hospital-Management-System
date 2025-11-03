@@ -6,6 +6,7 @@ import {
   SNACKBAR_POSITION,
   SNACKBAR_TYPE,
 } from '../../constants/snackbar.constants';
+
 const { CLOSE } = SNACKBAR_ACTION;
 const { SHORT } = SNACKBAR_DURATION;
 const { HORIZONTAL, VERTICAL } = SNACKBAR_POSITION;
@@ -15,13 +16,13 @@ const { INFO } = SNACKBAR_TYPE;
   providedIn: 'root',
 })
 export class SnackbarService {
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private snackbar: MatSnackBar) {}
 
   defaultConfig: MatSnackBarConfig = {
     horizontalPosition: HORIZONTAL,
     verticalPosition: VERTICAL,
   };
   show(message: string, type: string = INFO, duration: number = SHORT) {
-    this.snackBar.open(message, CLOSE, { ...this.defaultConfig, duration });
+    this.snackbar.open(message, CLOSE, { ...this.defaultConfig, duration });
   }
 }

@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import * as AuthActions from './auth.action';
 
 import { AuthService } from '../services/auth-service/auth-service';
-import { SnackbarService } from '../../../../shared/services/Snackbar/snackbarservice';
+import { SnackbarService } from '../../../../shared/services/snackbar-service/snackbar-service';
 import {
   SNACKBAR_DURATION,
   SNACKBAR_TYPE,
