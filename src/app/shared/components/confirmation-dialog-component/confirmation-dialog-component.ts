@@ -3,7 +3,6 @@ import { MaterialModule } from '../../angular-material.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogData } from '../../model/confirm-dialog-data';
-import {} from '../../constants/dialog.constant';
 
 @Component({
   selector: 'app-confirmation-dialog-component',
