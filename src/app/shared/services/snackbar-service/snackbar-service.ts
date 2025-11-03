@@ -5,7 +5,8 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_POSITION,
   SNACKBAR_TYPE,
-} from '../../constants/snackbar.constant';
+} from '../../constants/snackbar.constants';
+
 const { CLOSE } = SNACKBAR_ACTION;
 const { SHORT } = SNACKBAR_DURATION;
 const { HORIZONTAL, VERTICAL } = SNACKBAR_POSITION;
