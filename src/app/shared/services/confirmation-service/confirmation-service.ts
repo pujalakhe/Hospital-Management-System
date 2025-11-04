@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { ConfirmationDialogComponent } from '../../components/confirmation-dialog-component/confirmation-dialog-component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogData } from '../../model/confirm-dialog-data';
-import { DIALOG_WIDTH, DialogActions } from '../../constants/dialog.constants';
+import {
+  DIALOG_WIDTH,
+  DialogActions,
+  GENERIC_CONFIRM,
+} from '../../constants/dialog.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +17,8 @@ export class ConfirmationService {
 
   //default values
   defaultData: ConfirmDialogData = {
-    title: 'Unsaved Changes',
-    message: 'Are you sure you want to leave',
+    title: GENERIC_CONFIRM.TITLE,
+    message: GENERIC_CONFIRM.MESSAGE,
     action: DialogActions.Stay,
     cancelBtn: DialogActions.Leave,
   };
