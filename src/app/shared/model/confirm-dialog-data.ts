@@ -1,6 +1,8 @@
-import { DialogAction } from '../constants/dialog.constant';
+import { DialogActions } from '../constants/dialog.constants';
 
 export interface ConfirmDialogData {
-  name: string;
-  action: DialogAction;
+  title: string;
+  message: string;
+  action: DialogActions;
+  cancelBtn: DialogActions;
 }

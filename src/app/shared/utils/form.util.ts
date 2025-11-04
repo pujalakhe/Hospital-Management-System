@@ -1,12 +1,4 @@
 import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-
-import { firstValueFrom } from 'rxjs';
-import {
-  DIALOG_WIDTH,
-  UNSAVED_CHANGE_MESSAGE,
-} from '../../shared/constants/dialog.constant';
-import { LeavePageConfirmationDialogComponent } from '../../shared/components/leave-page-confirmation-dialog-component/leave-page-confirmation-dialog-component';
 
 export function disableControls(
   form: FormGroup,
@@ -51,18 +43,4 @@ export function resetControls(
       console.warn(`Control '${name}' not found in form.`);
     }
   });
-}
-
-export function confirmUnsavedChanges(
-  formDirty: boolean,
-  dialog: MatDialog,
-  message = UNSAVED_CHANGE_MESSAGE
-): Promise<boolean> {
-  if (!formDirty) return Promise.resolve(true);
-
-  const dialogRef = dialog.open(LeavePageConfirmationDialogComponent, {
-    width: DIALOG_WIDTH,
-    data: { message },
-  });
-  return firstValueFrom(dialogRef.afterClosed());
 }

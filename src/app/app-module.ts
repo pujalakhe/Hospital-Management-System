@@ -8,7 +8,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterModule } from '@angular/router';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { AuthInterceptor } from './core/auth-interceptor/auth-interceptor';
 
 
 @NgModule({
@@ -23,6 +24,11 @@ import { provideHttpClient } from '@angular/common/http';
   providers: [
     provideStoreDevtools(),
     provideHttpClient(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [App],
 })

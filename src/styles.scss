@@ -29,3 +29,7 @@ mat-form-field input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.dialog-actions {
+  justify-content: flex-end !important;
+}
