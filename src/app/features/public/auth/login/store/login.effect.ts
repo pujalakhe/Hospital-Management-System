@@ -25,7 +25,6 @@ export class LoginEffects {
         this.loginService.login(credentials).pipe(
           map((response) => LoginActions.loginSuccess({ response })),
           catchError((err) => {
-            this.snackbarService.error('Login Failed');
             return of(LoginActions.loginFailure({ error: err.message }));
           })
         )
@@ -39,7 +38,6 @@ export class LoginEffects {
         ofType(LoginActions.loginSuccess),
         tap(({ response }) => {
           localStorage.setItem(AUTH_TOKEN_KEY, response.data.token ?? '');
-          this.snackbarService.success(response.message);
           this.router.navigate([DASHBOARD]);
         })
       ),
@@ -52,7 +50,6 @@ export class LoginEffects {
         ofType(LoginActions.logout),
         tap(() => {
           localStorage.removeItem(AUTH_TOKEN_KEY);
-          this.snackbarService.success('User logged out Successfully');
           this.router.navigate([LOGIN]);
         })
       ),
