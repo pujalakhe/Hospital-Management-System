@@ -1,10 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import { User, UserCredentials } from '../model/login.model';
+import { LoggedUserCredentials, User } from '../model/login.model';
 import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT } from './login.constant';
 
 export const login = createAction(
   LOGIN,
-  props<{ credentials: UserCredentials }>()
+  props<{ credentials: LoggedUserCredentials }>()
 );
 export const loginSuccess = createAction(
   LOGIN_SUCCESS,

@@ -1,18 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthResponse, UserCredentials } from '../../model/auth.model';
 import { Observable } from 'rxjs';
+import {
+  LoggedUserCredentials,
+  LoginUserResponse,
+} from '../../login/model/login.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class LoginService {
   private api = '/api/auth';
 
   constructor(private httpClient: HttpClient) {}
 
-  login(credentials: UserCredentials): Observable<AuthResponse> {
-    return this.httpClient.post<AuthResponse>(`${this.api}/login`, credentials);
+  login(credentials: LoggedUserCredentials): Observable<LoginUserResponse> {
+    return this.httpClient.post<LoginUserResponse>(
+      `${this.api}/login`,
+      credentials
+    );
   }
 
   logout(): void {

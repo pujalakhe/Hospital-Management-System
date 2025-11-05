@@ -5,8 +5,8 @@ import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 
 import * as AuthActions from './login.action';
 
-import { AuthService } from '../../services/auth-service/auth-service';
 import { SnackbarService } from '../../../../../shared/services/snackbar-service/snackbar-service';
+import { LoginService } from '../../services/login-service/login-service';
 
 import {
   SNACKBAR_DURATION,
@@ -17,14 +17,14 @@ import {
 export class LoginEffects {
   private actions$ = inject(Actions);
   private router = inject(Router);
-  private authService = inject(AuthService);
+  private loginService = inject(LoginService);
   private snackbarService = inject(SnackbarService);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
       exhaustMap(({ credentials }) =>
-        this.authService.login(credentials).pipe(
+        this.loginService.login(credentials).pipe(
           map(({ user, token }) => AuthActions.loginSuccess({ user, token })),
           catchError((err) => {
             this.snackbarService.show(
