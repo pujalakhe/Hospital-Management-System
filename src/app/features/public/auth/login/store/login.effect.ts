@@ -6,14 +6,12 @@ import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import * as LoginActions from './login.action';
 
 import { SnackbarService } from '../../../../../shared/services/snackbar-service/snackbar-service';
-
-import {
-  SNACKBAR_DURATION,
-  SNACKBAR_TYPE,
-} from '../../../../../shared/constants/snackbar.constants';
+import { SNACKBAR_TYPE } from '../../../../../shared/constants/snackbar.constants';
 import { LoginApiService } from '../../services/login-api/login-api-service';
 import { AUTH_TOKEN_KEY } from '../../../../../core/constants/storage.constants';
+import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
 
+const { SUCCESS, ERROR } = SNACKBAR_TYPE;
 @Injectable()
 export class LoginEffects {
   private actions$ = inject(Actions);
@@ -28,11 +26,7 @@ export class LoginEffects {
         this.loginService.login(credentials).pipe(
           map((response) => LoginActions.loginSuccess({ response })),
           catchError((err) => {
-            this.snackbarService.show(
-              'Login Failed',
-              SNACKBAR_TYPE.ERROR,
-              SNACKBAR_DURATION.SHORT
-            );
+            this.snackbarService.show('Login Failed', ERROR);
             return of(LoginActions.loginFailure({ error: err.message }));
           })
         )
@@ -46,6 +40,7 @@ export class LoginEffects {
         ofType(LoginActions.loginSuccess),
         tap(({ response }) => {
           localStorage.setItem(AUTH_TOKEN_KEY, response.data.token ?? '');
+          this.snackbarService.show(response.message, SUCCESS);
           this.router.navigate(['/dashboard']);
         })
       ),
@@ -58,7 +53,8 @@ export class LoginEffects {
         ofType(LoginActions.logout),
         tap(() => {
           localStorage.removeItem(AUTH_TOKEN_KEY);
-          this.router.navigate(['/login']);
+          this.snackbarService.show('User logged out Successfully', SUCCESS);
+          this.router.navigate([ROUTER_PATHS.LOGIN]);
         })
       ),
     { dispatch: false }

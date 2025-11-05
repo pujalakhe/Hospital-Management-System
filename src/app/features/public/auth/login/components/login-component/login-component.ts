@@ -47,7 +47,6 @@ export class LoginComponent {
     } else {
       const credentials = this.loginForm?.value;
       this.store.dispatch(login({ credentials }));
-      console.log(credentials);
     }
   }
 
