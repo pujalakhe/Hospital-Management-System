@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
-import { FilterColumn, FilterOption } from './model/filter.model';
+import { FilterColumn, FilterOption } from '../../model/filter.model';
 import { MaterialModule } from '../../angular-material.module';
 
 @Component({
