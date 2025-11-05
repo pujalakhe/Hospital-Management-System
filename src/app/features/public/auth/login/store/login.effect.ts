@@ -11,7 +11,7 @@ import {
   SNACKBAR_DURATION,
   SNACKBAR_TYPE,
 } from '../../../../../shared/constants/snackbar.constants';
-import { LoginApiService } from '../../services/login-api-service';
+import { LoginApiService } from '../../services/login-api/login-api-service';
 import { AUTH_TOKEN_KEY } from '../../../../../core/constants/storage.constants';
 
 @Injectable()
