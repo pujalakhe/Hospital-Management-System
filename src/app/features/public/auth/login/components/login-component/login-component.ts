@@ -1,14 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
+import { ROUTER_PATHS } from '../../../../../../core/constants/router-path.constant';
 import { LoginFormService } from '../../services/login-form-service/login-form-service';
-import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
 
-import { login } from '../../store/auth.action';
-import { selectError, selectLoading } from '../../store/auth.selector';
+import { login } from '../../store/login.action';
+import { selectError, selectLoading } from '../../store/login.selector';
 
 @Component({
   selector: 'app-login-component',
@@ -16,7 +16,8 @@ import { selectError, selectLoading } from '../../store/auth.selector';
   templateUrl: './login-component.html',
   styleUrl: './login-component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
+  routerPaths = ROUTER_PATHS;
   loginForm?: FormGroup;
   loading$?: Observable<boolean>;
   error$?: Observable<string | null>;
@@ -47,7 +48,6 @@ export class LoginComponent implements OnInit {
     } else {
       const credentials = this.loginForm?.value;
       this.store.dispatch(login({ credentials }));
-      console.log(credentials);
     }
   }
 

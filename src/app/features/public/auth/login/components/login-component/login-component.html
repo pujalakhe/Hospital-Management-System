@@ -10,16 +10,16 @@
   >
     <app-form-header-component
       [heading]="'Welcome Back'"
-      [subHeading]="'Log In to your account'"
+      [subHeading]="'Login to your account.'"
     ></app-form-header-component>
 
     @if(loginForm ){
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <app-input-text
-        [control]="getControl('username')"
-        [label]="'Username'"
-        [placeholder]="'Enter username'"
+        [control]="getControl('email')"
+        [label]="'Email'"
+        [placeholder]="'Enter your email'"
       ></app-input-text>
 
       <app-input-text
@@ -29,20 +29,26 @@
         [type]="'password'"
       ></app-input-text>
 
+      <div class="flex justify-end text-sm text-blue-600">
+        <a [routerLink]="[routerPaths.RESET_PASSWORD]" class="hover:underline"
+          >Reset password?</a
+        >
+      </div>
+
       <button
         mat-raised-button
         color="primary"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 sm:py-3 mt-3"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 mt-3"
         type="submit"
       >
         Login
       </button>
 
-      <div class="flex justify-between text-sm text-gray-600 mt-4">
-        <a routerLink="/auth/forgot-password" class="hover:underline"
-          >Forgot password?</a
+      <div class="flex justify-center text-sm text-gray-600 gap-1">
+        <p class="hover:underline">Don't have an account yet?</p>
+        <a class="hover:underline text-blue-600" (click)="navigateTo()"
+          >Sign up</a
         >
-        <a class="hover:underline" (click)="navigateTo()">Sign up</a>
       </div>
     </form>
     }
