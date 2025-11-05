@@ -1,19 +1,27 @@
 import { createAction, props } from '@ngrx/store';
+import {
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_FAILURE,
+  CHANGE_PASSWORD_SUCCESS,
+} from './changePassword.constant';
+import {
+  ChangePasswordRequest,
+  ChangePasswordResponse,
+} from '../../model/changePassword.model';
 
 export const changePassword = createAction(
-  '[Change Password] Request',
+  CHANGE_PASSWORD,
   props<{
-    oldPassword: string;
-    newPassword: string;
+    credentials: ChangePasswordRequest;
   }>()
 );
 
 export const changePasswordSuccess = createAction(
-  '[Change Password] Success',
-  props<{ message: string }>()
+  CHANGE_PASSWORD_SUCCESS,
+  props<{ response: ChangePasswordResponse }>()
 );
 
 export const changePasswordFailure = createAction(
-  '[Change Password] Failure',
+  CHANGE_PASSWORD_FAILURE,
   props<{ error: string }>()
 );

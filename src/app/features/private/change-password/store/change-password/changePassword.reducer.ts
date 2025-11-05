@@ -23,10 +23,10 @@ export const changePasswordReducer = createReducer(
     errorMessage: null,
   })),
 
-  on(ChangePasswordActions.changePasswordSuccess, (state, { message }) => ({
+  on(ChangePasswordActions.changePasswordSuccess, (state, { response }) => ({
     ...state,
     isLoading: false,
-    successMessage: message,
+    successMessage: response.message,
     errorMessage: null,
   })),
 

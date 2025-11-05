@@ -36,11 +36,15 @@ export class ChangePasswordComponent implements OnInit {
   onSubmit(): void {
     if (this.changePasswordForm?.invalid) {
       this.changePasswordFormService.applyTouchAndDirtyToForm();
-    } else {
-      const { oldPassword, newPassword } = this.changePasswordForm?.value;
-      this.store.dispatch(
-        ChangePasswordActions.changePassword({ oldPassword, newPassword })
-      );
+      return;
     }
+
+    const { oldPassword, newPassword } = this.changePasswordForm?.value;
+
+    this.store.dispatch(
+      ChangePasswordActions.changePassword({
+        credentials: { oldPassword, newPassword },
+      })
+    );
   }
 }

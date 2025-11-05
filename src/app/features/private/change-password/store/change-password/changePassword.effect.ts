@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ChangePasswordActions from './changePassword.action';
 import { catchError, map, mergeMap, of } from 'rxjs';
 import { ChangepasswordApiService } from '../../services/change-password-api/change-password-api-service';
+import { ChangePasswordResponse } from '../../model/changePassword.model';
 
 @Injectable()
 export class ChangePasswordEffects {
@@ -12,25 +13,21 @@ export class ChangePasswordEffects {
   changePassword$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ChangePasswordActions.changePassword),
-      mergeMap(({ oldPassword, newPassword }) =>
-        this.changePasswordService
-          .changePassword({ oldPassword, newPassword })
-          .pipe(
-            map((response: any) =>
-              ChangePasswordActions.changePasswordSuccess({
-                message: response?.message || 'Password changed successfully!',
+      mergeMap(({ credentials }) =>
+        this.changePasswordService.changePassword(credentials).pipe(
+          map((response: ChangePasswordResponse) =>
+            ChangePasswordActions.changePasswordSuccess({ response })
+          ),
+          catchError((error) =>
+            of(
+              ChangePasswordActions.changePasswordFailure({
+                error:
+                  error.error?.message ||
+                  'Something went wrong while changing password.',
               })
-            ),
-            catchError((error) =>
-              of(
-                ChangePasswordActions.changePasswordFailure({
-                  error:
-                    error.error?.message ||
-                    'Something went wrong while changing password.',
-                })
-              )
             )
           )
+        )
       )
     )
   );

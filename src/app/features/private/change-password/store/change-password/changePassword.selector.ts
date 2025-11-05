@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { ChangePasswordState } from './changePassword.reducer';
-
-export const CHANGE_PASSWORD_FEATURE_KEY = 'changePassword';
+import { CHANGE_PASSWORD_FEATURE_KEY } from './changePassword.constant';
 
 export const selectChangePasswordState =
   createFeatureSelector<ChangePasswordState>(CHANGE_PASSWORD_FEATURE_KEY);

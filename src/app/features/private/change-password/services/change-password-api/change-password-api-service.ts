@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ChangePasswordRequest } from '../../model/changePassword.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class ChangepasswordApiService {
 
   constructor(private http: HttpClient) {}
 
-  changePassword(payload: any): Observable<any> {
+  changePassword(payload: ChangePasswordRequest): Observable<any> {
     return this.http.post(this.apiUrl, payload);
   }
 }
