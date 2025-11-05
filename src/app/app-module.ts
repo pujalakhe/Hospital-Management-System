@@ -8,8 +8,13 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterModule } from '@angular/router';
 
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptors,
+} from '@angular/common/http';
 import { AuthInterceptor } from './core/auth-interceptor/auth-interceptor';
+import { apiNotificationInterceptor } from './core/api-notification-interceptor/api-notification-interceptor-interceptor';
 
 @NgModule({
   declarations: [App],
@@ -22,7 +27,7 @@ import { AuthInterceptor } from './core/auth-interceptor/auth-interceptor';
   ],
   providers: [
     provideStoreDevtools(),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([apiNotificationInterceptor])),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

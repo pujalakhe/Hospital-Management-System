@@ -1,16 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarService } from './snackbar-service';
-import {
-  SNACKBAR_ACTION,
-  SNACKBAR_DURATION,
-  SNACKBAR_POSITION,
-  SNACKBAR_TYPE,
-} from '../../constants/snackbar.constants';
 
 describe('SnackbarService', () => {
   let service: SnackbarService;
-  let snackBarSpy: jasmine.SpyObj<MatSnackBar>;
+  let snackbarSpy: jasmine.SpyObj<MatSnackBar>;
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('MatSnackBar', ['open']);
@@ -20,27 +14,57 @@ describe('SnackbarService', () => {
     });
 
     service = TestBed.inject(SnackbarService);
-    snackBarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
+    snackbarSpy = TestBed.inject(MatSnackBar) as jasmine.SpyObj<MatSnackBar>;
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should call MatSnackBar.open() with correct arguments', () => {
-    const message = 'Test message';
-    const type = SNACKBAR_TYPE.INFO;
-    const duration = SNACKBAR_DURATION.SHORT;
-
-    service.show(message, type, duration);
-
-    expect(snackBarSpy.open).toHaveBeenCalledWith(
-      message,
-      SNACKBAR_ACTION.CLOSE,
+  it('should open success snackbar', () => {
+    service.success('Success message', 2500);
+    expect(snackbarSpy.open).toHaveBeenCalledWith(
+      'Success message',
+      'Close',
       jasmine.objectContaining({
-        horizontalPosition: SNACKBAR_POSITION.HORIZONTAL,
-        verticalPosition: SNACKBAR_POSITION.VERTICAL,
-        duration: duration,
+        panelClass: ['snackbar-success'],
+        duration: 2500,
+      })
+    );
+  });
+
+  it('should open error snackbar', () => {
+    service.error('Error message', 2500);
+    expect(snackbarSpy.open).toHaveBeenCalledWith(
+      'Error message',
+      'Close',
+      jasmine.objectContaining({
+        panelClass: ['snackbar-error'],
+        duration: 3000,
+      })
+    );
+  });
+
+  it('should open warning snackbar', () => {
+    service.warning('Warning message', 2500);
+    expect(snackbarSpy.open).toHaveBeenCalledWith(
+      'Warning message',
+      'Close',
+      jasmine.objectContaining({
+        panelClass: ['snackbar-warning'],
+        duration: 2000,
+      })
+    );
+  });
+
+  it('should open info snackbar', () => {
+    service.info('Info message');
+    expect(snackbarSpy.open).toHaveBeenCalledWith(
+      'Info message',
+      'Close',
+      jasmine.objectContaining({
+        panelClass: ['snackbar-info'],
+        duration: jasmine.any(Number),
       })
     );
   });

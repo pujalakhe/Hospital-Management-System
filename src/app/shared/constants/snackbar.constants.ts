@@ -9,13 +9,6 @@ export const SNACKBAR_POSITION = {
   VERTICAL: 'top',
 } as const;
 
-export const SNACKBAR_TYPE = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-  INFO: 'info',
-  WARNING: 'warning',
-} as const;
-
 export const SNACKBAR_ACTION = {
   CLOSE: 'Close',
   OK: 'ok',

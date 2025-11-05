@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseFormService } from '../../../../../shared/services/base-form-service/base-form-service';
+import { BaseFormService } from '../../../../../../shared/services/base-form-service/base-form-service';
 import { Validators } from '@angular/forms';
 
 @Injectable({
@@ -8,7 +8,7 @@ import { Validators } from '@angular/forms';
 export class LoginFormService extends BaseFormService {
   buildLoginForm() {
     const config = {
-      username: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     };
 
