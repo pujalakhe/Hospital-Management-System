@@ -13,4 +13,8 @@ export class AuthService {
     // returns true if token exists, false otherwise.
     return !!this.getUserToken();
   }
+
+  logout(): void {
+    localStorage.removeItem(AUTH_TOKEN_KEY);
+  }
 }
