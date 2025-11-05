@@ -44,6 +44,17 @@ export class LoginEffects {
     { dispatch: false }
   );
 
+  loginFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(LoginActions.loginFailure),
+        tap(({}) => {
+          this.router.navigate([LOGIN]);
+        })
+      ),
+    { dispatch: false }
+  );
+
   logout$ = createEffect(
     () =>
       this.actions$.pipe(
