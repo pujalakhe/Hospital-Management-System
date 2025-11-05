@@ -14,9 +14,13 @@ import { LoaderComponent } from '../../../shared/components/loader-component/loa
 import { AUTH_FEATURE_SELECTOR_KEY } from './store/auth.constant';
 import { authReducer } from './store/auth.reducer';
 import { AuthEffects } from './store/auth.effect';
+import { ResetPasswordComponent } from './components/reset-password-component/reset-password-component';
+import { resetPasswordFeatureKey } from './store/reset-password-store/reset-password.state';
+import { resetPasswordReducer } from './store/reset-password-store/reset-password.reducer';
+import { ResetPasswordEffects } from './store/reset-password-store/reset-password.effect';
 
 @NgModule({
-  declarations: [LoginComponent],
+  declarations: [LoginComponent, ResetPasswordComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -26,7 +30,9 @@ import { AuthEffects } from './store/auth.effect';
     FormHeaderComponent,
     LoaderComponent,
     StoreModule.forFeature(AUTH_FEATURE_SELECTOR_KEY, authReducer),
-    EffectsModule.forFeature(AuthEffects),
+    EffectsModule.forFeature([AuthEffects]),
+    StoreModule.forFeature(resetPasswordFeatureKey, resetPasswordReducer),
+    EffectsModule.forFeature([ResetPasswordEffects]),
   ],
 })
 export class AuthModule {}
