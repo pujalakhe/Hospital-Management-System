@@ -34,26 +34,33 @@ mat-form-field input[type="number"]::-webkit-outer-spin-button {
   justify-content: flex-end !important;
 }
 
-//snackbar service custom color
-
+/* shared styling for label and button text */
 .mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
-  .mdc-button__label {
+  .mdc-button__label,
+  .mdc-snackbar__label {
     color: #fff;
+    font-size: 16px;
   }
 }
 
+/* mixin to reduce repetition */
+@mixin snackbarColor($color) {
+  background-color: $color;
+}
+
+/* apply color per snackbar type */
 .snackbar-success.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
-  background-color: green;
+  @include snackbarColor(#51a351);
 }
 
 .snackbar-error.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
-  background-color: red;
+  @include snackbarColor(#bd362f);
 }
 
 .snackbar-warning.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
-  background-color: yellow;
+  @include snackbarColor(#f89406);
 }
 
 .snackbar-info.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
-  background-color: orange;
+  @include snackbarColor(#2f96b4);
 }
