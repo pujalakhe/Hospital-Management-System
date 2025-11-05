@@ -17,6 +17,7 @@ import { selectError, selectLoading } from '../../store/login.selector';
   styleUrl: './login-component.scss',
 })
 export class LoginComponent {
+  routerPaths = ROUTER_PATHS;
   loginForm?: FormGroup;
   loading$?: Observable<boolean>;
   error$?: Observable<string | null>;
