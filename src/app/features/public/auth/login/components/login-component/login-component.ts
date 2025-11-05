@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
-import { ROUTER_PATHS } from '../../../../../../core/constants/router-path.constant';
-import { login } from '../../../store/auth.action';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { LoginFormService } from '../../../services/login-form-service/login-form-service';
 import { Observable } from 'rxjs';
-import { selectError, selectLoading } from '../../../store/auth.selector';
+
+import { ROUTER_PATHS } from '../../../../../../core/constants/router-path.constant';
+import { LoginFormService } from '../../../services/login-form-service/login-form-service';
+
+import { login } from '../../store/login.action';
+import { selectError, selectLoading } from '../../store/login.selector';
 
 @Component({
   selector: 'app-login-component',

@@ -3,17 +3,18 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 
-import * as AuthActions from './auth.action';
+import * as AuthActions from './login.action';
 
-import { AuthService } from '../services/auth-service/auth-service';
-import { SnackbarService } from '../../../../shared/services/snackbar-service/snackbar-service';
+import { AuthService } from '../../services/auth-service/auth-service';
+import { SnackbarService } from '../../../../../shared/services/snackbar-service/snackbar-service';
+
 import {
   SNACKBAR_DURATION,
   SNACKBAR_TYPE,
-} from '../../../../shared/constants/snackbar.constants';
+} from '../../../../../shared/constants/snackbar.constants';
 
 @Injectable()
-export class AuthEffects {
+export class LoginEffects {
   private actions$ = inject(Actions);
   private router = inject(Router);
   private authService = inject(AuthService);
