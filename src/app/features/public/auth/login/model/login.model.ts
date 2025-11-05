@@ -1,16 +1,13 @@
-export interface LoggedUserCredentials {
+export interface LoginRequest {
   email: string;
   password: string;
 }
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-}
-
-export interface LoginUserResponse {
-  token: string;
-  user: User;
+export interface LoginResponse {
+  result: number;
+  message: string;
+  data: {
+    token: string | null;
+    employeeId: number;
+    role: string | null;
+  };
 }
