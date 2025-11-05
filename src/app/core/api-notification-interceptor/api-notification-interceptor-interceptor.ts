@@ -28,11 +28,6 @@ export const apiNotificationInterceptor: HttpInterceptorFn = (req, next) => {
             snackbarService.info(message);
             break;
         }
-        if (result === ResultType.Success) {
-          snackbarService.success(message);
-        } else if (result === ResultType.Failure) {
-          snackbarService.error(message);
-        }
       }
     })
   );
