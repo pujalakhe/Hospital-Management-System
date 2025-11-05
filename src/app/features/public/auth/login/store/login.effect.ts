@@ -6,7 +6,7 @@ import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import * as LoginActions from './login.action';
 
 import { SnackbarService } from '../../../../../shared/services/snackbar-service/snackbar-service';
-import { LoginApiService } from '../../services/login-api/login-api-service';
+import { LoginApiService } from '../../login/services/login-api/login-api-service';
 import { AUTH_TOKEN_KEY } from '../../../../../core/constants/storage.constants';
 import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
 
