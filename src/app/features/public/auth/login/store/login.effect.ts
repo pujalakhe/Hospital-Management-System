@@ -3,36 +3,37 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 
-import * as AuthActions from './login.action';
+import * as LoginActions from './login.action';
 
 import { SnackbarService } from '../../../../../shared/services/snackbar-service/snackbar-service';
-import { LoginService } from '../../services/login-service/login-service';
 
 import {
   SNACKBAR_DURATION,
   SNACKBAR_TYPE,
 } from '../../../../../shared/constants/snackbar.constants';
+import { LoginApiService } from '../../services/login-api-service';
+import { AUTH_TOKEN_KEY } from '../../../../../core/constants/storage.constants';
 
 @Injectable()
 export class LoginEffects {
   private actions$ = inject(Actions);
   private router = inject(Router);
-  private loginService = inject(LoginService);
+  private loginService = inject(LoginApiService);
   private snackbarService = inject(SnackbarService);
 
   login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.login),
+      ofType(LoginActions.login),
       exhaustMap(({ credentials }) =>
         this.loginService.login(credentials).pipe(
-          map(({ user, token }) => AuthActions.loginSuccess({ user, token })),
+          map((response) => LoginActions.loginSuccess({ response })),
           catchError((err) => {
             this.snackbarService.show(
               'Login Failed',
               SNACKBAR_TYPE.ERROR,
               SNACKBAR_DURATION.SHORT
             );
-            return of(AuthActions.loginFailure({ error: err.message }));
+            return of(LoginActions.loginFailure({ error: err.message }));
           })
         )
       )
@@ -42,9 +43,9 @@ export class LoginEffects {
   loginSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.loginSuccess),
-        tap(({ token }) => {
-          localStorage.setItem('token', token);
+        ofType(LoginActions.loginSuccess),
+        tap(({ response }) => {
+          localStorage.setItem(AUTH_TOKEN_KEY, response.data.token ?? '');
           this.router.navigate(['/dashboard']);
         })
       ),
@@ -54,9 +55,9 @@ export class LoginEffects {
   logout$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.logout),
+        ofType(LoginActions.logout),
         tap(() => {
-          localStorage.removeItem('token');
+          localStorage.removeItem(AUTH_TOKEN_KEY);
           this.router.navigate(['/login']);
         })
       ),
