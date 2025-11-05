@@ -5,11 +5,8 @@ import { LoginComponent } from './components/login-component/login-component';
 
 const { LOGIN } = ROUTER_PATHS;
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: LOGIN,
-    pathMatch: 'full',
-  },
+  { path: '', redirectTo: LOGIN, pathMatch: 'full' },
+
   {
     path: LOGIN,
     component: LoginComponent,
