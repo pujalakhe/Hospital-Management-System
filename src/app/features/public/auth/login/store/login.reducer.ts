@@ -31,6 +31,7 @@ export const loginReducer = createReducer(
     token: response.data.token,
     employeeId: response.data.employeeId,
     role: response.data.role,
+    loading: false,
     error: null,
   })),
 
