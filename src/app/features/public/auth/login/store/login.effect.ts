@@ -6,12 +6,11 @@ import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import * as LoginActions from './login.action';
 
 import { SnackbarService } from '../../../../../shared/services/snackbar-service/snackbar-service';
-import { SNACKBAR_TYPE } from '../../../../../shared/constants/snackbar.constants';
 import { LoginApiService } from '../../services/login-api/login-api-service';
 import { AUTH_TOKEN_KEY } from '../../../../../core/constants/storage.constants';
 import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
 
-const { SUCCESS, ERROR } = SNACKBAR_TYPE;
+const { DASHBOARD, LOGIN } = ROUTER_PATHS;
 @Injectable()
 export class LoginEffects {
   private actions$ = inject(Actions);
@@ -41,7 +40,7 @@ export class LoginEffects {
         tap(({ response }) => {
           localStorage.setItem(AUTH_TOKEN_KEY, response.data.token ?? '');
           this.snackbarService.success(response.message);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate([DASHBOARD]);
         })
       ),
     { dispatch: false }
@@ -54,7 +53,7 @@ export class LoginEffects {
         tap(() => {
           localStorage.removeItem(AUTH_TOKEN_KEY);
           this.snackbarService.success('User logged out Successfully');
-          this.router.navigate([ROUTER_PATHS.LOGIN]);
+          this.router.navigate([LOGIN]);
         })
       ),
     { dispatch: false }
