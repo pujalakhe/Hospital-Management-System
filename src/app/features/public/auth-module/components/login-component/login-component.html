@@ -17,9 +17,9 @@
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <app-input-text
-        [control]="getControl('username')"
-        [label]="'Username'"
-        [placeholder]="'Enter username'"
+        [control]="getControl('email')"
+        [label]="'Email'"
+        [placeholder]="'Enter your email'"
       ></app-input-text>
 
       <app-input-text

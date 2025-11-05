@@ -8,7 +8,7 @@ import { Validators } from '@angular/forms';
 export class LoginFormService extends BaseFormService {
   buildLoginForm() {
     const config = {
-      username: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     };
 
