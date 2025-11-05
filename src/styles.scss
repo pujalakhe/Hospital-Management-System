@@ -33,3 +33,27 @@ mat-form-field input[type="number"]::-webkit-outer-spin-button {
 .dialog-actions {
   justify-content: flex-end !important;
 }
+
+//snackbar service custom color
+
+.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  .mdc-button__label {
+    color: #fff;
+  }
+}
+
+.snackbar-success.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  background-color: green;
+}
+
+.snackbar-error.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  background-color: red;
+}
+
+.snackbar-warning.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  background-color: yellow;
+}
+
+.snackbar-info.mat-mdc-snack-bar-container .mat-mdc-snackbar-surface {
+  background-color: orange;
+}
