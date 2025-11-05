@@ -6,9 +6,8 @@ import { Observable } from 'rxjs';
 
 import { ROUTER_PATHS } from '../../../../../../core/constants/router-path.constant';
 import { LoginFormService } from '../../services/login-form-service/login-form-service';
-
-import { login } from '../../store/login.action';
 import { selectError, selectLoading } from '../../store/login.selector';
+import { login } from '../../store/login.action';
 
 @Component({
   selector: 'app-login-component',
