@@ -14,7 +14,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { AuthInterceptor } from './core/auth-interceptor/auth-interceptor';
-import { apiNotificationInterceptor } from './core/api-notification-interceptor/api-notification-interceptor-interceptor';
+import { apiNotificationInterceptor } from './core/api-notification-interceptor/api-notification-interceptor';
 
 @NgModule({
   declarations: [App],
