@@ -1,14 +1,12 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ROUTER_PATHS } from '../../../../../../core/constants/router-path.constant';
+import { login } from '../../../store/auth.action';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
-import { LoginFormService } from '../../services/login-form-service/login-form-service';
-import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
-
-import { login } from '../../store/auth.action';
-import { selectError, selectLoading } from '../../store/auth.selector';
+import { LoginFormService } from '../../../services/login-form-service/login-form-service';
+import { Observable } from 'rxjs';
+import { selectError, selectLoading } from '../../../store/auth.selector';
 
 @Component({
   selector: 'app-login-component',
@@ -16,7 +14,7 @@ import { selectError, selectLoading } from '../../store/auth.selector';
   templateUrl: './login-component.html',
   styleUrl: './login-component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm?: FormGroup;
   loading$?: Observable<boolean>;
   error$?: Observable<string | null>;
