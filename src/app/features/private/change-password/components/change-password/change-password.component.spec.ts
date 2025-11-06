@@ -1,84 +1,130 @@
-// change-password.component.spec.ts
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangePasswordComponent } from './change-password.component';
 import { ChangePasswordFormService } from '../../services/change-password-form-service/change-password-form-service';
-import { Store, StoreModule } from '@ngrx/store';
+import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import * as ChangePasswordActions from '../../store/change-password/changePassword.action';
-import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-import { of } from 'rxjs';
+import * as ChangePasswordSelectors from '../../store/change-password/changePassword.selector';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CUSTOM_ELEMENTS_SCHEMA, Directive, Input } from '@angular/core';
+
+// Standalone stub for appAutoFocusInvalid directive
+@Directive({
+  selector: '[appAutoFocusInvalid]',
+  standalone: true,
+})
+class AutoFocusInvalidStubDirective {
+  @Input('appAutoFocusInvalid') formGroup?: FormGroup; // The input name should match the selector
+}
 
 describe('ChangePasswordComponent', () => {
   let component: ChangePasswordComponent;
   let fixture: ComponentFixture<ChangePasswordComponent>;
-  let mockFormService: jasmine.SpyObj<ChangePasswordFormService>;
-  let store: Store;
+  let store: MockStore;
+  let formService: jasmine.SpyObj<ChangePasswordFormService>;
+
+  const mockForm: FormGroup = new FormGroup({
+    oldPassword: new FormControl(''),
+    newPassword: new FormControl(''),
+    confirmNewPassword: new FormControl(''),
+  });
 
   beforeEach(async () => {
-    mockFormService = jasmine.createSpyObj('ChangePasswordFormService', [
+    const formServiceSpy = jasmine.createSpyObj('ChangePasswordFormService', [
       'buildChangePasswordForm',
       'applyTouchAndDirtyToForm',
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, StoreModule.forRoot({})],
       declarations: [ChangePasswordComponent],
-      providers: [
-        { provide: ChangePasswordFormService, useValue: mockFormService },
+      imports: [
+        ReactiveFormsModule,
+        AutoFocusInvalidStubDirective, // Import the standalone directive
       ],
+      providers: [
+        provideMockStore({
+          selectors: [
+            {
+              selector: ChangePasswordSelectors.selectIsLoading,
+              value: false,
+            },
+          ],
+        }),
+        { provide: ChangePasswordFormService, useValue: formServiceSpy },
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(ChangePasswordComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(Store);
+    store = TestBed.inject(MockStore);
+    formService = TestBed.inject(
+      ChangePasswordFormService
+    ) as jasmine.SpyObj<ChangePasswordFormService>;
 
-    // Mock form group returned by the service
-    mockFormService.buildChangePasswordForm.and.returnValue(
-      new FormGroup({
-        oldPassword: new FormControl(''),
-        newPassword: new FormControl(''),
-      })
-    );
-
+    formService.buildChangePasswordForm.and.returnValue(mockForm);
     fixture.detectChanges();
   });
 
-  it('should create the component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should initialize the form on ngOnInit', () => {
+  it('should initialize form on ngOnInit', () => {
     component.ngOnInit();
-    expect(component.changePasswordForm).toBeDefined();
-    expect(mockFormService.buildChangePasswordForm).toHaveBeenCalled();
+    expect(formService.buildChangePasswordForm).toHaveBeenCalled();
+    expect(component.changePasswordForm).toBeTruthy();
   });
 
-  it('should return FormControl from getControl', () => {
-    const oldPasswordControl = component.getControl('oldPassword');
-    expect(oldPasswordControl).toBeTruthy();
-    expect(oldPasswordControl instanceof FormControl).toBeTrue();
+  it('should observe loading state from store', () => {
+    component.observeLoadingState();
+    let result: boolean | undefined;
+    component.isLoading$?.subscribe((val) => (result = val));
+    expect(result).toBeFalse();
   });
 
-  it('should call applyTouchAndDirtyToForm if form is invalid on submit', () => {
-    component.changePasswordForm?.setErrors({ required: true });
-    component.onSubmit();
-    expect(mockFormService.applyTouchAndDirtyToForm).toHaveBeenCalled();
+  it('should return correct form control using getControl()', () => {
+    const control = component.getControl('oldPassword');
+    expect(control).toBeInstanceOf(FormControl);
   });
 
-  it('should dispatch changePassword action if form is valid on submit', () => {
-    spyOn(store, 'dispatch');
-    component.changePasswordForm?.setValue({
-      oldPassword: 'oldPass123',
-      newPassword: 'newPass456',
+  it('should dispatch changePassword action when form is valid', () => {
+    const dispatchSpy = spyOn(store, 'dispatch');
+    const validForm = new FormGroup({
+      oldPassword: new FormControl('oldPass'),
+      newPassword: new FormControl('newPass'),
+      confirmNewPassword: new FormControl('newPass'),
     });
+    component.changePasswordForm = validForm;
+
     component.onSubmit();
 
-    expect(store.dispatch).toHaveBeenCalledWith(
+    expect(dispatchSpy).toHaveBeenCalledWith(
       ChangePasswordActions.changePassword({
-        oldPassword: 'oldPass123',
-        newPassword: 'newPass456',
+        credentials: { oldPassword: 'oldPass', newPassword: 'newPass' },
       })
     );
+  });
+
+  it('should call applyTouchAndDirtyToForm when form is invalid', () => {
+    // Create a spy on the form's valid property
+    const invalidForm = new FormGroup({
+      oldPassword: new FormControl(''),
+      newPassword: new FormControl(''),
+      confirmNewPassword: new FormControl(''),
+    });
+
+    // Force the form to be invalid
+    Object.defineProperty(invalidForm, 'valid', {
+      get: () => false,
+    });
+    Object.defineProperty(invalidForm, 'invalid', {
+      get: () => true,
+    });
+
+    component.changePasswordForm = invalidForm;
+
+    component.onSubmit();
+
+    expect(formService.applyTouchAndDirtyToForm).toHaveBeenCalledWith();
   });
 });
