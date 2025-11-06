@@ -49,12 +49,10 @@ export class SignupFormService extends BaseFormService {
     return this.form?.getRawValue() as SignupRequest;
   }
 
-  // Example: generic helper for top-level controls
   getControl(controlName: string): FormControl {
     return this.form?.get(controlName) as FormControl;
   }
 
-  // Example: helper for nested address group
   getAddressControl(controlName: 'name' | 'countryId' | 'cityId'): FormControl {
     return this.form?.get('address.' + controlName) as FormControl;
   }

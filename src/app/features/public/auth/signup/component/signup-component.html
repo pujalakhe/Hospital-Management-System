@@ -41,6 +41,13 @@
         [min]="10"
       ></app-input-number-component>
 
+      <app-input-select
+        [control]="formService.getControl('gender')"
+        [options]="(Genders$ | async) || []"
+        label="Gender"
+        placeholder="Select gender"
+      ></app-input-select>
+
       <app-input-text
         [control]="formService.getControl('citizenshipNo')"
         label="Citizenship No"
@@ -95,12 +102,12 @@
         placeholder="Choose your department"
       ></app-input-select>
 
-      <app-input-select
+      <!-- <app-input-select
         [control]="formService.getControl('role')"
         [options]="(Roles$ | async) || []"
         label="Role"
         placeholder="Choose your role"
-      ></app-input-select>
+      ></app-input-select> -->
 
       <app-input-date
         [control]="formService.getControl('startDate')"

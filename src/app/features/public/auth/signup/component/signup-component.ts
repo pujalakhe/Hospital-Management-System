@@ -18,6 +18,9 @@ import { loadRole } from '../../../../../shared/store/role-list/roleList.action'
 import { loadCitiesByCountry } from '../../../../../shared/store/city-list-by-countryId/cityListByCountryId.action';
 import { selectAllCities } from '../../../../../shared/store/city-list-by-countryId/cityListByCountryId.selector';
 import { signup } from '../store/signup.actions';
+import { loadGenderList } from '../../../../../shared/store/gender-list/genderList.action';
+import { selectGenderList } from '../../../../../shared/store/gender-list/genderList.selector';
+import { Gender } from '../../../../../shared/model/gender.model';
 
 @Component({
   selector: 'app-signup-component',
@@ -36,10 +39,12 @@ export class SignupComponent implements OnInit, OnDestroy {
   Cities$: Observable<City[]> = of([]);
   Departments$: Observable<Department[]> = of([]);
   Roles$: Observable<Role[]> = of([]);
+  Genders$: Observable<Gender[]> = of([]);
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.initializeForm();
+
     this.store.dispatch(loadCountries());
     this.Countries$ = this.store.select(selectAllCountries);
 
@@ -48,6 +53,9 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(loadRole());
     this.Roles$ = this.store.select(selectAllRole);
+
+    this.store.dispatch(loadGenderList());
+    this.Genders$ = this.store.select(selectGenderList);
 
     const countryControl = this.formService.getAddressControl('countryId');
     if (countryControl) {
