@@ -24,6 +24,8 @@
     {{ control.getError("minlength").requiredLength }} characters
     long</mat-error
   >
+  } @if(control.hasError('email')){
+  <mat-error>Invalid {{ label }} </mat-error>
   } @if(control.hasError('required')){
   <mat-error>{{ label }} is required</mat-error>
   }

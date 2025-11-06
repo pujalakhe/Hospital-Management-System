@@ -1,0 +1,57 @@
+@if( (loading$ | async)){
+<app-loader-component></app-loader-component>
+} @if(!(loading$ | async)){
+
+<div
+  class="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 to-white px-4"
+>
+  <mat-card
+    class="w-full max-w-md shadow-xl rounded-2xl p-6 space-y-6 bg-white/80 backdrop-blur-md"
+  >
+    <app-form-header-component
+      [heading]="'Welcome Back'"
+      [subHeading]="'Login to your account.'"
+    ></app-form-header-component>
+
+    @if(loginForm ){
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <app-input-text
+        [control]="getControl('email')"
+        [label]="'Email'"
+        [placeholder]="'Enter your email'"
+      ></app-input-text>
+
+      <app-input-text
+        [control]="getControl('password')"
+        [label]="'Password'"
+        [placeholder]="'••••••••'"
+        [type]="'password'"
+      ></app-input-text>
+
+      <div class="flex justify-end text-sm text-blue-600">
+        <a [routerLink]="[routerPaths.RESET_PASSWORD]" class="hover:underline"
+          >Reset password?</a
+        >
+      </div>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 mt-3"
+        type="submit"
+      >
+        Login
+      </button>
+
+      <div class="flex justify-center text-sm text-gray-600 gap-1">
+        <p class="hover:underline">Don't have an account yet?</p>
+        <a class="hover:underline text-blue-600" (click)="navigateTo()"
+          >Sign up</a
+        >
+      </div>
+    </form>
+    }
+  </mat-card>
+</div>
+}
