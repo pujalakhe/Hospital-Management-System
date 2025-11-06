@@ -1,130 +1,107 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { of } from 'rxjs';
-// import { Router } from '@angular/router';
-// import { Store } from '@ngrx/store';
-// import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
-// import { By } from '@angular/platform-browser';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 
-// import { LoginComponent } from './login-component';
-// import { LoginFormService } from '../../services/login-form-service/login-form-service';
-// import { login } from '../../store/login.action';
-// import { ROUTER_PATHS } from '../../../../../../core/constants/router-path.constant';
+import { LoginComponent } from './login-component';
+import { LoginFormService } from '../../services/login-form-service/login-form-service';
+import { ROUTER_PATHS } from '../../../../../../core/constants/router-path.constant';
+import { login } from '../../store/login.action';
+import * as selectors from '../../store/login.selector';
 
-// class MockLoginFormService {
-//   mockForm = new FormGroup({
-//     username: new FormControl(''),
-//     password: new FormControl(''),
-//   });
+describe('LoginComponent', () => {
+  let component: LoginComponent;
+  let fixture: ComponentFixture<LoginComponent>;
+  let loginFormServiceSpy: jasmine.SpyObj<LoginFormService>;
+  let routerSpy: jasmine.SpyObj<Router>;
+  let storeSpy: jasmine.SpyObj<Store>;
 
-//   buildLoginForm() {
-//     return this.mockForm;
-//   }
-//   applyTouchAndDirtyToForm = jasmine.createSpy('applyTouchAndDirtyToForm');
-// }
+  beforeEach(() => {
+    const formServiceSpy = jasmine.createSpyObj('LoginFormService', [
+      'buildLoginForm',
+      'applyTouchAndDirtyToForm',
+    ]);
+    const rSpy = jasmine.createSpyObj('Router', ['navigate']);
+    const sSpy = jasmine.createSpyObj('Store', ['select', 'dispatch']);
 
-// class MockRouter {
-//   navigate = jasmine.createSpy('navigate');
-// }
+    TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
+      declarations: [LoginComponent],
+      providers: [
+        { provide: LoginFormService, useValue: formServiceSpy },
+        { provide: Router, useValue: rSpy },
+        { provide: Store, useValue: sSpy },
+      ],
+    }).compileComponents();
 
-// class MockStore {
-//   dispatch = jasmine.createSpy('dispatch');
-//   select = jasmine.createSpy('select');
-// }
+    fixture = TestBed.createComponent(LoginComponent);
+    component = fixture.componentInstance;
+    loginFormServiceSpy = TestBed.inject(
+      LoginFormService
+    ) as jasmine.SpyObj<LoginFormService>;
+    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
+    storeSpy = TestBed.inject(Store) as jasmine.SpyObj<Store>;
 
-// describe('LoginComponent', () => {
-//   let component: LoginComponent;
-//   let fixture: ComponentFixture<LoginComponent>;
-//   let loginFormService: MockLoginFormService;
-//   let router: MockRouter;
-//   let store: MockStore;
+    // Mock selectors
+    storeSpy.select.and.callFake((selector: any) => {
+      if (selector === selectors.selectLoading) return of(true);
+      if (selector === selectors.selectError) return of(null);
+      return of(null);
+    });
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [LoginComponent],
-//       imports: [ReactiveFormsModule],
-//       providers: [
-//         { provide: LoginFormService, useClass: MockLoginFormService },
-//         { provide: Router, useClass: MockRouter },
-//         { provide: Store, useClass: MockStore },
-//       ],
-//     }).compileComponents();
+    // Mock form group
+    const mockForm = new FormGroup({
+      email: new FormControl(''),
+      password: new FormControl(''),
+    });
+    loginFormServiceSpy.buildLoginForm.and.returnValue(mockForm);
+  });
 
-//     fixture = TestBed.createComponent(LoginComponent);
-//     component = fixture.componentInstance;
-//     loginFormService = TestBed.inject(LoginFormService) as any;
-//     router = TestBed.inject(Router) as any;
-//     store = TestBed.inject(Store) as any;
+  it('should create component and initialize form, loading$, error$', () => {
+    component.ngOnInit();
 
-//     store.select.withArgs(jasmine.any(Function)).and.returnValue(of(false));
+    expect(component.loginForm).toBeDefined();
+    expect(component.loading$).toBeDefined();
+    expect(component.error$).toBeDefined();
+    expect(loginFormServiceSpy.buildLoginForm).toHaveBeenCalled();
+  });
 
-//     fixture.detectChanges();
-//   });
+  it('getControl should return form control', () => {
+    component.ngOnInit();
+    const control = component.getControl('email');
+    expect(control).toBeInstanceOf(FormControl);
+  });
 
-//   it('should create the component', () => {
-//     expect(component).toBeTruthy();
-//   });
+  it('onSubmit should apply touch and dirty when form is invalid', () => {
+    component.ngOnInit();
+    component.loginForm?.setErrors({ invalid: true });
 
-//   it('should build login form on init', () => {
-//     expect(component.loginForm).toBeTruthy();
-//     expect(component.loginForm instanceof FormGroup).toBeTrue();
-//   });
+    component.onSubmit();
 
-//   it('should initialize loading$ and error$ observables', () => {
-//     expect(store.select).toHaveBeenCalled();
-//     expect(component.loading$).toBeDefined();
-//     expect(component.error$).toBeDefined();
-//   });
+    expect(loginFormServiceSpy.applyTouchAndDirtyToForm).toHaveBeenCalled();
+    expect(storeSpy.dispatch).not.toHaveBeenCalled();
+  });
 
-//   describe('onSubmit()', () => {
-//     it('should call applyTouchAndDirtyToForm if form is invalid', () => {
-//       component.loginForm?.patchValue({ username: '', password: '' });
-//       component.onSubmit();
-//       expect(loginFormService.applyTouchAndDirtyToForm).toHaveBeenCalled();
-//       expect(store.dispatch).not.toHaveBeenCalled();
-//     });
+  it('onSubmit should dispatch login when form is valid', () => {
+    component.ngOnInit();
+    component.loginForm?.setValue({
+      email: 'test@test.com',
+      password: '123456',
+    });
 
-//     it('should dispatch login action when form is valid', () => {
-//       component.loginForm?.patchValue({ username: 'john', password: 'doe123' });
-//       component.onSubmit();
-//       expect(store.dispatch).toHaveBeenCalledWith(
-//         login({ credentials: { username: 'john', password: 'doe123' } })
-//       );
-//     });
-//   });
+    component.onSubmit();
 
-//   describe('navigateTo()', () => {
-//     it('should navigate to signup route', () => {
-//       component.navigateTo();
-//       expect(router.navigate).toHaveBeenCalledWith([ROUTER_PATHS.SIGNUP]);
-//     });
-//   });
+    expect(loginFormServiceSpy.applyTouchAndDirtyToForm).not.toHaveBeenCalled();
+    expect(storeSpy.dispatch).toHaveBeenCalledWith(
+      login({
+        credentials: { email: 'test@test.com', password: '123456' },
+      })
+    );
+  });
 
-//   describe('Template rendering', () => {
-//     it('should show the loader when loading$ is true', () => {
-//       (store.select as jasmine.Spy).and.returnValue(of(true));
-//       component.loading$ = of(true);
-//       fixture.detectChanges();
-
-//       const loader = fixture.debugElement.query(By.css('app-loader-component'));
-//       expect(loader).toBeTruthy();
-//     });
-
-//     it('should show the login form when loading$ is false', () => {
-//       (store.select as jasmine.Spy).and.returnValue(of(false));
-//       component.loading$ = of(false);
-//       fixture.detectChanges();
-
-//       const form = fixture.debugElement.query(By.css('form'));
-//       expect(form).toBeTruthy();
-//     });
-
-//     it('should call navigateTo() on "Sign up" link click', () => {
-//       spyOn(component, 'navigateTo');
-//       const link = fixture.debugElement.query(
-//         By.css('a.hover\\:underline:last-child')
-//       );
-//       link.triggerEventHandler('click', {});
-//       expect(component.navigateTo).toHaveBeenCalled();
-//     });
-//   });
-// });
+  it('navigateTo should navigate to signup', () => {
+    component.navigateTo();
+    expect(routerSpy.navigate).toHaveBeenCalledWith([ROUTER_PATHS.SIGNUP]);
+  });
+});
