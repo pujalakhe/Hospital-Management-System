@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ROUTER_PATHS } from '../../../../core/constants/router-path.constant';
 import { LoginComponent } from './components/login-component/login-component';
-import { NoAuthGuard } from '../../../../core/guards/no-auth-guard/no-auth-guard';
+import { noAuthGuard } from '../../../../core/guards/no-auth-guard/no-auth-guard';
 
 const { LOGIN } = ROUTER_PATHS;
 const routes: Routes = [
@@ -10,7 +10,7 @@ const routes: Routes = [
 
   {
     path: LOGIN,
-    canMatch: [NoAuthGuard],
+    canMatch: [noAuthGuard],
     component: LoginComponent,
   },
 ];
