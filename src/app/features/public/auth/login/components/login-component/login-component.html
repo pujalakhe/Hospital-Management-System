@@ -20,7 +20,7 @@
       (ngSubmit)="onSubmit()"
       class="space-y-4"
       appAutoFocusInput
-      appAutoFocusInvalid
+      [appAutoFocusInvalid]="loginForm"
     >
       <app-input-text
         [control]="getControl('email')"
