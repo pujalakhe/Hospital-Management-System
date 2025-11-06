@@ -13,6 +13,7 @@ export const apiNotificationInterceptor: HttpInterceptorFn = (req, next) => {
     tap((event) => {
       if (
         event instanceof HttpResponse &&
+        req.method !== 'GET' &&
         (event.body as ApiResponse<any>)?.result !== undefined
       ) {
         const { result, message } = event.body as ApiResponse<any>;
