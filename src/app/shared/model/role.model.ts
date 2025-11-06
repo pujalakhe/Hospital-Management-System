@@ -1,6 +1,6 @@
 export interface Role {
-  id: number;
-  name: string;
+  key: number;
+  value: string;
 }
 
 export interface RoleResponse {
