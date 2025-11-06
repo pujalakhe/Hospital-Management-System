@@ -1,9 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { SignupFormService } from '../service/form/signup-form-service';
 import { Store } from '@ngrx/store';
 import { SignupApiService } from '../service/api/signup-api-service';
 import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
+import { selectAllCountries } from '../../../../../shared/store/country-list/countryList.selector';
+import { Observable, of, Subject, takeUntil } from 'rxjs';
+import { Country } from '../../../../../shared/model/country.model';
+import { City } from '../../../../../shared/model/city.model';
+import { Role } from '../../../../../shared/model/role.model';
+import { selectAllDepartment } from '../../../../../shared/store/department-list/departmentList.selector';
+import { selectAllRole } from '../../../../../shared/store/role-list/roleList.selector';
+import { Department } from '../../../../../shared/model/department.model';
+import { loadCountries } from '../../../../../shared/store/country-list/countryList.action';
+import { loadDepartments } from '../../../../../shared/store/department-list/departmentList.action';
+import { loadRole } from '../../../../../shared/store/role-list/roleList.action';
+import { loadCitiesByCountry } from '../../../../../shared/store/city-list-by-countryId/cityListByCountryId.action';
+import { selectAllCities } from '../../../../../shared/store/city-list-by-countryId/cityListByCountryId.selector';
+import { signup } from '../store/signup.actions';
 
 @Component({
   selector: 'app-signup-component',
@@ -11,45 +25,51 @@ import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant
   templateUrl: './signup-component.html',
   styleUrl: './signup-component.scss',
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     public formService: SignupFormService,
     private store: Store,
     private signupApiService: SignupApiService
   ) {}
   ROUTER_PATHS = ROUTER_PATHS;
-  countries = [
-    { id: 1, name: 'Nepal' },
-    { id: 2, name: 'India' },
-    { id: 3, name: 'USA' },
-  ];
-
-  cities = [
-    { id: 1, name: 'Kathmandu' },
-    { id: 2, name: 'Pokhara' },
-    { id: 3, name: 'Delhi' },
-  ];
-
-  departments = [
-    { id: 1, name: 'HR' },
-    { id: 2, name: 'Finance' },
-    { id: 3, name: 'Engineering' },
-  ];
-
-  roles = [
-    { id: 1, name: 'Admin' },
-    { id: 2, name: 'Manager' },
-    { id: 3, name: 'Employee' },
-  ];
-
-  nationalities = [
-    { id: 1, name: 'Nepali' },
-    { id: 2, name: 'Indian' },
-    { id: 3, name: 'American' },
-  ];
+  Countries$: Observable<Country[]> = of([]);
+  Cities$: Observable<City[]> = of([]);
+  Departments$: Observable<Department[]> = of([]);
+  Roles$: Observable<Role[]> = of([]);
+  private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.initializeForm();
+    this.store.dispatch(loadCountries());
+    this.Countries$ = this.store.select(selectAllCountries);
+
+    this.store.dispatch(loadDepartments());
+    this.Departments$ = this.store.select(selectAllDepartment);
+
+    this.store.dispatch(loadRole());
+    this.Roles$ = this.store.select(selectAllRole);
+
+    const countryControl = this.formService.getAddressControl('countryId');
+    if (countryControl) {
+      countryControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((countryId: number) => {
+          const cityControl = this.formService.getAddressControl('cityId');
+          cityControl?.reset();
+
+          if (countryId) {
+            this.store.dispatch(loadCitiesByCountry({ countryId }));
+            this.Cities$ = this.store.select(selectAllCities);
+          }
+        });
+    }
+  }
+  private initializeForm(): void {
     this.formService.initForm();
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onSubmit(): void {
@@ -60,6 +80,6 @@ export class SignupComponent {
     }
 
     const payload = this.formService.getFormValue();
-    // this.store.dispatch(signup({ payload }));
+    this.store.dispatch(signup({ payload }));
   }
 }

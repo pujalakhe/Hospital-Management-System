@@ -1,15 +1,13 @@
 <div
   class="signup-form max-w-lg mx-auto bg-white rounded-2xl shadow-xl px-8 py-10 space-y-8 border border-gray-100"
 >
-  <!-- Header -->
   <div class="text-center">
     <h2 class="text-3xl font-extrabold text-gray-800">Welcome</h2>
     <p class="text-gray-700 mt-4">Create your account to get started</p>
   </div>
 
-  <!-- Form -->
   <form [formGroup]="formService.form!" (ngSubmit)="onSubmit()" class="space-y-5">
-    <!-- Basic Information -->
+  
     <div class="space-y-4">
       <app-input-text
         [control]="formService.getControl('firstName')"
@@ -56,7 +54,6 @@
       ></app-input-date>
     </div>
 
-    <!-- Address Section -->
     <div
       formGroupName="address"
       class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-4"
@@ -71,38 +68,36 @@
 
       <app-input-select
         [control]="formService.getAddressControl('countryId')"
-        [options]="countries"
+        [options]="(Countries$ | async) || []"
         label="Country"
         placeholder="Choose your country"
       ></app-input-select>
 
       <app-input-select
         [control]="formService.getAddressControl('cityId')"
-        [options]="cities"
+        [options]="(Cities$ | async) || []"
         label="City"
         placeholder="Choose your city"
       ></app-input-select>
-    </div>
-
-    <!-- Professional Info -->
-    <div class="space-y-4">
-      <app-input-select
+    
+    <app-input-text
         [control]="formService.getControl('nationality')"
-        [options]="nationalities"
         label="Nationality"
-        placeholder="Choose your nationality"
-      ></app-input-select>
+        placeholder="Enter your nationality"
+      ></app-input-text>
+  </div>
 
+    <div>
       <app-input-select
         [control]="formService.getControl('departmentId')"
-        [options]="departments"
+        [options]="(Departments$ | async) || []"
         label="Department"
         placeholder="Choose your department"
       ></app-input-select>
 
       <app-input-select
         [control]="formService.getControl('role')"
-        [options]="roles"
+        [options]="(Roles$ | async) || []"
         label="Role"
         placeholder="Choose your role"
       ></app-input-select>
@@ -114,7 +109,6 @@
       ></app-input-date>
     </div>
 
-    <!-- Password Section -->
     <div class="space-y-4">
       <app-input-text
         [control]="formService.getControl('password')"
@@ -131,7 +125,6 @@
       ></app-input-text>
     </div>
 
-    <!-- Submit -->
     <div class="pt-2">
       <button
         type="submit"
@@ -143,7 +136,6 @@
       </button>
     </div>
 
-    <!-- Footer -->
     <p class="text-center text-gray-600 text-sm mt-4">
       Already have an account?
       <a
