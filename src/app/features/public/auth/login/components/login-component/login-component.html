@@ -15,7 +15,13 @@
 
     @if(loginForm ){
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-4"
+      appAutoFocusInput
+      appAutoFocusInvalid
+    >
       <app-input-text
         [control]="getControl('email')"
         [label]="'Email'"

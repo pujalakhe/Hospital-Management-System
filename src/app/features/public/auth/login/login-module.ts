@@ -13,9 +13,11 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
 import { LOGIN_FEATURE_SELECTOR_KEY } from './store/login.constant';
-
 import { LoginEffects } from './store/login.effect';
 import { loginReducer } from './store/login.reducer';
+
+import { AutoFocusInput } from '../../../../shared/custom-directives/AutoFocusInput/auto-focus-input';
+import { AutoFocusInvalid } from '../../../../shared/custom-directives/AutoFocusInvalid/auto-focus-invalid';
 
 @NgModule({
   declarations: [LoginComponent],
@@ -29,6 +31,8 @@ import { loginReducer } from './store/login.reducer';
     TextInputComponent,
     StoreModule.forFeature(LOGIN_FEATURE_SELECTOR_KEY, loginReducer),
     EffectsModule.forFeature(LoginEffects),
+    AutoFocusInput,
+    AutoFocusInvalid,
   ],
 })
 export class LoginModule {}
