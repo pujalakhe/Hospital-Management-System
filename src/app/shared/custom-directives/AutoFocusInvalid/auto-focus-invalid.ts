@@ -6,7 +6,7 @@ import { FormGroup } from '@angular/forms';
   standalone: true,
 })
 export class AutoFocusInvalid {
-  @Input('appFocusInvalid') formGroup?: FormGroup;
+  @Input('appAutoFocusInvalid') formGroup?: FormGroup;
 
   constructor(private el: ElementRef) {}
 

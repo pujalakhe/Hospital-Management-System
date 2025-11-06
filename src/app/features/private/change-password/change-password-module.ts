@@ -13,6 +13,8 @@ import { TextInputComponent } from '../../../shared/components/inputs/text-input
 import { FormHeaderComponent } from '../../../shared/components/form-header-component/form-header-component';
 import { LoaderComponent } from '../../../shared/components/loader-component/loader-component';
 import { CHANGE_PASSWORD_FEATURE_KEY } from './store/change-password/changePassword.constant';
+import { AutoFocusInput } from '../../../shared/custom-directives/AutoFocusInput/auto-focus-input';
+import { AutoFocusInvalid } from '../../../shared/custom-directives/AutoFocusInvalid/auto-focus-invalid';
 
 @NgModule({
   declarations: [ChangePasswordComponent],
@@ -23,6 +25,8 @@ import { CHANGE_PASSWORD_FEATURE_KEY } from './store/change-password/changePassw
     TextInputComponent,
     FormHeaderComponent,
     LoaderComponent,
+    AutoFocusInput,
+    AutoFocusInvalid,
     ChangePasswordRoutingModule,
     StoreModule.forFeature(CHANGE_PASSWORD_FEATURE_KEY, changePasswordReducer),
     EffectsModule.forFeature([ChangePasswordEffects]),
