@@ -14,6 +14,22 @@ import { signupReducer } from './store/signup.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { signupEffects } from './store/signup.effects';
 import { SIGNUP_FEATURE_SELECTOR_KEY } from './constants/signup.constant';
+import { cityReducer } from '../../../../shared/store/city-list-by-countryId/cityListByCountryId.reducer';
+import { CITY_FEATURE_SELECTOR_KEY } from '../../../../shared/store/city-list-by-countryId/cityListByCountryId.constant';
+import { CityByCountryIdEffects } from '../../../../shared/store/city-list-by-countryId/cityListByCountryId.effect';
+import { COUNTRY_FEATURE_SELECTOR_KEY } from '../../../../shared/store/country-list/countryList.constant';
+import { countryReducer } from '../../../../shared/store/country-list/countryList.reducer';
+import { CountryEffects } from '../../../../shared/store/country-list/countryList.effect';
+import { DEPARTMENT_FEATURE_SELECTOR_KEY } from '../../../../shared/store/department-list/departmentList.constant';
+import { departmentReducer } from '../../../../shared/store/department-list/departmentList.reducer';
+import { DepartmentEffects } from '../../../../shared/store/department-list/departmentList.effect';
+import { ROLE_FEATURE_SELECTOR_KEY } from '../../../../shared/store/role-list/roleList.constant';
+import { roleReducer } from '../../../../shared/store/role-list/roleList.reducer';
+import { RoleEffects } from '../../../../shared/store/role-list/roleList.effect';
+// import { RadioInputComponent } from '../../../../shared/components/inputs/radio-input/radio-input.component';
+import { GENDER_FEATURE_SELECTOR_KEY } from '../../../../shared/store/gender-list/genderList.constant';
+import { genderReducer } from '../../../../shared/store/gender-list/genderList.reducer';
+import { GenderEffects } from '../../../../shared/store/gender-list/genderList.effect';
 
 @NgModule({
   declarations: [SignupComponent],
@@ -26,8 +42,21 @@ import { SIGNUP_FEATURE_SELECTOR_KEY } from './constants/signup.constant';
     InputNumberComponent,
     SelectInputComponent,
     DateInputComponent,
+    // RadioInputComponent,
     StoreModule.forFeature(SIGNUP_FEATURE_SELECTOR_KEY, signupReducer),
-    EffectsModule.forFeature([signupEffects]),
+    StoreModule.forFeature(CITY_FEATURE_SELECTOR_KEY, cityReducer),
+    StoreModule.forFeature(COUNTRY_FEATURE_SELECTOR_KEY, countryReducer),
+    StoreModule.forFeature(DEPARTMENT_FEATURE_SELECTOR_KEY, departmentReducer),
+    StoreModule.forFeature(ROLE_FEATURE_SELECTOR_KEY, roleReducer),
+    StoreModule.forFeature(GENDER_FEATURE_SELECTOR_KEY, genderReducer),
+    EffectsModule.forFeature([
+      signupEffects,
+      CityByCountryIdEffects,
+      CountryEffects,
+      DepartmentEffects,
+      RoleEffects,
+      GenderEffects,
+    ]),
   ],
 })
 export class SignupModule {}
