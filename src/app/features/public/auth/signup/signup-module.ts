@@ -30,6 +30,7 @@ import { RoleEffects } from '../../../../shared/store/role-list/roleList.effect'
 import { GENDER_FEATURE_SELECTOR_KEY } from '../../../../shared/store/gender-list/genderList.constant';
 import { genderReducer } from '../../../../shared/store/gender-list/genderList.reducer';
 import { GenderEffects } from '../../../../shared/store/gender-list/genderList.effect';
+import { FormHeaderComponent } from '../../../../shared/components/form-header-component/form-header-component';
 
 @NgModule({
   declarations: [SignupComponent],
@@ -42,7 +43,7 @@ import { GenderEffects } from '../../../../shared/store/gender-list/genderList.e
     InputNumberComponent,
     SelectInputComponent,
     DateInputComponent,
-    // RadioInputComponent,
+    FormHeaderComponent,
     StoreModule.forFeature(SIGNUP_FEATURE_SELECTOR_KEY, signupReducer),
     StoreModule.forFeature(CITY_FEATURE_SELECTOR_KEY, cityReducer),
     StoreModule.forFeature(COUNTRY_FEATURE_SELECTOR_KEY, countryReducer),
