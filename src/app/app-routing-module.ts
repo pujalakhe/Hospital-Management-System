@@ -7,6 +7,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./features/public/auth/auth-module').then((m) => m.AuthModule),
   },
+
+  {
+    path: '',
+    loadChildren: () =>
+      import('./features/private/change-password/change-password-module').then(
+        (m) => m.ChangePasswordModule
+      ),
+  },
 ];
 
 @NgModule({
