@@ -20,6 +20,7 @@ import { apiNotificationInterceptor } from './core/api-notification-interceptor/
   declarations: [App],
   imports: [
     BrowserModule,
+
     AppRoutingModule,
     RouterModule,
     StoreModule.forRoot(),
