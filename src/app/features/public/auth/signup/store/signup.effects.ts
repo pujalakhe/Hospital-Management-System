@@ -6,6 +6,8 @@ import { of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { SignupApiService } from '../service/api/signup-api-service';
 import { SignupResponse } from '../models/signup.model';
+import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
+const LOGIN = ROUTER_PATHS;
 @Injectable()
 export class signupEffects {
   private action$ = inject(Actions);
@@ -38,7 +40,7 @@ export class signupEffects {
       this.action$.pipe(
         ofType(SignupActions.signupSuccess),
         tap(() => {
-          this.router.navigate(['/login']);
+          this.router.navigate([`/${LOGIN}`]);
         })
       ),
     { dispatch: false }
