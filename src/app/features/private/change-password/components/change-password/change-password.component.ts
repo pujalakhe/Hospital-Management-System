@@ -1,9 +1,10 @@
-// change-password.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import * as ChangePasswordActions from '../../store/change-password/changePassword.action';
+import * as ChangePasswordSelectors from '../../store/change-password/changePassword.selector';
 import { ChangePasswordFormService } from '../../services/change-password-form-service/change-password-form-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-change-password',
@@ -13,7 +14,7 @@ import { ChangePasswordFormService } from '../../services/change-password-form-s
 })
 export class ChangePasswordComponent implements OnInit {
   changePasswordForm?: FormGroup;
-  isLoading = false;
+  isLoading$?: Observable<boolean>;
 
   constructor(
     private changePasswordFormService: ChangePasswordFormService,
@@ -22,11 +23,17 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.observeLoadingState();
   }
 
   initializeForm(): void {
     this.changePasswordForm =
       this.changePasswordFormService.buildChangePasswordForm();
+  }
+  observeLoadingState(): void {
+    this.isLoading$ = this.store.select(
+      ChangePasswordSelectors.selectIsLoading
+    );
   }
 
   getControl(controlName: string): FormControl {
