@@ -19,10 +19,7 @@
       [control]="getControl('workLocation')"
       [label]="'Work Location'"
       [placeholder]="''"
-      [options]="[
-        { id: 1, name: 'Work from office' },
-        { id: 2, name: 'Work from home' }
-      ]"
+      [options]="workLocationOptions"
     ></app-input-select>
   </mat-dialog-content>
 

@@ -15,6 +15,10 @@ import { Observable } from 'rxjs';
 export class CheckInCheckOutDialogBoxComponent implements OnInit {
   checkInForm?: FormGroup;
   loading$?: Observable<boolean>;
+  workLocationOptions: { id: number; name: string }[] = [
+    { id: 1, name: 'Work from office' },
+    { id: 2, name: 'Work from home' },
+  ];
   constructor(
     private dialogRef: MatDialogRef<CheckInCheckOutDialogBoxComponent>,
     private checkInFormService: CheckInFormService,
