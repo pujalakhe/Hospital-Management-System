@@ -15,6 +15,7 @@ import { LoaderComponent } from '../../../shared/components/loader-component/loa
 import { CHANGE_PASSWORD_FEATURE_KEY } from './store/change-password/changePassword.constant';
 import { AutoFocusInput } from '../../../shared/custom-directives/AutoFocusInput/auto-focus-input';
 import { AutoFocusInvalid } from '../../../shared/custom-directives/AutoFocusInvalid/auto-focus-invalid';
+import { NoPasteDirective } from '../../../shared/custom-directives/no-paste/no-paste-directive';
 
 @NgModule({
   declarations: [ChangePasswordComponent],
@@ -27,6 +28,7 @@ import { AutoFocusInvalid } from '../../../shared/custom-directives/AutoFocusInv
     LoaderComponent,
     AutoFocusInput,
     AutoFocusInvalid,
+    NoPasteDirective,
     ChangePasswordRoutingModule,
     StoreModule.forFeature(CHANGE_PASSWORD_FEATURE_KEY, changePasswordReducer),
     EffectsModule.forFeature([ChangePasswordEffects]),
