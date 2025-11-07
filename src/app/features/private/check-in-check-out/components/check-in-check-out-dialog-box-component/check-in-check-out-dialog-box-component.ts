@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { CheckInFormService } from '../../service/checkIn-form/check-in-form-service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { checkInRequest } from '../../store/checkIn/checkIn.actions';
+import { checkInRequest } from '../../store/check-in-check-out.actions';
 import { Observable } from 'rxjs';
+import { CheckInCheckOutFormService } from '../../service/check-in-check-out-form-service/check-in-check-out-form-service';
 
 @Component({
   selector: 'app-check-in-check-out-dialog-box-component',
@@ -21,14 +21,14 @@ export class CheckInCheckOutDialogBoxComponent implements OnInit {
   ];
   constructor(
     private dialogRef: MatDialogRef<CheckInCheckOutDialogBoxComponent>,
-    private checkInFormService: CheckInFormService,
+    private checkInFormService: CheckInCheckOutFormService,
     private store: Store
   ) {}
   ngOnInit() {
     this.buildForm();
   }
   buildForm() {
-    this.checkInForm = this.checkInFormService.buildCheckInForm();
+    this.checkInForm = this.checkInFormService.buildCheckInCheckOutForm();
   }
 
   getControl(controlName: string): FormControl {

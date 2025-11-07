@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { MaterialModule } from '../../../shared/angular-material.module';
-import { CHECK_IN_FEATURE_SELECTOR_KEY } from '../check-in-check-out/store/checkIn/checkIn.constants';
-import { CheckInEffects } from '../check-in-check-out/store/checkIn/checkIn.effects';
+import { CHECK_IN_FEATURE_SELECTOR_KEY } from '../check-in-check-out/store/check-in-check-out.constants';
+import { CheckInCheckOutEffects } from '../check-in-check-out/store/check-in-check-out.effects';
 import { checkInReducer } from '../check-in-check-out/store/checkIn/checkIn.reducer';
 import { DashboardComponent } from './components/dashboard-component/dashboard-component';
 import { DashboardRoutingModule } from './dashboard-routing-module';
@@ -17,7 +17,7 @@ import { DashboardRoutingModule } from './dashboard-routing-module';
     DashboardRoutingModule,
     MaterialModule,
     StoreModule.forFeature(CHECK_IN_FEATURE_SELECTOR_KEY, checkInReducer),
-    EffectsModule.forFeature([CheckInEffects]),
+    EffectsModule.forFeature([CheckInCheckOutEffects]),
   ],
 })
 export class DashboardModule {}

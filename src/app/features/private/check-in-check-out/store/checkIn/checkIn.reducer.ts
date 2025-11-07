@@ -1,10 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
-import { CheckInResponse } from '../../model/checkIn-model';
+import { CheckInResponse } from '../../model/check-in-check-out-model';
 import {
   checkInFailure,
   checkInRequest,
   checkInSuccess,
-} from './checkIn.actions';
+} from '../check-in-check-out.actions';
 
 export interface CheckInState {
   loading: boolean;
