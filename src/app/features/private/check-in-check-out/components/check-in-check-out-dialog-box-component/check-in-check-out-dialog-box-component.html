@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Check In</h2>
+
+@if(checkInForm){
+
+<form
+  [formGroup]="checkInForm"
+  appAutoFocusInput
+  [appAutoFocusInvalid]="checkInForm"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-dialog-content class="space-y-4">
+    <app-input-text
+      [control]="getControl('checkInReason')"
+      [label]="'Check In Reason'"
+      placeholder=""
+    ></app-input-text>
+
+    <app-input-select
+      [control]="getControl('workLocation')"
+      [label]="'Work Location'"
+      [placeholder]="''"
+      [options]="[
+        { id: 1, name: 'Work from office' },
+        { id: 2, name: 'Work from home' }
+      ]"
+    ></app-input-select>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancel</button>
+    <button mat-flat-button color="primary" type="submit">Check In</button>
+  </mat-dialog-actions>
+</form>
+}
