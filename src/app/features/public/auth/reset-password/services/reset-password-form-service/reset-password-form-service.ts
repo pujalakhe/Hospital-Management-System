@@ -1,35 +1,33 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { BaseFormService } from '../../../../../../shared/services/base-form-service/base-form-service';
+import { passwordStrengthValidator } from '../../../../../../shared/validators/password.validator';
 
-@Injectable({ providedIn: 'root' })
-export class ResetPasswordFormService {
-  constructor(private fb: FormBuilder) {}
+@Injectable({
+  providedIn: 'root',
+})
+export class ResetPasswordFormService extends BaseFormService {
 
-  buildEmailForm() { return this.fb.group({ email: ['', [Validators.required, Validators.email]] }); }
-  buildOtpForm() { return this.fb.group({ otp: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]] }); }
-  buildPasswordForm() {
-    const form = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
-      confirmPassword: ['', Validators.required]
-    });
-    form.setValidators(this.passwordMatchValidator);
-    return form;
-  }
-
-  getControl(name: string, emailForm: FormGroup, otpForm: FormGroup, passwordForm: FormGroup): FormControl {
-    const map: any = {
-      email: emailForm.get('email'),
-      otp: otpForm.get('otp'),
-      newPassword: passwordForm.get('newPassword'),
-      confirmPassword: passwordForm.get('confirmPassword')
+  buildEmailForm() {
+    const config = {
+      email: ['', [Validators.required, Validators.email]],
     };
-    return map[name];
+
+    return this.buildForm(config);
   }
 
-  private passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value || '';
-    const valid = /[A-Z]/.test(value) && /[a-z]/.test(value) && /\d/.test(value) && /[!@#$%^&*(),.?":{}|<>]/.test(value);
-    return valid ? null : { passwordStrength: true };
+  buildVerifyForm() {
+    const config = {
+      otp: ['', [Validators.required]],
+      newPassword: [
+        '',
+        [Validators.required, Validators.minLength(8), passwordStrengthValidator],
+      ],
+      confirmPassword: ['', Validators.required],
+    };
+
+    const form = this.buildForm(config, { validators: this.passwordMatchValidator });
+    return form;
   }
 
   private passwordMatchValidator(group: AbstractControl): ValidationErrors | null {

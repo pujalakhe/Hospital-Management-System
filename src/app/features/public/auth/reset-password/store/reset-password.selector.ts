@@ -19,7 +19,12 @@ export const selectError = createSelector(
   (state) => state.error
 );
 
-export const selectSuccess = createSelector(
+export const selectSendOTPSuccess = createSelector(
   selectResetPasswordState,
-  (state) => state.success
+  (state) => state.sendOTPSuccess
+);
+
+export const selectResetPasswordSuccess = createSelector(
+  selectResetPasswordState,
+  (state) => state.resetPasswordSuccess
 );
