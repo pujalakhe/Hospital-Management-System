@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
-export function noFutureDateValidator(): ValidatorFn {
+export function minAgeValidator(minAge: number = 18): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
     if (!value) return null;
@@ -18,20 +18,16 @@ export function noFutureDateValidator(): ValidatorFn {
     const currentMonth = now.getMonth() + 1;
     const currentDay = now.getDate();
 
-    if (inputYear > currentYear) {
-      return { futureDateNotAllowed: true };
-    }
-
-    if (inputYear === currentYear && inputMonth > currentMonth) {
-      return { futureDateNotAllowed: true };
-    }
-
+    let age = currentYear - inputYear;
     if (
-      inputYear === currentYear &&
-      inputMonth === currentMonth &&
-      inputDay > currentDay
+      inputMonth > currentMonth ||
+      (inputMonth === currentMonth && inputDay > currentDay)
     ) {
-      return { futureDateNotAllowed: true };
+      age--;
+    }
+
+    if (age < minAge) {
+      return { minAgeNotMet: { requiredAge: minAge, actualAge: age } };
     }
     return null;
   };
