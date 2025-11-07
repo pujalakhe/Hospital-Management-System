@@ -3,16 +3,13 @@ import { BaseFormService } from '../../../../../../shared/services/base-form-ser
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SignupRequest } from '../../models/signup.model';
 import { minAgeValidator } from '../../../../../../shared/validators/date-validators';
+import { passwordMatchValidator } from '../../../../../private/change-password/password-validator/password-validator';
 @Injectable({
   providedIn: 'root',
 })
 export class SignupFormService extends BaseFormService {
-  constructor(protected override formBuilder: FormBuilder) {
-    super(formBuilder);
-  }
-
-  initForm(): void {
-    this.form = this.formBuilder.group({
+  buildSignupForm() {
+    const config = {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       middleName: [''],
@@ -32,8 +29,12 @@ export class SignupFormService extends BaseFormService {
       startDate: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
-    });
+    };
+    const form = this.buildForm(config);
+    form.setValidators(passwordMatchValidator());
+    return form;
   }
+
   getFormValue(): SignupRequest {
     return this.form?.getRawValue() as SignupRequest;
   }

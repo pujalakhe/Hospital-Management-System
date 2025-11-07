@@ -73,7 +73,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     }
   }
   private initializeForm(): void {
-    this.formService.initForm();
+    this.formService.buildSignupForm();
   }
   ngOnDestroy(): void {
     this.destroy$.next();
