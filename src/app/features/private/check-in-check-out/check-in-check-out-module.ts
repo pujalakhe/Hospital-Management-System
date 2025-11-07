@@ -7,6 +7,7 @@ import { TextInputComponent } from '../../../shared/components/inputs/text-input
 import { AutoFocusInput } from '../../../shared/custom-directives/AutoFocusInput/auto-focus-input';
 import { AutoFocusInvalid } from '../../../shared/custom-directives/AutoFocusInvalid/auto-focus-invalid';
 import { CheckInCheckOutDialogBoxComponent } from './components/check-in-check-out-dialog-box-component/check-in-check-out-dialog-box-component';
+import { LoaderComponent } from '../../../shared/components/loader-component/loader-component';
 
 @NgModule({
   declarations: [CheckInCheckOutDialogBoxComponent],
@@ -18,6 +19,7 @@ import { CheckInCheckOutDialogBoxComponent } from './components/check-in-check-o
     AutoFocusInput,
     AutoFocusInvalid,
     SelectInputComponent,
+    LoaderComponent,
   ],
 })
 export class CheckInCheckOutModule {}
