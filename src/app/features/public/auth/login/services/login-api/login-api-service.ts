@@ -17,8 +17,4 @@ export class LoginApiService {
   login(payload: LoginRequest): Observable<LoginResponse> {
     return this.httpClient.post<LoginResponse>(this.loginApi, payload);
   }
-
-  logout(): void {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-  }
 }

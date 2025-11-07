@@ -13,6 +13,7 @@ export const apiNotificationInterceptor: HttpInterceptorFn = (req, next) => {
     tap((event) => {
       if (
         event instanceof HttpResponse &&
+        req.method !== 'GET' &&
         (event.body as ApiResponse<any>)?.result !== undefined
       ) {
         const { result, message } = event.body as ApiResponse<any>;
@@ -27,11 +28,6 @@ export const apiNotificationInterceptor: HttpInterceptorFn = (req, next) => {
           default:
             snackbarService.info(message);
             break;
-        }
-        if (result === ResultType.Success) {
-          snackbarService.success(message);
-        } else if (result === ResultType.Failure) {
-          snackbarService.error(message);
         }
       }
     })
