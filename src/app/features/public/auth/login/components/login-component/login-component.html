@@ -36,13 +36,16 @@
       ></app-input-text>
 
       <div class="flex justify-end text-sm text-blue-600">
-        <a [routerLink]="[routerPaths.RESET_PASSWORD]" class="hover:underline"
+        <a
+          matButton
+          [routerLink]="[routerPaths.RESET_PASSWORD]"
+          class="hover:underline"
           >Reset password?</a
         >
       </div>
 
       <button
-        mat-raised-button
+        mat-flat-button
         color="primary"
         class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 mt-3"
         type="submit"
@@ -51,10 +54,14 @@
       </button>
 
       <div class="flex justify-center text-sm text-gray-600 gap-1">
-        <p class="hover:underline">Don't have an account yet?</p>
-        <a class="hover:underline text-blue-600" (click)="navigateTo()"
-          >Sign up</a
+        <p>Don't have an account yet?</p>
+        <a
+          matButton
+          class="hover:underline text-blue-600"
+          (click)="navigateTo()"
         >
+          Sign up
+        </a>
       </div>
     </form>
     }
