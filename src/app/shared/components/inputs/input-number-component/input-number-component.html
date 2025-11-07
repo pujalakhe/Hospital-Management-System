@@ -15,5 +15,9 @@
   } @if(control.hasError('min')){
   <mat-error> Minimum {{ label }} is {{ min ?? "non-negative" }} </mat-error>
   }
+      @if (control.hasError('pattern')) {
+      <mat-error>{{ label }} must be exactly 10 digits</mat-error>
+    }
+
 </mat-form-field>
 }
