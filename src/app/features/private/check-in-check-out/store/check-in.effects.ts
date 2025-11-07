@@ -6,7 +6,7 @@ import * as CheckInCheckOutActions from './check-in-check-out.actions';
 import { CheckInCheckOutApiService } from '../service/check-in-check-out-api-service/check-in-check-out-api-service';
 
 @Injectable()
-export class CheckInCheckOutEffects {
+export class CheckInEffects {
   private actions$ = inject(Actions);
   private checkInCheckOutApiService = inject(CheckInCheckOutApiService);
 
@@ -31,23 +31,23 @@ export class CheckInCheckOutEffects {
     )
   );
 
-  checkOut$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CheckInCheckOutActions.checkOutRequest),
-      exhaustMap(({ payload }) =>
-        this.checkInCheckOutApiService.checkOut(payload).pipe(
-          map((response) =>
-            CheckInCheckOutActions.checkOutSuccess({ response })
-          ),
-          catchError((err) =>
-            of(
-              CheckInCheckOutActions.checkOutFailure({
-                error: err.message || 'Failed to Check Out',
-              })
-            )
-          )
-        )
-      )
-    )
-  );
+  // checkOut$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(CheckInCheckOutActions.checkOutRequest),
+  //     exhaustMap(({ payload }) =>
+  //       this.checkInCheckOutApiService.checkOut(payload).pipe(
+  //         map((response) =>
+  //           CheckInCheckOutActions.checkOutSuccess({ response })
+  //         ),
+  //         catchError((err) =>
+  //           of(
+  //             CheckInCheckOutActions.checkOutFailure({
+  //               error: err.message || 'Failed to Check Out',
+  //             })
+  //           )
+  //         )
+  //       )
+  //     )
+  //   )
+  // );
 }
