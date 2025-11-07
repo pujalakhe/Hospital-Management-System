@@ -15,6 +15,7 @@ export class DashboardComponent {
   openCheckInDialogBox() {
     this.dialog.open(CheckInCheckOutDialogBoxComponent, {
       width: DIALOG_WIDTH,
+      disableClose: true,
     });
   }
 }
