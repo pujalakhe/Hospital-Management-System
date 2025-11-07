@@ -29,4 +29,12 @@
   } @if(control.hasError('required')){
   <mat-error>{{ label }} is required</mat-error>
   }
+
+    @if(
+    control.parent?.hasError('passwordMismatch') &&
+    (control.touched || control.dirty) &&
+    (control.parent?.get('confirmPassword') === control)
+  ){
+  <mat-error>Passwords do not match</mat-error>
+  }
 </mat-form-field>
