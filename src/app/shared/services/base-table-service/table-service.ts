@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { BaseTableRequest, BaseTableResponse } from '../models/table-column.model';
+import { BaseTableRequest, BaseTableResponse } from '../../model/table-column.model';
 
 @Injectable({ providedIn: 'root' })
 export class BaseTableService {

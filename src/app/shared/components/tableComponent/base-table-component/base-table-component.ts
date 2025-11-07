@@ -29,7 +29,7 @@ import {
   SortDirection,
 } from '../constants/basetable.constant';
 import { FilterComponent } from '../../filter-component/filter.component';
-import { TableColumn } from '../models/table-column.model';
+import { TableColumn } from '../../../model/table-column.model';
 import { LoaderComponent } from '../../loader-component/loader-component';
 import { selectBaseTableLoading } from '../store/table.selectors';
 

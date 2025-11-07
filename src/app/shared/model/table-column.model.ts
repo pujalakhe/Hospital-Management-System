@@ -1,4 +1,4 @@
-import { ColumnType, SortDirection } from "../constants/basetable.constant";
+import { ColumnType, SortDirection } from "../components/tableComponent/constants/basetable.constant";
 
 export interface TableColumn<T> {
   field: keyof T | string;

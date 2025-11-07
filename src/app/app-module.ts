@@ -16,6 +16,7 @@ import {
 import { AuthInterceptor } from './core/auth-interceptor/auth-interceptor';
 import { apiNotificationInterceptor } from './core/api-notification-interceptor/api-notification-interceptor-interceptor';
 
+
 @NgModule({
   declarations: [App],
   imports: [
