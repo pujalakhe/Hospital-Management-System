@@ -11,4 +11,7 @@
   @if(control.hasError('required')){
   <mat-error> {{ label }} is required </mat-error>
   }
+@if (control.hasError('futureDateNotAllowed')) {
+  <mat-error>Future dates are not allowed</mat-error>
+}
 </mat-form-field>
