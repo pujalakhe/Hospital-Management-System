@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseFormService } from '../../../../../../shared/services/base-form-service/base-form-service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SignupRequest } from '../../models/signup.model';
-import { noFutureDateValidators } from '../../../../../../shared/validators/date-validators';
+import { noFutureDateValidator } from '../../../../../../shared/validators/date-validators';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,7 @@ export class SignupFormService extends BaseFormService {
         }),
         email: ['', [Validators.required, Validators.email]],
         citizenshipNo: ['', Validators.required],
-        dob: ['', [Validators.required, noFutureDateValidators]],
+        dob: ['', [Validators.required, noFutureDateValidator()]],
         departmentId: [0, Validators.required],
         role: [0, Validators.required],
         gender: [0, Validators.required],

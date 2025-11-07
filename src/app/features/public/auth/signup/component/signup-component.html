@@ -1,15 +1,15 @@
-<div
-  class="signup-form max-w-lg mx-auto bg-white rounded-2xl shadow-xl px-8 py-10 space-y-8 border border-gray-100"
->
+<div class=" max-w-5xl mx-auto bg-white rounded-3xl shadow-xl px-6 py-8 md:px-12 md:py-10 border border-gray-100">
+  <!-- Form Header -->
+  <app-form-header-component
+    [heading]="'Welcome'"
+    [subHeading]="'Create your account to get started'"
+    class="mb-8"
+  ></app-form-header-component>
 
-<app-form-header-component
-heading="Welcome",
-subHeading="Create your account to get started"
-></app-form-header-component>
-
-  <form [formGroup]="formService.form!" (ngSubmit)="onSubmit()" class="space-y-5">
-  
-    <div class="space-y-4">
+  <form [formGroup]="formService.form!" (ngSubmit)="onSubmit()" class="space-y-8">
+    
+    <!-- Personal Information -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <app-input-text
         [control]="formService.getControl('firstName')"
         label="First Name"
@@ -60,65 +60,59 @@ subHeading="Create your account to get started"
         label="Date of Birth"
         placeholder="Select your date of birth"
       ></app-input-date>
-    </div>
-
-    <div
-      formGroupName="address"
-      class="bg-gray-50 border border-gray-200 rounded-xl p-4 space-y-4"
-    >
-      <h3 class="text-gray-700 font-semibold text-sm mb-1">Address Details</h3>
 
       <app-input-text
-        [control]="formService.getAddressControl('name')"
-        label="Address Name"
-        placeholder="Enter address name"
-      ></app-input-text>
-
-      <app-input-select
-        [control]="formService.getAddressControl('countryId')"
-        [options]="(Countries$ | async) || []"
-        label="Country"
-        placeholder="Choose your country"
-      ></app-input-select>
-
-      <app-input-select
-        [control]="formService.getAddressControl('cityId')"
-        [options]="(Cities$ | async) || []"
-        label="City"
-        placeholder="Choose your city"
-      ></app-input-select>
-    
-    <app-input-text
         [control]="formService.getControl('nationality')"
         label="Nationality"
         placeholder="Enter your nationality"
       ></app-input-text>
-  </div>
+    </div>
 
-    <div>
-      <app-input-select
+    <!-- Address Section -->
+    <div formGroupName="address"  >
+      <h3 class="text-gray-700 font-semibold text-lg">Address Details</h3>
+
+      <app-input-text
+        [control]="formService.getAddressControl('name')"
+        label="Address Name"
+        placeholder="Enter your address name"
+      ></app-input-text>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <app-input-select
+          [control]="formService.getAddressControl('countryId')"
+          [options]="(Countries$ | async) || []"
+          label="Country"
+          placeholder="Choose your country"
+        ></app-input-select>
+
+        <app-input-select
+          [control]="formService.getAddressControl('cityId')"
+          [options]="(Cities$ | async) || []"
+          label="City"
+          placeholder="Choose your city"
+        ></app-input-select>
+
+        <app-input-select
         [control]="formService.getControl('departmentId')"
         [options]="(Departments$ | async) || []"
         label="Department"
         placeholder="Choose your department"
       ></app-input-select>
+      </div>
+    </div>
 
-      <!-- <app-input-select
-        [control]="formService.getControl('role')"
-        [options]="(Roles$ | async) || []"
-        label="Role"
-        placeholder="Choose your role"
-      ></app-input-select> -->
+    <!-- Employment Details -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
 
       <app-input-date
         [control]="formService.getControl('startDate')"
         label="Start Date"
         placeholder="Select your start date"
       ></app-input-date>
-    </div>
 
-    <div class="space-y-4">
-      <app-input-text
+       <app-input-text
         [control]="formService.getControl('password')"
         label="Password"
         placeholder="Enter password"
@@ -128,23 +122,27 @@ subHeading="Create your account to get started"
       <app-input-text
         [control]="formService.getControl('confirmPassword')"
         label="Confirm Password"
-        placeholder="Enter confirm password"
+        placeholder="Confirm your password"
         type="password"
       ></app-input-text>
+
     </div>
 
-    <div class="pt-2">
+  
+    <!-- Submit Button -->
+    <div class="pt-4">
       <button
         type="submit"
         mat-raised-button
         color="primary"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition duration-200"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-200"
       >
         Create Account
       </button>
     </div>
 
-    <p class="text-center text-gray-600 text-sm mt-4">
+    <!-- Login Link -->
+    <p class="text-center text-gray-600 text-sm mt-6">
       Already have an account?
       <a
         [routerLink]="['/' + ROUTER_PATHS.LOGIN]"
