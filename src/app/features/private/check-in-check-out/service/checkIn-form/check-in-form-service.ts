@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { BaseFormService } from '../../../../../shared/services/base-form-service/base-form-service';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class CheckInFormService extends BaseFormService {
+  buildCheckInForm() {
+    const config = {
+      checkInReason: ['', Validators.required],
+      workLocation: ['', Validators.required],
+    };
+
+    return this.buildForm(config);
+  }
+}
