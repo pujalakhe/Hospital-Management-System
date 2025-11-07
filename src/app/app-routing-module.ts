@@ -16,6 +16,13 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./features/private/change-password/change-password-module').then(
+        (m) => m.ChangePasswordModule
+      ),
+  },
 ];
 
 @NgModule({
