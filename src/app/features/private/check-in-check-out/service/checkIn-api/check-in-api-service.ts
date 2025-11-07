@@ -9,7 +9,6 @@ import { CheckInRequest, CheckInResponse } from '../../model/checkIn-model';
 })
 export class CheckInApiService {
   private checkInUrl = `${baseAttendanceApi}/Attendance/CheckIn`;
-  private checkOutUrl = `${baseAttendanceApi}/Attendance/CheckOut`;
 
   constructor(private httpClient: HttpClient) {}
 
