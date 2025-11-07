@@ -14,7 +14,6 @@ export const requestOtpFailure = createAction(
   props<{ error: string }>()
 );
 
-
 export const resetPassword = createAction(
   '[Reset Password] Reset Password',
   props<{ email: string; otp: string; newPassword: string }>()
