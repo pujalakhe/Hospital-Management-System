@@ -3,58 +3,52 @@ import * as ResetPasswordActions from './reset-password.action';
 
 export interface ResetPasswordState {
   sendOTPLoading: boolean;
-  sendOTPSuccess: boolean;
+  verifyOTPLoading: boolean;
   resetPasswordLoading: boolean;
-  resetPasswordSuccess: boolean;
+  success: boolean;
   error?: string | null;
 }
 
 export const initialState: ResetPasswordState = {
   sendOTPLoading: false,
-  sendOTPSuccess: false,
+  verifyOTPLoading: false,
   resetPasswordLoading: false,
-  resetPasswordSuccess: false,
+  success: false,
   error: null,
 };
 
 export const resetPasswordReducer = createReducer(
   initialState,
-
-  // Request OTP
   on(ResetPasswordActions.requestOtp, (state) => ({
     ...state,
     sendOTPLoading: true,
-    sendOTPSuccess: false,
-    error: null,
+    error: null
   })),
   on(ResetPasswordActions.requestOtpSuccess, (state) => ({
     ...state,
-    sendOTPLoading: false,
-    sendOTPSuccess: true,
+    sendOTPLoading: false
   })),
   on(ResetPasswordActions.requestOtpFailure, (state, { error }) => ({
     ...state,
     sendOTPLoading: false,
-    sendOTPSuccess: false,
-    error,
+    error
   })),
 
-  // Reset Password
+  
+
   on(ResetPasswordActions.resetPassword, (state) => ({
     ...state,
     resetPasswordLoading: true,
-    resetPasswordSuccess: false,
-    error: null,
+    error: null
   })),
   on(ResetPasswordActions.resetPasswordSuccess, (state) => ({
     ...state,
     resetPasswordLoading: false,
-    resetPasswordSuccess: true,
+    success: true
   })),
   on(ResetPasswordActions.resetPasswordFailure, (state, { error }) => ({
     ...state,
     resetPasswordLoading: false,
-    resetPasswordSuccess: false,
-    error,
+    error
   }))
 );

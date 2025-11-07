@@ -19,11 +19,7 @@ export class ResetPasswordApiService {
     return this.http.post(`${this.baseUrl}/Login/RequestOtp`, payload);
   }
 
-  resetPassword(payload: {
-    email: string;
-    newPassword: string;
-    otp: string;
-  }): Observable<any> {
+  resetPassword(payload: { email: string; message: string; otp: string }): Observable<any> {
     return this.http.post(`${this.baseUrl}/Login/ResetPassword`, payload);
   }
 }

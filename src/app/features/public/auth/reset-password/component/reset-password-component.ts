@@ -1,19 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ResetPasswordFormService } from '../services/reset-password-form-service/reset-password-form-service';
 import * as ResetPasswordActions from '../store/reset-password.action';
 import { ResetPasswordState } from '../store/reset-password.reducer';
 import {
   selectSendOTPLoading,
-  selectResetPasswordLoading,
-  selectSendOTPSuccess,
+  selectResetPasswordLoading
 } from '../store/reset-password.selector';
 
-import { filter, Observable } from 'rxjs';
-import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
-
-import { MatStepper } from '@angular/material/stepper';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
@@ -22,14 +18,14 @@ import { MatStepper } from '@angular/material/stepper';
   styleUrls: ['./reset-password-component.scss'],
 })
 export class ResetPasswordComponent implements OnInit {
-  @ViewChild('stepper') stepper!: MatStepper;
-
-  routerPaths = ROUTER_PATHS;
   emailForm!: FormGroup;
-  verifyForm!: FormGroup;
+  otpForm!: FormGroup;
+  passwordForm!: FormGroup;
 
   sendOTPLoading$!: Observable<boolean>;
-  resetPasswordLoading$!: Observable<boolean>;
+  verifyOTPLoading$!: Observable<boolean>;
+resetPasswordLoading$!: Observable<boolean>;
+  
 
   constructor(
     private formService: ResetPasswordFormService,
@@ -37,27 +33,21 @@ export class ResetPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.buildResetForm();
-    this.sendOTPLoading$ = this.store.select(selectSendOTPLoading);
-    this.resetPasswordLoading$ = this.store.select(selectResetPasswordLoading);
-
-    this.store
-      .select(selectSendOTPSuccess)
-      .pipe(filter((success) => success === true))
-      .subscribe(() => {
-        if (this.emailForm.valid) {
-          this.stepper.next();
-        }
-      });
-  }
-
-  buildResetForm(): void {
     this.emailForm = this.formService.buildEmailForm();
-    this.verifyForm = this.formService.buildVerifyForm();
+    this.otpForm = this.formService.buildOtpForm();
+    this.passwordForm = this.formService.buildPasswordForm();
+    this.sendOTPLoading$ = this.store.select(selectSendOTPLoading);
+    this.verifyOTPLoading$ = this.store.select(selectSendOTPLoading);
+    this.resetPasswordLoading$ = this.store.select(selectResetPasswordLoading);
   }
 
-  getControlFrom(form: FormGroup, controlName: string) {
-    return form.get(controlName) as FormControl;
+  getControl(name: string) {
+    return this.formService.getControl(
+      name,
+      this.emailForm,
+      this.otpForm,
+      this.passwordForm
+    );
   }
 
   onRequestOtp() {
@@ -67,9 +57,12 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
+  
+
   onResetPassword() {
-    if (this.verifyForm.valid) {
-      const { otp, newPassword } = this.verifyForm.value;
+    if (this.passwordForm.valid && this.otpForm.valid) {
+      const { newPassword } = this.passwordForm.value;
+      const { otp } = this.otpForm.value;
       const { email } = this.emailForm.value;
 
       this.store.dispatch(
