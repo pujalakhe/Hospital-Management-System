@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../../../../shared/angular-material.module';
 import { StoreModule } from '@ngrx/store';
-import { resetPasswordReducer} from './store/reset-password.reducer';
+import { resetPasswordReducer } from './store/reset-password.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { ResetPasswordComponent } from './component/reset-password-component';
 import { ResetPasswordEffects } from './store/reset-password.effect';
@@ -13,6 +13,7 @@ import { TextInputComponent } from '../../../../shared/components/inputs/text-in
 import { NoPasteDirective } from '../../../../shared/custom-directives/no-paste/no-paste-directive';
 import { LoaderComponent } from '../../../../shared/components/loader-component/loader-component';
 import { FormHeaderComponent } from '../../../../shared/components/form-header-component/form-header-component';
+import { RESET_PASSWORD_FEATURE_SELECTOR_KEY } from './store/reset-password.constant';
 
 @NgModule({
   declarations: [ResetPasswordComponent],
@@ -26,8 +27,9 @@ import { FormHeaderComponent } from '../../../../shared/components/form-header-c
     LoaderComponent,
     FormHeaderComponent,
     ResetPasswordRoutingModule,
-    StoreModule.forFeature('resetPassword', resetPasswordReducer),
-    EffectsModule.forFeature([ResetPasswordEffects])
-  ]
+    StoreModule.forFeature(RESET_PASSWORD_FEATURE_SELECTOR_KEY, resetPasswordReducer),
+    EffectsModule.forFeature(ResetPasswordEffects),
+  ],
 })
-export class ResetPasswordModule { }
+export class ResetPasswordModule {}
+

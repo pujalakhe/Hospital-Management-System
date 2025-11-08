@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ResetPasswordFormService } from '../services/reset-password-form-service/reset-password-form-service';
 import * as ResetPasswordActions from '../store/reset-password.action';
-import { ResetPasswordState } from '../store/reset-password.reducer';
 import {
   selectSendOTPLoading,
   selectResetPasswordLoading,
@@ -33,7 +32,7 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(
     private formService: ResetPasswordFormService,
-    private store: Store<{ resetPassword: ResetPasswordState }>
+    private store: Store
   ) {}
 
   ngOnInit() {
@@ -63,7 +62,9 @@ export class ResetPasswordComponent implements OnInit {
   onRequestOtp() {
     if (this.emailForm.valid) {
       const email = this.emailForm.value.email;
-      this.store.dispatch(ResetPasswordActions.requestOtp({ email }));
+      this.store.dispatch(
+        ResetPasswordActions.requestOtp({ payload: { email } })
+      );
     }
   }
 
@@ -74,11 +75,14 @@ export class ResetPasswordComponent implements OnInit {
 
       this.store.dispatch(
         ResetPasswordActions.resetPassword({
-          email,
-          otp,
-          newPassword,
+          payload: {
+            email,
+            otp,
+            newPassword,
+          },
         })
       );
     }
   }
 }
+

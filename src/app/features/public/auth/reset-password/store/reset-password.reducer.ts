@@ -6,7 +6,7 @@ export interface ResetPasswordState {
   sendOTPSuccess: boolean;
   resetPasswordLoading: boolean;
   resetPasswordSuccess: boolean;
-  error?: string | null;
+  error: string | null;
 }
 
 export const initialState: ResetPasswordState = {
@@ -27,11 +27,13 @@ export const resetPasswordReducer = createReducer(
     sendOTPSuccess: false,
     error: null,
   })),
+
   on(ResetPasswordActions.requestOtpSuccess, (state) => ({
     ...state,
     sendOTPLoading: false,
     sendOTPSuccess: true,
   })),
+
   on(ResetPasswordActions.requestOtpFailure, (state, { error }) => ({
     ...state,
     sendOTPLoading: false,
@@ -46,11 +48,13 @@ export const resetPasswordReducer = createReducer(
     resetPasswordSuccess: false,
     error: null,
   })),
+
   on(ResetPasswordActions.resetPasswordSuccess, (state) => ({
     ...state,
     resetPasswordLoading: false,
     resetPasswordSuccess: true,
   })),
+
   on(ResetPasswordActions.resetPasswordFailure, (state, { error }) => ({
     ...state,
     resetPasswordLoading: false,
@@ -58,3 +62,4 @@ export const resetPasswordReducer = createReducer(
     error,
   }))
 );
+

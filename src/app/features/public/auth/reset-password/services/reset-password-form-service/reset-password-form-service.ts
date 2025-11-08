@@ -7,7 +7,6 @@ import { passwordStrengthValidator } from '../../../../../../shared/validators/p
   providedIn: 'root',
 })
 export class ResetPasswordFormService extends BaseFormService {
-
   buildEmailForm() {
     const config = {
       email: ['', [Validators.required, Validators.email]],
@@ -36,3 +35,4 @@ export class ResetPasswordFormService extends BaseFormService {
     return pass === confirm ? null : { passwordMismatch: true };
   }
 }
+

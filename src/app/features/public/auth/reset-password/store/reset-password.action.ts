@@ -1,29 +1,35 @@
 import { createAction, props } from '@ngrx/store';
+import { RequestOtpRequest, ResetPasswordRequest } from '../model/reset-password.model';
+import {
+  REQUEST_OTP,
+  REQUEST_OTP_FAILURE,
+  REQUEST_OTP_SUCCESS,
+  RESET_PASSWORD,
+  RESET_PASSWORD_FAILURE,
+  RESET_PASSWORD_SUCCESS,
+} from './reset-password.constant';
 
 export const requestOtp = createAction(
-  '[Reset Password] Request OTP',
-  props<{ email: string }>()
+  REQUEST_OTP,
+  props<{ payload: RequestOtpRequest }>()
 );
 
-export const requestOtpSuccess = createAction(
-  '[Reset Password] Request OTP Success'
-);
+export const requestOtpSuccess = createAction(REQUEST_OTP_SUCCESS);
 
 export const requestOtpFailure = createAction(
-  '[Reset Password] Request OTP Failure',
+  REQUEST_OTP_FAILURE,
   props<{ error: string }>()
 );
 
 export const resetPassword = createAction(
-  '[Reset Password] Reset Password',
-  props<{ email: string; otp: string; newPassword: string }>()
+  RESET_PASSWORD,
+  props<{ payload: ResetPasswordRequest }>()
 );
 
-export const resetPasswordSuccess = createAction(
-  '[Reset Password] Reset Password Success'
-);
+export const resetPasswordSuccess = createAction(RESET_PASSWORD_SUCCESS);
 
 export const resetPasswordFailure = createAction(
-  '[Reset Password] Reset Password Failure',
+  RESET_PASSWORD_FAILURE,
   props<{ error: string }>()
 );
+
