@@ -1,2 +1,5 @@
 <p>dashboard-component works!</p>
-<button mat-flat-button (click)="openCheckInDialogBox()">Check In</button>
+<button mat-flat-button (click)="openCheckInDialogBox()">
+  {{ (checkInStatus$ | async) ? "Check Out" : "Check In" }}
+  {{ checkInStatus$ | async | json }}
+</button>
