@@ -13,10 +13,7 @@ export class SignupFormService extends BaseFormService {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       middleName: [''],
-      mobileNo: [
-        '',
-        [Validators.required, Validators.pattern(REGEX.MOBILE_NUMBER)],
-      ],
+      mobileNo: ['', [Validators.required, Validators.minLength(10)]],
       address: this.formBuilder.group({
         name: ['', Validators.required],
         countryId: [null, Validators.required],

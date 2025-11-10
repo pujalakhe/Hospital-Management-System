@@ -1,8 +1,8 @@
-import { TransformObjectPipe } from './transform-object-pipe';
+import { TransformRolePipe } from './transform-object-pipe';
 
-describe('TransformObjectPipe', () => {
+describe('TransformRolePipe', () => {
   it('create an instance', () => {
-    const pipe = new TransformObjectPipe();
+    const pipe = new TransformRolePipe();
     expect(pipe).toBeTruthy();
   });
 });

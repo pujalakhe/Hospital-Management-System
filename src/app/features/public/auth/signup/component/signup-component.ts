@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SignupFormService } from '../service/form/signup-form-service';
 import { Store } from '@ngrx/store';
-import { SignupApiService } from '../service/api/signup-api-service';
 import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
 import { selectAllCountries } from '../../../../../shared/store/country-list/countryList.selector';
 import { Observable, of, Subject, takeUntil } from 'rxjs';
@@ -22,6 +21,8 @@ import { loadGenderList } from '../../../../../shared/store/gender-list/genderLi
 import { selectGenderList } from '../../../../../shared/store/gender-list/genderList.selector';
 import { Gender } from '../../../../../shared/model/gender.model';
 import { Address } from '../models/signup.model';
+import { selectSignupLoading } from '../store/signup.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup-component',
@@ -33,21 +34,21 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     public formService: SignupFormService,
     private store: Store,
-    private signupApiService: SignupApiService
+    private router: Router
   ) {}
   signupForm?: FormGroup;
-  ROUTER_PATHS = ROUTER_PATHS;
   countries$: Observable<Country[]> = of([]);
   cities$: Observable<City[]> = of([]);
   departments$: Observable<Department[]> = of([]);
   roles$: Observable<Role[]> = of([]);
   genders$: Observable<Gender[]> = of([]);
   private destroy$ = new Subject<void>();
-
+  loading$!: Observable<boolean>;
   ngOnInit(): void {
     this.initializeForm();
     this.LoadAllCountriesDepartmentRoleGender();
     this.loadCountryBasedOnCity();
+    this.store.select(selectSignupLoading);
   }
 
   private LoadAllCountriesDepartmentRoleGender() {
@@ -106,5 +107,8 @@ export class SignupComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+  navigateTo() {
+    this.router.navigate([ROUTER_PATHS.LOGIN]);
   }
 }

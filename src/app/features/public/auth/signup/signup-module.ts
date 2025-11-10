@@ -30,6 +30,7 @@ import { TransformRolePipe } from '../../../../shared/pipes/transform-object/tra
 import { GENDER_FEATURE_SELECTOR_KEY } from '../../../../shared/store/gender-list/genderList.constant';
 import { GenderEffects } from '../../../../shared/store/gender-list/genderList.effect';
 import { genderReducer } from '../../../../shared/store/gender-list/genderList.reducer';
+import { LoaderComponent } from '../../../../shared/components/loader-component/loader-component';
 
 @NgModule({
   declarations: [SignupComponent],
@@ -44,6 +45,7 @@ import { genderReducer } from '../../../../shared/store/gender-list/genderList.r
     DateInputComponent,
     FormHeaderComponent,
     TransformRolePipe,
+    LoaderComponent,
     StoreModule.forFeature(SIGNUP_FEATURE_SELECTOR_KEY, signupReducer),
     StoreModule.forFeature(CITY_FEATURE_SELECTOR_KEY, cityReducer),
     StoreModule.forFeature(COUNTRY_FEATURE_SELECTOR_KEY, countryReducer),
