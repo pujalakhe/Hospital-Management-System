@@ -8,8 +8,9 @@ import { Validators } from '@angular/forms';
 export class CheckInCheckOutFormService extends BaseFormService {
   buildCheckInCheckOutForm() {
     const config = {
-      checkInReason: ['', Validators.required],
-      workLocation: ['', Validators.required],
+      checkInReason: [''],
+      workLocation: [''],
+      checkOutReason: [''],
     };
 
     return this.buildForm(config);
