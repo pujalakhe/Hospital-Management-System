@@ -11,4 +11,7 @@
   @if(control.hasError('required')){
   <mat-error> {{ label }} is required </mat-error>
   }
+@if(control.hasError('minAgeNotMet')){
+    <mat-error> You must be at least {{ control.errors?.['minAgeNotMet'].requiredAge }} years old</mat-error>
+}
 </mat-form-field>

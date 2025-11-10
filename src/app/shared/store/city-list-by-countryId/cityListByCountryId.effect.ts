@@ -5,7 +5,7 @@ import * as CityActions from './cityListByCountryId.action';
 import { CityListByCountryIdService } from '../../services/api-service/city-list-by-countryId-api/city-list-by-country-id-service';
 
 @Injectable()
-export class CityEffects {
+export class CityByCountryIdEffects {
   private actions$ = inject(Actions);
 
   constructor(private cityListService: CityListByCountryIdService) {}
