@@ -33,7 +33,7 @@ export class LoginComponent {
     this.error$ = this.store.select(selectError);
   }
 
-  buildLoginForm() {
+  buildLoginForm(): void {
     this.loginForm = this.loginFormService.buildLoginForm();
   }
 
@@ -50,7 +50,7 @@ export class LoginComponent {
     }
   }
 
-  navigateTo() {
+  navigateTo(): void {
     this.router.navigate([ROUTER_PATHS.SIGNUP]);
   }
 }
