@@ -2,11 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ROUTER_PATHS } from '../../../core/constants/router-path.constant';
 
-<<<<<<< HEAD
-const { SIGNUP, RESET_PASSWORD } = ROUTER_PATHS;
-=======
 const { RESET_PASSWORD, SIGNUP } = ROUTER_PATHS;
->>>>>>> 6b581f8abe0fcaf6ad1ff16495cbaaf1ee0f827d
 
 const routes: Routes = [
   {
@@ -17,7 +13,9 @@ const routes: Routes = [
   {
     path: RESET_PASSWORD,
     loadChildren: () =>
-      import('./reset-password/reset-password-module').then((m) => m.ResetPasswordModule),
+      import('./reset-password/reset-password-module').then(
+        (m) => m.ResetPasswordModule
+      ),
   },
 
   {
