@@ -5,8 +5,9 @@ import {
   CheckInResponse,
   CheckOutRequest,
   CheckOutResponse,
+  statusResponse,
 } from '../../model/check-in-check-out-model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { baseAttendanceApi } from '../../../../../../environment';
 
 @Injectable({
@@ -16,6 +17,9 @@ export class CheckInCheckOutApiService {
   private checkInUrl = `${baseAttendanceApi}/Attendance/CheckIn`;
 
   private checkOutUrl = `${baseAttendanceApi}/Attendance/CheckOut`;
+
+  private statusUrl = `${baseAttendanceApi}/Attendance/CheckCheckInStatus`;
+
   constructor(private httpClient: HttpClient) {}
 
   checkIn(payload: CheckInRequest): Observable<CheckInResponse> {
@@ -24,5 +28,9 @@ export class CheckInCheckOutApiService {
 
   checkOut(payload: CheckOutRequest): Observable<CheckOutResponse> {
     return this.httpClient.post<CheckOutResponse>(this.checkOutUrl, payload);
+  }
+
+  getCheckInStatus(): Observable<statusResponse> {
+    return this.httpClient.get<statusResponse>(this.statusUrl);
   }
 }

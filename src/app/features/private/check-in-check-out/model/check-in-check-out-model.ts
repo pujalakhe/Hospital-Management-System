@@ -18,3 +18,9 @@ export interface CheckOutResponse {
   message: string;
   data: string;
 }
+
+export interface statusResponse {
+  result: number;
+  message: string;
+  data: boolean;
+}
