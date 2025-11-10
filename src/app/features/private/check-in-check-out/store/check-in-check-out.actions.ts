@@ -7,6 +7,9 @@ import {
 import {
   CHECK_IN_FAILURE,
   CHECK_IN_REQUEST,
+  CHECK_IN_STATUS,
+  CHECK_IN_STATUS_FAILURE,
+  CHECK_IN_STATUS_SUCCESS,
   CHECK_IN_SUCCESS,
   CHECK_OUT_FAILURE,
   CHECK_OUT_REQUEST,
@@ -40,5 +43,15 @@ export const checkOutSuccess = createAction(
 
 export const checkOutFailure = createAction(
   CHECK_OUT_FAILURE,
+  props<{ error: string }>()
+);
+
+export const loadCheckInStatusRequest = createAction(CHECK_IN_STATUS);
+export const loadCheckInStatusSuccess = createAction(
+  CHECK_IN_STATUS_SUCCESS,
+  props<{ isCheckedIn: boolean }>()
+);
+export const loadCheckInStatusFailure = createAction(
+  CHECK_IN_STATUS_FAILURE,
   props<{ error: string }>()
 );

@@ -1,27 +1,25 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, tap, exhaustMap } from 'rxjs';
+import { catchError, map, of, mergeMap, exhaustMap } from 'rxjs';
 
-import * as CheckInCheckOutActions from './check-in-check-out.actions';
+import * as AttendanceActions from './check-in-check-out.actions';
 import { CheckInCheckOutApiService } from '../service/check-in-check-out-api-service/check-in-check-out-api-service';
 
 @Injectable()
-export class CheckInEffects {
+export class CheckInCheckOutEffects {
   private actions$ = inject(Actions);
   private checkInCheckOutApiService = inject(CheckInCheckOutApiService);
 
   // API call effect
   checkIn$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CheckInCheckOutActions.checkInRequest),
+      ofType(AttendanceActions.checkInRequest),
       exhaustMap(({ payload }) =>
         this.checkInCheckOutApiService.checkIn(payload).pipe(
-          map((response) =>
-            CheckInCheckOutActions.checkInSuccess({ response })
-          ),
+          map((response) => AttendanceActions.checkInSuccess({ response })),
           catchError((err) =>
             of(
-              CheckInCheckOutActions.checkInFailure({
+              AttendanceActions.checkInFailure({
                 error: err.message || 'Failed to Check In',
               })
             )
@@ -50,4 +48,26 @@ export class CheckInEffects {
   //     )
   //   )
   // );
+
+  loadCheckInStatus$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AttendanceActions.loadCheckInStatusRequest),
+      mergeMap(() =>
+        this.checkInCheckOutApiService.getCheckInStatus().pipe(
+          map((response) =>
+            AttendanceActions.loadCheckInStatusSuccess({
+              isCheckedIn: response.data,
+            })
+          ),
+          catchError((error) =>
+            of(
+              AttendanceActions.loadCheckInStatusFailure({
+                error: error.message || 'Error',
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 }
