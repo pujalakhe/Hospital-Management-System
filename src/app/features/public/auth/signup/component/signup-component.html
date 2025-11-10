@@ -7,7 +7,7 @@
     class="mb-8"
   ></app-form-header-component>
 
-  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-8">
+  <form [formGroup]="signupForm" appAutoFocusInput [appAutoFocusInvalid]="signupForm" (ngSubmit)="onSubmit()" class="space-y-8">
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <app-input-text
@@ -128,6 +128,7 @@
         label="Confirm Password"
         placeholder="Confirm your password"
         type="password"
+        appNoPaste
       ></app-input-text>
     </div>
 
