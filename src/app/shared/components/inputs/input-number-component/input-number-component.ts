@@ -14,4 +14,5 @@ export class InputNumberComponent {
   @Input({ required: true }) label?: string;
   @Input({ required: true }) placeholder: string = '';
   @Input({}) min?: number;
+  @Input() type: 'number' | 'text' = 'number';
 }
