@@ -19,7 +19,7 @@ export interface AttendanceState {
   loading: boolean;
   checkInResponse: CheckInResponse | null;
   checkOutResponse: CheckOutResponse | null;
-  isCheckedIn: boolean;
+  checkInStatus: boolean;
   error: string | null;
 }
 
@@ -27,7 +27,7 @@ export const initialState: AttendanceState = {
   loading: false,
   checkInResponse: null,
   checkOutResponse: null,
-  isCheckedIn: false,
+  checkInStatus: false,
   error: null,
 };
 export const checkInCheckOutReducer = createReducer(
@@ -65,10 +65,10 @@ export const checkInCheckOutReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(loadCheckInStatusSuccess, (state, { isCheckedIn }) => ({
+  on(loadCheckInStatusSuccess, (state, { checkInStatus }) => ({
     ...state,
     loading: false,
-    isCheckedIn,
+    checkInStatus,
   })),
   on(loadCheckInStatusFailure, (state, { error }) => ({
     ...state,

@@ -29,25 +29,23 @@ export class CheckInCheckOutEffects {
     )
   );
 
-  // checkOut$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(CheckInCheckOutActions.checkOutRequest),
-  //     exhaustMap(({ payload }) =>
-  //       this.checkInCheckOutApiService.checkOut(payload).pipe(
-  //         map((response) =>
-  //           CheckInCheckOutActions.checkOutSuccess({ response })
-  //         ),
-  //         catchError((err) =>
-  //           of(
-  //             CheckInCheckOutActions.checkOutFailure({
-  //               error: err.message || 'Failed to Check Out',
-  //             })
-  //           )
-  //         )
-  //       )
-  //     )
-  //   )
-  // );
+  checkOut$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AttendanceActions.checkOutRequest),
+      exhaustMap(({ payload }) =>
+        this.checkInCheckOutApiService.checkOut(payload).pipe(
+          map((response) => AttendanceActions.checkOutSuccess({ response })),
+          catchError((err) =>
+            of(
+              AttendanceActions.checkOutFailure({
+                error: err.message || 'Failed to Check Out',
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 
   loadCheckInStatus$ = createEffect(() =>
     this.actions$.pipe(
@@ -56,7 +54,7 @@ export class CheckInCheckOutEffects {
         this.checkInCheckOutApiService.getCheckInStatus().pipe(
           map((response) =>
             AttendanceActions.loadCheckInStatusSuccess({
-              isCheckedIn: response.data,
+              checkInStatus: response.data,
             })
           ),
           catchError((error) =>

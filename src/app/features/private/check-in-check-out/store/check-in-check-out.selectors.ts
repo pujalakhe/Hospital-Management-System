@@ -15,7 +15,7 @@ export const selectError = createSelector(
   (s) => s.error
 );
 
-export const selectIsCheckedIn = createSelector(
+export const selectCheckedInStatus = createSelector(
   selectAttendanceState,
-  (state) => state.isCheckedIn
+  (state) => state.checkInStatus
 );

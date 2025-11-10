@@ -49,7 +49,7 @@ export const checkOutFailure = createAction(
 export const loadCheckInStatusRequest = createAction(CHECK_IN_STATUS);
 export const loadCheckInStatusSuccess = createAction(
   CHECK_IN_STATUS_SUCCESS,
-  props<{ isCheckedIn: boolean }>()
+  props<{ checkInStatus: boolean }>()
 );
 export const loadCheckInStatusFailure = createAction(
   CHECK_IN_STATUS_FAILURE,
