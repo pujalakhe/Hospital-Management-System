@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { SignupState } from './signup.reducer';
+import { SignupState } from './signup.state';
 import { SIGNUP_FEATURE_SELECTOR_KEY } from '../constants/signup.constant';
 
 export const selectSignupState = createFeatureSelector<SignupState>(

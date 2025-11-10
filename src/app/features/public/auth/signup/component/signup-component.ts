@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { SignupFormService } from '../service/form/signup-form-service';
 import { Store } from '@ngrx/store';
 import { SignupApiService } from '../service/api/signup-api-service';
@@ -21,6 +21,7 @@ import { signup } from '../store/signup.actions';
 import { loadGenderList } from '../../../../../shared/store/gender-list/genderList.action';
 import { selectGenderList } from '../../../../../shared/store/gender-list/genderList.selector';
 import { Gender } from '../../../../../shared/model/gender.model';
+import { Address } from '../models/signup.model';
 
 @Component({
   selector: 'app-signup-component',
@@ -34,60 +35,76 @@ export class SignupComponent implements OnInit, OnDestroy {
     private store: Store,
     private signupApiService: SignupApiService
   ) {}
+  signupForm?: FormGroup;
   ROUTER_PATHS = ROUTER_PATHS;
-  Countries$: Observable<Country[]> = of([]);
-  Cities$: Observable<City[]> = of([]);
-  Departments$: Observable<Department[]> = of([]);
-  Roles$: Observable<Role[]> = of([]);
-  Genders$: Observable<Gender[]> = of([]);
+  countries$: Observable<Country[]> = of([]);
+  cities$: Observable<City[]> = of([]);
+  departments$: Observable<Department[]> = of([]);
+  roles$: Observable<Role[]> = of([]);
+  genders$: Observable<Gender[]> = of([]);
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
     this.initializeForm();
+    this.LoadAllCountriesDepartmentRoleGender();
+    this.loadCountryBasedOnCity();
+  }
 
+  private LoadAllCountriesDepartmentRoleGender() {
     this.store.dispatch(loadCountries());
-    this.Countries$ = this.store.select(selectAllCountries);
+    this.countries$ = this.store.select(selectAllCountries);
 
     this.store.dispatch(loadDepartments());
-    this.Departments$ = this.store.select(selectAllDepartment);
+    this.departments$ = this.store.select(selectAllDepartment);
 
     this.store.dispatch(loadRole());
-    this.Roles$ = this.store.select(selectAllRole);
+    this.roles$ = this.store.select(selectAllRole);
 
     this.store.dispatch(loadGenderList());
-    this.Genders$ = this.store.select(selectGenderList);
+    this.genders$ = this.store.select(selectGenderList);
+  }
+  private initializeForm(): void {
+    this.signupForm = this.formService.buildSignupForm();
+  }
 
-    const countryControl = this.formService.getAddressControl('countryId');
+  private loadCountryBasedOnCity() {
+    const countryControl = this.getAddressControl('countryId');
     if (countryControl) {
       countryControl.valueChanges
         .pipe(takeUntil(this.destroy$))
         .subscribe((countryId: number) => {
-          const cityControl = this.formService.getAddressControl('cityId');
+          const cityControl = this.getAddressControl('cityId');
           cityControl?.reset();
 
           if (countryId) {
             this.store.dispatch(loadCitiesByCountry({ countryId }));
-            this.Cities$ = this.store.select(selectAllCities);
+            this.cities$ = this.store.select(selectAllCities);
           }
         });
     }
   }
-  private initializeForm(): void {
-    this.formService.buildSignupForm();
-  }
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
   onSubmit(): void {
-    const form = this.formService.form;
-    if (!form || form.invalid) {
+    if (!this.signupForm || this.signupForm.invalid) {
       this.formService.applyTouchAndDirtyToForm();
       return;
     }
 
-    const payload = this.formService.getFormValue();
+    const payload = this.signupForm.value;
     this.store.dispatch(signup({ payload }));
+    this.formService.resetForm();
+  }
+
+  getControl(controlName: string): FormControl {
+    return this.signupForm?.get(controlName) as FormControl;
+  }
+
+  getAddressControl(controlName: keyof Address): FormControl {
+    return this.signupForm?.get('address.' + controlName) as FormControl;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

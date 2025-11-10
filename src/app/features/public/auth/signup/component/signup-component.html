@@ -1,4 +1,5 @@
-<div class=" max-w-5xl mx-auto bg-white rounded-3xl shadow-xl px-6 py-8 md:px-12 md:py-10 border border-gray-100">
+@if(signupForm){
+  <div class=" max-w-5xl mx-auto bg-white rounded-3xl shadow-xl px-6 py-8 md:px-12 md:py-10 border border-gray-100">
 
   <app-form-header-component
     [heading]="'Welcome'"
@@ -6,61 +7,61 @@
     class="mb-8"
   ></app-form-header-component>
 
-  <form [formGroup]="formService.form!" (ngSubmit)="onSubmit()" class="space-y-8">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-8">
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <app-input-text
-        [control]="formService.getControl('firstName')"
+        [control]="getControl('firstName')"
         label="First Name"
         placeholder="Enter your first name"
       ></app-input-text>
 
       <app-input-text
-        [control]="formService.getControl('middleName')"
+        [control]="getControl('middleName')"
         label="Middle Name"
         placeholder="Enter your middle name"
       ></app-input-text>
 
       <app-input-text
-        [control]="formService.getControl('lastName')"
+        [control]="getControl('lastName')"
         label="Last Name"
         placeholder="Enter your last name"
       ></app-input-text>
 
       <app-input-text
-        [control]="formService.getControl('email')"
+        [control]="getControl('email')"
         label="Email"
         placeholder="Enter your email"
         type="email"
       ></app-input-text>
 
       <app-input-number-component
-        [control]="formService.getControl('mobileNo')"
+        [control]="getControl('mobileNo')"
         label="Mobile Number"
         placeholder="Enter your mobile number"
       ></app-input-number-component>
 
       <app-input-select
-        [control]="formService.getControl('gender')"
-        [options]="(Genders$ | async) || []"
+        [control]="getControl('gender')"
+        [options]="(genders$ | async) || []"
         label="Gender"
         placeholder="Select gender"
       ></app-input-select>
 
       <app-input-text
-        [control]="formService.getControl('citizenshipNo')"
+        [control]="getControl('citizenshipNo')"
         label="Citizenship No"
         placeholder="Enter your citizenship number"
       ></app-input-text>
 
       <app-input-date
-        [control]="formService.getControl('dob')"
+        [control]="getControl('dob')"
         label="Date of Birth"
         placeholder="Select your date of birth"
       ></app-input-date>
 
       <app-input-text
-        [control]="formService.getControl('nationality')"
+        [control]="getControl('nationality')"
         label="Nationality"
         placeholder="Enter your nationality"
       ></app-input-text>
@@ -70,37 +71,37 @@
       <h3 class="text-gray-700 font-semibold text-lg">Address Details</h3>
 
       <app-input-text
-        [control]="formService.getAddressControl('name')"
+        [control]="getAddressControl('name')"
         label="Address"
         placeholder="Enter your address name"
       ></app-input-text>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <app-input-select
-          [control]="formService.getAddressControl('countryId')"
-          [options]="(Countries$ | async) || []"
+          [control]="getAddressControl('countryId')"
+          [options]="(countries$ | async) || []"
           label="Country"
           placeholder="Choose your country"
         ></app-input-select>
 
         <app-input-select
-          [control]="formService.getAddressControl('cityId')"
-          [options]="(Cities$ | async) || []"
+          [control]="getAddressControl('cityId')"
+          [options]="(cities$ | async) || []"
           label="City"
           placeholder="Choose your city"
         ></app-input-select>
 
         <app-input-select
-        [control]="formService.getControl('departmentId')"
-        [options]="(Departments$ | async) || []"
+        [control]="getControl('departmentId')"
+        [options]="(departments$ | async) || []"
         label="Department"
         placeholder="Choose your department"
       ></app-input-select>
       </div>
       
       <app-input-select
-        [control]="formService.getControl('role')"
-        [options]="((Roles$ | async) || []) | transformRole"
+        [control]="getControl('role')"
+        [options]="((roles$ | async) || []) | transformRole"
         label="Role"
         placeholder="Choose role"
       ></app-input-select>
@@ -108,27 +109,25 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       
-
       <app-input-date
-        [control]="formService.getControl('startDate')"
+        [control]="getControl('startDate')"
         label="Start Date"
         placeholder="Select your start date"
       ></app-input-date>
 
        <app-input-text
-        [control]="formService.getControl('password')"
+        [control]="getControl('password')"
         label="Password"
         placeholder="Enter password"
         type="password"
       ></app-input-text>
 
       <app-input-text
-        [control]="formService.getControl('confirmPassword')"
+        [control]="getControl('confirmPassword')"
         label="Confirm Password"
         placeholder="Confirm your password"
         type="password"
       ></app-input-text>
-
     </div>
 
     <div class="pt-4">
@@ -153,3 +152,5 @@
     </p>
   </form>
 </div>
+
+}

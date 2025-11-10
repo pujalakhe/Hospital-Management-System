@@ -1,13 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as signupAction from './signup.actions';
-import { SignupResponse } from '../models/signup.model';
-
-export interface SignupState {
-  loading: boolean;
-  successMessage: string | null;
-  data: boolean | null;
-  error: string | null;
-}
+import { SignupState } from './signup.state';
 
 export const initialSignupState: SignupState = {
   loading: false,
