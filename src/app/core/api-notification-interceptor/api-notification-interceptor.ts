@@ -19,14 +19,15 @@ export const apiNotificationInterceptor: HttpInterceptorFn = (req, next) => {
         const { result, message } = event.body as ApiResponse<any>;
 
         switch (result) {
+          case ResultType.Failure:
+            snackbarService.error(message);
+            break;
           case ResultType.Success1 ||
             ResultType.Success2 ||
             ResultType.Success3:
             snackbarService.success(message);
             break;
-          case ResultType.Failure:
-            snackbarService.error(message);
-            break;
+
           default:
             snackbarService.info(message);
             break;
