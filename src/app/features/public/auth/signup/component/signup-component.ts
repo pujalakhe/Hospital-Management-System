@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   roles$: Observable<Role[]> = of([]);
   genders$: Observable<Gender[]> = of([]);
   private destroy$ = new Subject<void>();
-  loading$!: Observable<boolean>;
+  loading$?: Observable<boolean>;
   ngOnInit(): void {
     this.initializeForm();
     this.LoadAllCountriesDepartmentRoleGender();
@@ -90,10 +90,8 @@ export class SignupComponent implements OnInit, OnDestroy {
       this.signupFormService.applyTouchAndDirtyToForm();
       return;
     }
-
     const payload = this.signupForm.value;
     this.store.dispatch(signup({ payload }));
-    this.signupFormService.resetForm();
   }
 
   getControl(controlName: string): FormControl {

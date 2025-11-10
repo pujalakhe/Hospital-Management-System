@@ -132,22 +132,22 @@
       ></app-input-text>
     </div>
 
-    <div class="pt-4">
-      <button
-        type="submit"
-        mat-flat-button
-        color="primary"
-        class=" w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-200 cursor-pointer"
-      >
-      @if (!(loading$ | async)) {
-        <span class="flex items-center justify-center">   Create Account</span>
-        } @else {
-        <app-loader-component></app-loader-component>
-        }
-      </button>
-    </div>
+    <div class="pt-4 flex justify-center">
+    <button
+  type="submit"
+  mat-flat-button
+  color="primary"
+  class="flex items-center justify-center px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-200 cursor-pointer"
+>
+  @if (!(loading$ | async)) {
+    <span>Create Account</span>
+  } @else {
+    <app-loader-component></app-loader-component>
+  }
+</button>
+ </div>
 
-    <p class="text-center text-gray-600 text-sm mt-6">
+    <p class="text-center text-gray-600 text-sm mt-3">
       Already have an account?
       <a mat-button 
         click="navigateTo()"
