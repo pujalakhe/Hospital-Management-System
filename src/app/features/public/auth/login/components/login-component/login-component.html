@@ -1,7 +1,3 @@
-@if( (loading$ | async)){
-<app-loader-component></app-loader-component>
-} @if(!(loading$ | async)){
-
 <div
   class="min-h-screen flex items-center justify-center bg-gradient-to-br from-brand-50 to-white px-4"
 >
@@ -15,7 +11,13 @@
 
     @if(loginForm ){
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      class="space-y-4"
+      appAutoFocusInput
+      [appAutoFocusInvalid]="loginForm"
+    >
       <app-input-text
         [control]="getControl('email')"
         [label]="'Email'"
@@ -36,22 +38,24 @@
       </div>
 
       <button
-        mat-raised-button
+        mat-flat-button
         color="primary"
         class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 sm:py-3 mt-3"
+        [disabled]="loading$ | async"
         type="submit"
       >
-        Login
+        @if (!(loading$ | async)) {
+        <span class="flex items-center justify-center">Login</span>
+        } @else {
+        <app-loader-component></app-loader-component>
+        }
       </button>
 
-      <div class="flex justify-center text-sm text-gray-600 gap-1">
-        <p class="hover:underline">Don't have an account yet?</p>
-        <a class="hover:underline text-blue-600" (click)="navigateTo()"
-          >Sign up</a
-        >
+      <div class="flex justify-center items-center text-sm text-gray-600 gap-1">
+        <p>Don't have an account yet?</p>
+        <a matButton (click)="navigateTo()"> Sign up </a>
       </div>
     </form>
     }
   </mat-card>
 </div>
-}
