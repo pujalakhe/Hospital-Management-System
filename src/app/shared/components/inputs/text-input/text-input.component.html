@@ -29,4 +29,17 @@
   } @if(control.hasError('required')){
   <mat-error>{{ label }} is required</mat-error>
   }
+
+    @if(
+    control.parent?.hasError('passwordMismatch') &&
+    (control.touched || control.dirty) &&
+    (control.parent?.get('confirmPassword') === control)
+  ){
+  <mat-error>Passwords do not match</mat-error>
+  }
+  @if(control.hasError('pattern')){
+      <mat-error>
+    Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and be at least 6 characters long
+  </mat-error>
+  }
 </mat-form-field>

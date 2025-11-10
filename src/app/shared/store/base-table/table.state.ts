@@ -1,5 +1,5 @@
-import { DEFAULT_TOTAL, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '../constants/basetable.constant';
-import { BaseTableState } from "../models/table-column.model";
+import { DEFAULT_TOTAL, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '../../constants/basetable.constant';
+import { BaseTableState } from "../../model/table-column.model";
 
 
 export const initialState: BaseTableState = {
