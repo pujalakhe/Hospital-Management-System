@@ -1,14 +1,18 @@
-<h2 mat-dialog-title>Check In</h2>
+<h2 mat-dialog-title>
+  {{ (checkInStatus$ | async) ? "Check Out" : "Check In" }}
+</h2>
 
-@if(checkInForm){
+@if(checkInCheckOutForm){
 
 <form
-  [formGroup]="checkInForm"
+  [formGroup]="checkInCheckOutForm"
   appAutoFocusInput
-  [appAutoFocusInvalid]="checkInForm"
+  [appAutoFocusInvalid]="checkInCheckOutForm"
   (ngSubmit)="onSubmit()"
 >
   <mat-dialog-content class="space-y-4">
+    @if(!(checkInStatus$ | async)){
+
     <app-input-text
       [control]="getControl('checkInReason')"
       [label]="'Check In Reason'"
@@ -21,6 +25,13 @@
       [placeholder]="''"
       [options]="workLocationOptions"
     ></app-input-select>
+    } @else {
+    <app-input-text
+      [control]="getControl('checkOutReason')"
+      [label]="'Check Out Reason'"
+      [placeholder]="''"
+    ></app-input-text>
+    }
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
@@ -28,7 +39,9 @@
     <button mat-flat-button type="submit" [disabled]="loading$ | async">
       @if(!(loading$|async)){
 
-      <span class="flex items-center justify-center">Check In</span>
+      <span class="flex items-center justify-center">{{
+        (checkInStatus$ | async) ? "Check Out" : "Check in"
+      }}</span>
       } @else{
       <app-loader-component></app-loader-component>
       }
