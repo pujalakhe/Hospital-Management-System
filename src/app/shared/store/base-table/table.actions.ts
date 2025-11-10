@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { LOAD_BASE_TABLE, LOAD_BASE_TABLE_FAILURE, LOAD_BASE_TABLE_SUCCESS, SET_BASE_TABLE_PAGE, SET_BASE_TABLE_SORT } from './table.constants';
 import { BaseTableRequest, BaseTableResponse } from '../models/table-column.model';
-import { SortDirection } from '../constants/basetable.constant';
+import { SortDirection } from '../../constants/basetable.constant';
 
 
 export const loadBaseTable = createAction(

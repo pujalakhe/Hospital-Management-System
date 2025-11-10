@@ -1,4 +1,4 @@
-import { DEFAULT_TOTAL, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '../constants/basetable.constant';
+import { DEFAULT_TOTAL, DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from '../../constants/basetable.constant';
 import { BaseTableState } from "../models/table-column.model";
 
 
