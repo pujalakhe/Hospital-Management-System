@@ -23,8 +23,7 @@ export class signupEffects {
         this.signupApiService.signup(payload).pipe(
           map((res: SignupResponse) =>
             SignupActions.signupSuccess({
-              message: res.message,
-              data: res.data,
+              data: res,
             })
           ),
           catchError((error) =>

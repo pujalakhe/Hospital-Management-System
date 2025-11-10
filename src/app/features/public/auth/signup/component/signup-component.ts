@@ -32,7 +32,7 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent implements OnInit, OnDestroy {
   constructor(
-    public formService: SignupFormService,
+    public signupFormService: SignupFormService,
     private store: Store,
     private router: Router
   ) {}
@@ -65,7 +65,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.genders$ = this.store.select(selectGenderList);
   }
   private initializeForm(): void {
-    this.signupForm = this.formService.buildSignupForm();
+    this.signupForm = this.signupFormService.buildSignupForm();
   }
 
   private loadCountryBasedOnCity() {
@@ -87,13 +87,13 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (!this.signupForm || this.signupForm.invalid) {
-      this.formService.applyTouchAndDirtyToForm();
+      this.signupFormService.applyTouchAndDirtyToForm();
       return;
     }
 
     const payload = this.signupForm.value;
     this.store.dispatch(signup({ payload }));
-    this.formService.resetForm();
+    this.signupFormService.resetForm();
   }
 
   getControl(controlName: string): FormControl {

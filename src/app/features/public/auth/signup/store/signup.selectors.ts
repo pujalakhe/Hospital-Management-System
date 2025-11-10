@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SignupState } from './signup.state';
-import { SIGNUP_FEATURE_SELECTOR_KEY } from '../constants/signup.constant';
+import { SIGNUP_FEATURE_SELECTOR_KEY } from '../store/signup.constants';
 
 export const selectSignupState = createFeatureSelector<SignupState>(
   SIGNUP_FEATURE_SELECTOR_KEY
@@ -12,10 +12,6 @@ export const selectSignupLoading = createSelector(
 export const selectSignupError = createSelector(
   selectSignupState,
   (state) => state.error
-);
-export const selectSignupMessage = createSelector(
-  selectSignupState,
-  (state) => state.successMessage
 );
 export const selectSignupUser = createSelector(
   selectSignupState,

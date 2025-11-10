@@ -1,6 +1,7 @@
+import { SignupResponse } from '../models/signup.model';
+
 export interface SignupState {
   loading: boolean;
-  successMessage: string | null;
-  data: boolean | null;
+  data: SignupResponse | null;
   error: string | null;
 }

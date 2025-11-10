@@ -4,7 +4,6 @@ import { SignupState } from './signup.state';
 
 export const initialSignupState: SignupState = {
   loading: false,
-  successMessage: null,
   data: null,
   error: null,
 };
@@ -15,21 +14,18 @@ export const signupReducer = createReducer(
     ...state,
     loading: true,
     error: null,
-    successMessage: null,
     data: null,
   })),
-  on(signupAction.signupSuccess, (state, { message, data }) => ({
+  on(signupAction.signupSuccess, (state, { data }) => ({
     ...state,
     loading: false,
-    successMessage: message,
-    data: data,
+    data,
     error: null,
   })),
   on(signupAction.signupFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error: error,
-    successMessage: null,
     data: null,
   }))
 );
