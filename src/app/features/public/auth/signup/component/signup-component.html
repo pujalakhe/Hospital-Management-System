@@ -1,0 +1,162 @@
+@if(signupForm){
+  <div class=" max-w-5xl mx-auto bg-white rounded-3xl shadow-xl px-6 py-8 md:px-12 md:py-10 border border-gray-100">
+
+  <app-form-header-component
+    [heading]="'Welcome'"
+    [subHeading]="'Create your account to get started'"
+    class="mb-8"
+  ></app-form-header-component>
+
+  <form [formGroup]="signupForm" appAutoFocusInput [appAutoFocusInvalid]="signupForm" (ngSubmit)="onSubmit()" class="space-y-8">
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <app-input-text
+        [control]="getControl('firstName')"
+        label="First Name"
+        placeholder="Enter your first name"
+      ></app-input-text>
+
+      <app-input-text
+        [control]="getControl('middleName')"
+        label="Middle Name"
+        placeholder="Enter your middle name"
+      ></app-input-text>
+
+      <app-input-text
+        [control]="getControl('lastName')"
+        label="Last Name"
+        placeholder="Enter your last name"
+      ></app-input-text>
+
+      <app-input-text
+        [control]="getControl('email')"
+        label="Email"
+        placeholder="Enter your email"
+        type="email"
+      ></app-input-text>
+
+      <app-input-number-component
+        [control]="getControl('mobileNo')"
+        label="Mobile Number"
+        placeholder="Enter your mobile number"
+        [type]="'text'"
+      ></app-input-number-component>
+
+      <app-input-select
+        [control]="getControl('gender')"
+        [options]="(genders$ | async) || []"
+        label="Gender"
+        placeholder="Select gender"
+      ></app-input-select>
+
+      <app-input-text
+        [control]="getControl('citizenshipNo')"
+        label="Citizenship No"
+        placeholder="Enter your citizenship number"
+      ></app-input-text>
+
+      <app-input-date
+        [control]="getControl('dob')"
+        label="Date of Birth"
+        placeholder="Select your date of birth"
+      ></app-input-date>
+
+      <app-input-text
+        [control]="getControl('nationality')"
+        label="Nationality"
+        placeholder="Enter your nationality"
+      ></app-input-text>
+    </div>
+
+    <div formGroupName="address"  >
+      <h3 class="text-gray-700 font-semibold text-lg">Address Details</h3>
+
+      <app-input-text
+        [control]="getAddressControl('name')"
+        label="Address"
+        placeholder="Enter your address name"
+      ></app-input-text>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <app-input-select
+          [control]="getAddressControl('countryId')"
+          [options]="(countries$ | async) || []"
+          label="Country"
+          placeholder="Choose your country"
+        ></app-input-select>
+
+        <app-input-select
+          [control]="getAddressControl('cityId')"
+          [options]="(cities$ | async) || []"
+          label="City"
+          placeholder="Choose your city"
+        ></app-input-select>
+
+        <app-input-select
+        [control]="getControl('departmentId')"
+        [options]="(departments$ | async) || []"
+        label="Department"
+        placeholder="Choose your department"
+      ></app-input-select>
+      </div>
+      
+      <app-input-select
+        [control]="getControl('role')"
+        [options]="((roles$ | async) || []) | transformRole"
+        label="Role"
+        placeholder="Choose role"
+      ></app-input-select>
+      </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      
+      <app-input-date
+        [control]="getControl('startDate')"
+        label="Start Date"
+        placeholder="Select your start date"
+      ></app-input-date>
+
+       <app-input-text
+        [control]="getControl('password')"
+        label="Password"
+        placeholder="Enter password"
+        type="password"
+      ></app-input-text>
+
+      <app-input-text
+        [control]="getControl('confirmPassword')"
+        label="Confirm Password"
+        placeholder="Confirm your password"
+        type="password"
+        appNoPaste
+      ></app-input-text>
+    </div>
+
+    <div class="pt-4 flex justify-center">
+    <button
+  type="submit"
+  mat-flat-button
+  color="primary"
+  class="flex items-center justify-center px-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-lg transition duration-200 cursor-pointer"
+>
+  @if (!(loading$ | async)) {
+    <span>Create Account</span>
+  } @else {
+    <app-loader-component></app-loader-component>
+  }
+</button>
+ </div>
+
+    <p class="text-center text-gray-600 text-sm mt-3">
+      Already have an account?
+      <a mat-button 
+        click="navigateTo()"
+        class=" text-blue-600 hover:underline font-semibold cursor-pointer"
+      >
+        Log In
+      </a>
+    </p>
+  </form>
+</div>
+
+}
