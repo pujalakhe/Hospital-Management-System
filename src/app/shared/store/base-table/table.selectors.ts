@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { BaseTableState } from '../models/table-column.model';
+import { BaseTableState } from '../../model/table-column.model';
 import { BASE_TABLE_FEATURE_KEY } from './table.constants';
 
 export const selectBaseTableState = createFeatureSelector<BaseTableState>(BASE_TABLE_FEATURE_KEY);

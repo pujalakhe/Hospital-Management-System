@@ -17,7 +17,7 @@ import { MaterialModule } from '../../../angular-material.module';
 export class SelectInputComponent {
   @Input({ required: true }) control: FormControl = new FormControl('');
   @Input({ required: true }) label: string = 'Select option';
-  @Input({ required: true }) options: { value: any; label: string }[] = [];
+  @Input({ required: true }) options: { id: number; name: string }[] = [];
   @Input({ required: true }) placeholder: string = 'Please choose';
 
   constructor(private cdr: ChangeDetectorRef) {}
