@@ -11,8 +11,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('./login/login-module').then((m) => m.LoginModule),
   },
+
   {
     path: RESET_PASSWORD,
+    canMatch: [noAuthGuard],
     loadChildren: () =>
       import('./reset-password/reset-password-module').then(
         (m) => m.ResetPasswordModule
