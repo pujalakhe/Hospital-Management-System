@@ -1,0 +1,23 @@
+<app-header-component
+[title]="pageTitle"
+[userName]="currentUserName"
+(toggleSidebar)="toggleSidebar()"
+>
+</app-header-component>
+
+<div class="layout">
+
+  <app-sidebar-component
+  [menuItems]="sidebarItems"
+  [collapsed]="!showSidebar"
+  >
+  </app-sidebar-component>
+<div class="content-wrapper" [class.expanded]="!showSidebar">
+  <main class="main-content">
+    <router-outlet>
+
+    </router-outlet>
+  </main>
+</div>
+
+</div>
