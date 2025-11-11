@@ -10,6 +10,7 @@ const routes: Routes = [
     redirectTo: ROUTER_PATHS.LOGIN,
     pathMatch: 'full',
   },
+
   {
     path: ROUTER_PATHS.LOGIN,
     canMatch: [noAuthGuard],
@@ -21,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LoginRoutingModule { }
+export class LoginRoutingModule {}
