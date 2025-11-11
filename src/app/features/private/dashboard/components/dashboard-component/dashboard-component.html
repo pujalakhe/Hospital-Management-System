@@ -1,5 +1,135 @@
-<p>dashboard-component works!</p>
-<button mat-flat-button (click)="openCheckInDialogBox()">
-  {{ (checkInStatus$ | async) ? "Check Out" : "Check In" }}
-  {{ checkInStatus$ | async | json }}
-</button>
+<div class="w-full min-h-screen bg-[#E7EEF8] p-4 lg:p-6 space-y-6">
+  <!-- Profile header -->
+  <mat-card
+    class="profile-header justify-between items-center p-4 lg:p-6 bg-gray-600 text-white rounded-xl"
+  >
+    <div class="flex items-center gap-4">
+      <div
+        class="relative w-24 h-24 rounded-full flex justify-center items-center"
+      >
+        <div
+          class="w-21 h-21 rounded-full border-2 border-white flex justify-center items-center"
+        >
+          <img
+            src="https://picsum.photos/200/300"
+            alt="profile"
+            class="w-18 h-18 rounded-full object-cover"
+          />
+        </div>
+      </div>
+
+      <div>
+        <h2 class="font-semibold text-base lg:text-lg">Redwan Husein</h2>
+        <p class="text-xs opacity-90">UI/UX Designer & UX Writer</p>
+      </div>
+    </div>
+
+    <button
+      mat-flat-button
+      class="rounded-full bg-[#FFCC3A] text-xs lg:text-sm px-4 py-2"
+    >
+      Edit Profile
+    </button>
+  </mat-card>
+
+  <!-- Quick actions -->
+  <div class="bg-[#E7EEF8] p-4 space-y-3">
+    <h2 class="font-medium text-sm lg:text-base">Quick Actions</h2>
+
+    <div class="flex flex-wrap gap-3">
+      <button mat-raised-button>Apply for Leave</button>
+      <button mat-raised-button>KPI Goals</button>
+      <button mat-raised-button>Take Appraisal</button>
+      <button mat-raised-button>View Payslip</button>
+      <button mat-raised-button>Update Profile</button>
+      <button mat-raised-button>Events</button>
+      <button mat-raised-button (click)="openCheckInDialogBox()">
+        {{ (checkInStatus$ | async) ? "Check Out" : "Check In" }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Grid Content -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+    <!-- Leave Days -->
+    <mat-card class="p-4 rounded-xl">
+      <h3 class="font-semibold mb-3 text-sm lg:text-base">
+        Available Leave Days
+      </h3>
+
+      <div class="space-y-4">
+        <div>
+          <p class="text-xs lg:text-sm mb-1">
+            Annual Leave <span class="float-right">10/30</span>
+          </p>
+          <mat-progress-bar mode="determinate" value="33"></mat-progress-bar>
+        </div>
+
+        <div>
+          <p class="text-xs lg:text-sm mb-1">
+            Sick Leave <span class="float-right">0/10</span>
+          </p>
+          <mat-progress-bar mode="determinate" value="0"></mat-progress-bar>
+        </div>
+
+        <div>
+          <p class="text-xs lg:text-sm mb-1">
+            Compassionate Leave <span class="float-right">8/15</span>
+          </p>
+          <mat-progress-bar mode="determinate" value="53"></mat-progress-bar>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- To-do List -->
+    <mat-card class="p-4 rounded-xl">
+      <div class="flex justify-between">
+        <h3 class="font-semibold mb-3 text-sm lg:text-base">To-dos</h3>
+        <mat-icon>more_vert</mat-icon>
+      </div>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let item of todoList">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ item.title }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>
+            {{ item.description }}
+          </p>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+
+    <!-- Pay Slip Table -->
+
+    <mat-card class="p-4 rounded-xl overflow-x-auto">
+      <h3 class="font-semibold mb-3 text-sm lg:text-base">
+        April Pay Slip Breakdown
+      </h3>
+
+      <table mat-table [dataSource]="paySlip" class="w-full text-xs lg:text-sm">
+        <ng-container matColumnDef="earning">
+          <th mat-header-cell *matHeaderCellDef>Earnings</th>
+          <td mat-cell *matCellDef="let e">{{ e.earning }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let e">{{ e.amount }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="deduction">
+          <th mat-header-cell *matHeaderCellDef>Deductions</th>
+          <td mat-cell *matCellDef="let e">{{ e.deduction }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let e">{{ e.total }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </mat-card>
+  </div>
+</div>
