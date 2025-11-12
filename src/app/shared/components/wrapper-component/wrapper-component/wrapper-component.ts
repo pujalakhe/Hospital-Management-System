@@ -5,6 +5,7 @@ import { menuItems } from '../type/sidebar.type';
 import { MaterialModule } from '../../../angular-material.module';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../core/service/auth-service/auth-service';
 
 @Component({
   selector: 'app-wrapper-component',
@@ -23,9 +24,10 @@ export class WrapperComponent implements OnInit {
   currentUserName: string = 'shri';
   sidebarItems: menuItems[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
+    this.getUserName();
     this.sidebarItems = [
       { label: 'Dashboard', route: '/wrapper/dashboard', icon: 'dashboard' },
       { label: 'Employees', route: '/app/employees', icon: 'people' },
@@ -37,4 +39,5 @@ export class WrapperComponent implements OnInit {
       },
     ];
   }
+  private getUserName() {}
 }
