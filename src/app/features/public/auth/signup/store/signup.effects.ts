@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { SignupApiService } from '../service/api/signup-api-service';
 import { SignupResponse } from '../models/signup.model';
 import { ROUTER_PATHS } from '../../../../../core/constants/router-path.constant';
-const { LOGIN } = ROUTER_PATHS;
+const { SIGNUP, LOGIN } = ROUTER_PATHS;
 @Injectable()
 export class signupEffects {
   private action$ = inject(Actions);
@@ -40,6 +40,16 @@ export class signupEffects {
         ofType(SignupActions.signupSuccess),
         tap(() => {
           this.router.navigate([LOGIN]);
+        })
+      ),
+    { dispatch: false }
+  );
+  signupFailure$ = createEffect(
+    () =>
+      this.action$.pipe(
+        ofType(SignupActions.signupFailure),
+        tap(() => {
+          this.router.navigate([SIGNUP]);
         })
       ),
     { dispatch: false }
