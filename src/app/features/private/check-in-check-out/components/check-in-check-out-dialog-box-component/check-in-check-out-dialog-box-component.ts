@@ -6,13 +6,14 @@ import {
   checkInRequest,
   checkOutRequest,
 } from '../../store/check-in-check-out.actions';
-import { firstValueFrom, Observable } from 'rxjs';
+import { filter, firstValueFrom, Observable, take } from 'rxjs';
 import { CheckInCheckOutFormService } from '../../service/check-in-check-out-form-service/check-in-check-out-form-service';
 import {
   selectCheckedInStatus,
   selectError,
   selectLoading,
 } from '../../store/check-in-check-out.selectors';
+import { setValidators } from '../../../../../shared/utils/form.util';
 
 @Component({
   selector: 'app-check-in-check-out-dialog-box-component',
@@ -23,7 +24,7 @@ import {
 export class CheckInCheckOutDialogBoxComponent implements OnInit {
   checkInCheckOutForm?: FormGroup;
   loading$?: Observable<boolean>;
-  checkInStatus$?: Observable<boolean>;
+  checkInStatus$?: Observable<boolean | null>;
   error$?: Observable<string | null>;
   workLocationOptions: { id: number; name: string }[] = [
     { id: 1, name: 'Work from office' },
@@ -37,40 +38,28 @@ export class CheckInCheckOutDialogBoxComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.buildForm();
-    this.initializeSelectors();
+    this.#buildForm();
+    this.#initializeSelectors();
+    this.#setupFormValidators();
   }
-  buildForm() {
+
+  #buildForm() {
     this.checkInCheckOutForm =
       this.checkInFormService.buildCheckInCheckOutForm();
   }
 
-  initializeSelectors() {
+  #initializeSelectors() {
     this.loading$ = this.store.select(selectLoading);
     this.error$ = this.store.select(selectError);
     this.checkInStatus$ = this.store.select(selectCheckedInStatus);
-    this.store
-      .select(selectCheckedInStatus)
-      .subscribe((res) => console.log(res));
-    this.renderFormAsPerTheStatus();
   }
 
-  renderFormAsPerTheStatus() {
-    this.checkInStatus$?.subscribe((status) => {
-      if (!status) {
-        // Check In
-        this.getControl('checkInReason').setValidators([Validators.required]);
-        this.getControl('workLocation').setValidators([Validators.required]);
-        this.getControl('checkOutReason').clearValidators();
-      } else {
-        // Check Out
-        this.getControl('checkOutReason').setValidators([Validators.required]);
-        this.getControl('checkInReason').clearValidators();
-        this.getControl('workLocation').clearValidators();
-      }
-
-      // Update validity after changing validators
-      this.checkInCheckOutForm?.updateValueAndValidity();
+  #setupFormValidators() {
+    this.checkInStatus$?.pipe(take(1)).subscribe((status) => {
+      this.checkInFormService.setValidatorsByStatus(
+        this.checkInCheckOutForm!,
+        status
+      );
     });
   }
 
@@ -82,9 +71,27 @@ export class CheckInCheckOutDialogBoxComponent implements OnInit {
     this.checkInCheckOutForm?.updateValueAndValidity();
     if (this.checkInCheckOutForm?.invalid) return;
     const payload = this.checkInCheckOutForm?.value;
-    console.log(payload);
-    this.store.dispatch(checkInRequest({ payload }));
-    // this.dialogRef.close(true);
+
+    // Get current check-in status once
+    this.checkInStatus$?.pipe(take(1)).subscribe((status) => {
+      if (status) {
+        this.store.dispatch(checkOutRequest({ payload }));
+      } else {
+        this.store.dispatch(checkInRequest({ payload }));
+      }
+      this.waitUntilLoadingFalse();
+    });
+  }
+
+  private waitUntilLoadingFalse() {
+    this.loading$
+      ?.pipe(
+        filter((loading) => loading === false), // wait until loading is false
+        take(1) // automatically unsubscribe after the first false
+      )
+      .subscribe(() => {
+        this.dialogRef.close(true); // close only after loading is finished
+      });
   }
 
   close() {
