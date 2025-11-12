@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseFormService } from '../../../../../shared/services/base-form-service/base-form-service';
+import { setValidators } from '../../../../../shared/utils/form.util';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -13,5 +15,13 @@ export class CheckInCheckOutFormService extends BaseFormService {
     };
 
     return this.buildForm(config);
+  }
+
+  setValidatorsByStatus(form: FormGroup, status: boolean | null) {
+    if (!status) {
+      setValidators(form, ['checkInReason', 'workLocation'], 'checkOutReason');
+    } else {
+      setValidators(form, 'checkOutReason', ['checkInReason', 'workLocation']);
+    }
   }
 }
