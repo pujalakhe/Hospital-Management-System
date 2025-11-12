@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, mergeMap, exhaustMap } from 'rxjs';
+import { catchError, map, of, exhaustMap } from 'rxjs';
 
 import * as AttendanceActions from './check-in-check-out.actions';
 import { CheckInCheckOutApiService } from '../service/check-in-check-out-api-service/check-in-check-out-api-service';
