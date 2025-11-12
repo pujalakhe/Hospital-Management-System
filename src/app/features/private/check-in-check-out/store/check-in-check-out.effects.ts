@@ -29,14 +29,6 @@ export class CheckInCheckOutEffects {
     )
   );
 
-  // dispatch load status when check-in succeeds
-  checkInSuccess = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AttendanceActions.checkInSuccess),
-      map(() => AttendanceActions.loadCheckInStatusRequest())
-    )
-  );
-
   checkOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AttendanceActions.checkOutRequest),
@@ -47,36 +39,6 @@ export class CheckInCheckOutEffects {
             of(
               AttendanceActions.checkOutFailure({
                 error: err.message || 'Failed to Check Out',
-              })
-            )
-          )
-        )
-      )
-    )
-  );
-
-  // dispatch load status when check-in succeeds
-  checkOutSuccess = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AttendanceActions.checkOutSuccess),
-      map(() => AttendanceActions.loadCheckInStatusRequest())
-    )
-  );
-
-  loadCheckInStatus$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AttendanceActions.loadCheckInStatusRequest),
-      mergeMap(() =>
-        this.checkInCheckOutApiService.getCheckInStatus().pipe(
-          map((response) =>
-            AttendanceActions.loadCheckInStatusSuccess({
-              checkInStatus: response.data,
-            })
-          ),
-          catchError((error) =>
-            of(
-              AttendanceActions.loadCheckInStatusFailure({
-                error: error.message || 'Error',
               })
             )
           )

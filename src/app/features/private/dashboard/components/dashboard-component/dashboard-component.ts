@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
   styleUrl: './dashboard-component.scss',
 })
 export class DashboardComponent implements OnInit {
-  checkInStatus$?: Observable<boolean>;
+  checkInStatus$?: Observable<boolean | null>;
   constructor(private dialog: MatDialog, private store: Store) {}
 
   todoList: { title: string; description: string }[] = [

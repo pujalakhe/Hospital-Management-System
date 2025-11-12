@@ -45,13 +45,3 @@ export const checkOutFailure = createAction(
   CHECK_OUT_FAILURE,
   props<{ error: string }>()
 );
-
-export const loadCheckInStatusRequest = createAction(CHECK_IN_STATUS);
-export const loadCheckInStatusSuccess = createAction(
-  CHECK_IN_STATUS_SUCCESS,
-  props<{ checkInStatus: boolean }>()
-);
-export const loadCheckInStatusFailure = createAction(
-  CHECK_IN_STATUS_FAILURE,
-  props<{ error: string }>()
-);
