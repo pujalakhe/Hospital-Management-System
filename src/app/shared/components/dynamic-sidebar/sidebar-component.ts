@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { MaterialModule } from '../../angular-material.module';
 import { Router, RouterModule } from '@angular/router';
 import { menuItems } from '../wrapper-component/type/sidebar.type';
@@ -11,15 +18,29 @@ import { ROUTER_PATHS } from '../../../core/constants/router-path.constant';
   templateUrl: './sidebar-component.html',
   styleUrl: './sidebar-component.scss',
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
   @Output() logout = new EventEmitter<void>();
   @Input() menuItems: menuItems[] = [];
-  @Input() collapsed: boolean = false;
+  isMobile = false;
+  isSidebarOpen = true;
 
   constructor(private router: Router) {}
 
-  isActive(route: string | undefined): boolean {
-    return this.router.url === route;
+  ngOnInit() {
+    this.checkScreenSize();
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.checkScreenSize();
+  }
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768;
+    this.isSidebarOpen = !this.isMobile;
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
   }
   onLogout() {
     this.router.navigate([ROUTER_PATHS.LOGIN]);
