@@ -7,10 +7,10 @@ import {
   Output,
 } from '@angular/core';
 import { MaterialModule } from '../../angular-material.module';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { menuItems } from '../wrapper-component/type/sidebar.type';
 import { MatIconModule } from '@angular/material/icon';
-import { ROUTER_PATHS } from '../../../core/constants/router-path.constant';
+import { AuthService } from '../../../core/service/auth-service/auth-service';
 
 @Component({
   selector: 'app-sidebar-component',
@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit {
   isMobile = false;
   isSidebarOpen = true;
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.checkScreenSize();
@@ -43,6 +43,6 @@ export class SidebarComponent implements OnInit {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
   onLogout() {
-    this.router.navigate([ROUTER_PATHS.LOGIN]);
+    this.authService.logout();
   }
 }
