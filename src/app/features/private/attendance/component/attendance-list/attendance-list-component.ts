@@ -12,9 +12,11 @@ import {
 import { 
   AttendanceItem, 
   AttendanceStatus,
-  AttendanceTableColumn 
+  AttendanceTableColumns
 } from '../../models/attendance.model';
-import { SortDirection } from '../../../../../shared/components/tableComponent/constants/basetable.constant';
+import { SortDirection } from '../../../../../shared/constants/basetable.constant';
+import { TableColumn } from '../../../../../shared/model/table-column.model';
+
 
 @Component({
   selector: 'app-attendance-list-component',
@@ -26,7 +28,8 @@ export class AttendanceListComponent implements OnInit {
   tableTitle = 'Attendance List';
   buttonLabel = 'Add Attendance';
 
-  columns: AttendanceTableColumn[] = [    ];
+  columns: TableColumn<AttendanceItem>[] = AttendanceTableColumns;
+
 
   rows$: Observable<AttendanceItem[]>;
   loading$: Observable<boolean>;
@@ -35,7 +38,6 @@ export class AttendanceListComponent implements OnInit {
   constructor(private store: Store, private dialog: MatDialog) {
     this.rows$ = this.store.select(selectAttendanceListData);
     this.loading$ = this.store.select(selectAttendanceListLoading);
-    // We'll derive total from the data since it's not directly in the state
     this.total$ = this.store.select(selectAttendanceListData).pipe(
       map(data => data ? data.length : 0)
     );
@@ -69,7 +71,6 @@ export class AttendanceListComponent implements OnInit {
 
   onSortChange(event: { field: string; direction: SortDirection } | null) {
   if (!event) {
-    // If sort is cleared, just reload without sorting
     this.currentRequest = {
       ...this.currentRequest,
       skip: 0,
@@ -95,11 +96,7 @@ export class AttendanceListComponent implements OnInit {
     this.currentRequest = {
       ...this.currentRequest,
       skip: 0,
-      ...(filters['employeeId'] && { employeeId: filters['employeeId'] }),
-      ...(filters['departmentId'] && { departmentId: filters['departmentId'] }),
-      ...(filters['startDate'] && { startDate: filters['startDate'] }),
-      ...(filters['endDate'] && { endDate: filters['endDate'] }),
-      ...(filters['workLocation'] && { workLocation: filters['workLocation'] })
+      
     };
     this.store.dispatch(
       AttendanceListActions.loadAttendanceList({
@@ -122,7 +119,4 @@ export class AttendanceListComponent implements OnInit {
     }
   }
 
-  openAddUserForm() {
-    // Implement add attendance form dialog
-  }
 }
