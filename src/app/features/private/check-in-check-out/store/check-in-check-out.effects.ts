@@ -29,6 +29,14 @@ export class CheckInCheckOutEffects {
     )
   );
 
+  // dispatch load status when check-in succeeds
+  checkInSuccess = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AttendanceActions.checkInSuccess),
+      map(() => AttendanceActions.loadCheckInStatusRequest())
+    )
+  );
+
   checkOut$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AttendanceActions.checkOutRequest),
@@ -44,6 +52,14 @@ export class CheckInCheckOutEffects {
           )
         )
       )
+    )
+  );
+
+  // dispatch load status when check-in succeeds
+  checkOutSuccess = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AttendanceActions.checkOutSuccess),
+      map(() => AttendanceActions.loadCheckInStatusRequest())
     )
   );
 
