@@ -13,8 +13,8 @@ import {
   provideHttpClient,
   withInterceptors,
 } from '@angular/common/http';
-import { AuthInterceptor } from './core/auth-interceptor/auth-interceptor';
 import { apiNotificationInterceptor } from './core/api-notification-interceptor/api-notification-interceptor';
+import { authInterceptor } from './core/auth-interceptor/auth-interceptor';
 
 @NgModule({
   declarations: [App],
@@ -26,14 +26,11 @@ import { apiNotificationInterceptor } from './core/api-notification-interceptor/
     StoreModule.forRoot(),
     EffectsModule.forRoot(),
   ],
-  providers: [
+    providers: [
     provideStoreDevtools(),
-    provideHttpClient(withInterceptors([apiNotificationInterceptor])),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    provideHttpClient(
+      withInterceptors([authInterceptor, apiNotificationInterceptor])
+    ),
   ],
   bootstrap: [App],
 })
