@@ -1,0 +1,33 @@
+<mat-card
+  class="generic-card bg-white rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full max-w-4xl mx-auto"
+>
+ @if(title || subtitle){
+
+  <mat-card-header
+    class="bg-primary text-white px-6 py-4 rounded-t-2xl flex flex-col md:flex-row md:items-center md:justify-between"
+  >
+    <div>
+      <mat-card-title class="text-lg md:text-xl font-semibold">{{ title }}</mat-card-title>
+      <mat-card-subtitle *ngIf="subtitle" class="text-blue-100 text-sm md:text-base mt-1">
+        {{ subtitle }}
+      </mat-card-subtitle>
+    </div>
+  </mat-card-header>
+
+ }
+  
+  <mat-card-content class="generic-card-content p-6 text-gray-800 text-base leading-relaxed">
+    <ng-content></ng-content>
+  </mat-card-content>
+
+  @if(actions){
+
+     <mat-card-actions
+    align="end"
+    class="p-4 flex flex-col md:flex-row gap-3 md:justify-end"
+  >
+    <ng-content select="[card-actions]"></ng-content>
+  </mat-card-actions>
+
+  }
+</mat-card>

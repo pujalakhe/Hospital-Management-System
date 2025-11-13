@@ -1,0 +1,17 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-card {
+  border-radius: 1rem !important;
+  overflow: hidden;
+}
+
+.generic-card {
+  transition: transform 0.2s ease;
+}
+
+.generic-card:hover {
+  transform: translateY(-2px);
+}
