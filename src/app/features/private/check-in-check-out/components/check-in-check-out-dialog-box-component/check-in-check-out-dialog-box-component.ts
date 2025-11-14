@@ -26,6 +26,7 @@ export class CheckInCheckOutDialogBoxComponent implements OnInit {
   loading$?: Observable<boolean>;
   checkInStatus$?: Observable<boolean | null>;
   error$?: Observable<string | null>;
+  currentStatus: boolean | null = null;
   workLocationOptions: { id: number; name: string }[] = [
     { id: 1, name: 'Work from office' },
     { id: 2, name: 'Work from home' },
@@ -40,7 +41,8 @@ export class CheckInCheckOutDialogBoxComponent implements OnInit {
   ngOnInit() {
     this.#buildForm();
     this.#initializeSelectors();
-    this.#setupFormValidators();
+    this.loadCheckInStatus();
+    this.#setupFormValidators(this.currentStatus);
   }
 
   #buildForm() {
@@ -54,36 +56,32 @@ export class CheckInCheckOutDialogBoxComponent implements OnInit {
     this.checkInStatus$ = this.store.select(selectCheckedInStatus);
   }
 
-  #setupFormValidators() {
+  loadCheckInStatus() {
     this.checkInStatus$?.pipe(take(1)).subscribe((status) => {
-      this.checkInFormService.setValidatorsByStatus(
-        this.checkInCheckOutForm!,
-        status
-      );
+      this.currentStatus = status;
     });
   }
 
-  getControl(controlName: string): FormControl {
-    return this.checkInCheckOutForm?.get(controlName) as FormControl;
+  #setupFormValidators(status: boolean | null) {
+    this.checkInFormService.setValidatorsByStatus(
+      this.checkInCheckOutForm!,
+      status
+    );
   }
 
-  onSubmit() {
-    this.checkInCheckOutForm?.updateValueAndValidity();
+  onSubmit(status: boolean | null) {
     if (this.checkInCheckOutForm?.invalid) return;
+
     const payload = this.checkInCheckOutForm?.value;
 
-    // Get current check-in status once
-    this.checkInStatus$?.pipe(take(1)).subscribe((status) => {
-      if (status) {
-        this.store.dispatch(checkOutRequest({ payload }));
-      } else {
-        this.store.dispatch(checkInRequest({ payload }));
-      }
-      this.waitUntilLoadingFalse();
-    });
+    const action = status ? checkOutRequest : checkInRequest;
+
+    this.store.dispatch(action({ payload }));
+
+    this.waitUntilLoadingFalse();
   }
 
-  private waitUntilLoadingFalse() {
+  waitUntilLoadingFalse() {
     this.loading$
       ?.pipe(
         filter((loading) => loading === false), // wait until loading is false
@@ -92,6 +90,10 @@ export class CheckInCheckOutDialogBoxComponent implements OnInit {
       .subscribe(() => {
         this.dialogRef.close(true); // close only after loading is finished
       });
+  }
+
+  getControl(controlName: string): FormControl {
+    return this.checkInCheckOutForm?.get(controlName) as FormControl;
   }
 
   close() {

@@ -8,7 +8,7 @@
   [formGroup]="checkInCheckOutForm"
   appAutoFocusInput
   [appAutoFocusInvalid]="checkInCheckOutForm"
-  (ngSubmit)="onSubmit()"
+  (ngSubmit)="onSubmit(currentStatus)"
 >
   <mat-dialog-content class="space-y-4">
     @if(!(checkInStatus$ | async)){

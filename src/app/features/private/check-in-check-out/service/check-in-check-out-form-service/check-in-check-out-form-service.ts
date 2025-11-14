@@ -18,10 +18,10 @@ export class CheckInCheckOutFormService extends BaseFormService {
   }
 
   setValidatorsByStatus(form: FormGroup, status: boolean | null) {
-    if (!status) {
-      setValidators(form, ['checkInReason', 'workLocation'], 'checkOutReason');
-    } else {
-      setValidators(form, 'checkOutReason', ['checkInReason', 'workLocation']);
-    }
+    const [enable, disable] = status
+      ? ['checkOutReason', ['checkInReason', 'workLocation']]
+      : [['checkInReason', 'workLocation'], 'checkOutReason'];
+
+    setValidators(form, enable, disable);
   }
 }
