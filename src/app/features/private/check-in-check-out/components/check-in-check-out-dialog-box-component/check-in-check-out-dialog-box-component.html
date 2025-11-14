@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>
+  {{ (checkInStatus$ | async) ? "Check Out" : "Check In" }}
+</h2>
+
+@if(checkInCheckOutForm){
+
+<form
+  [formGroup]="checkInCheckOutForm"
+  appAutoFocusInput
+  [appAutoFocusInvalid]="checkInCheckOutForm"
+  (ngSubmit)="onSubmit(currentStatus)"
+>
+  <mat-dialog-content class="space-y-4">
+    @if(!(checkInStatus$ | async)){
+
+    <app-input-text
+      [control]="getControl('checkInReason')"
+      [label]="'Check In Reason'"
+      placeholder=""
+    ></app-input-text>
+
+    <app-input-select
+      [control]="getControl('workLocation')"
+      [label]="'Work Location'"
+      [placeholder]="''"
+      [options]="workLocationOptions"
+    ></app-input-select>
+    } @else {
+    <app-input-text
+      [control]="getControl('checkOutReason')"
+      [label]="'Check Out Reason'"
+      [placeholder]="''"
+    ></app-input-text>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancel</button>
+    <button mat-flat-button type="submit" [disabled]="loading$ | async">
+      @if(!(loading$|async)){
+
+      <span class="flex items-center justify-center">{{
+        (checkInStatus$ | async) ? "Check Out" : "Check in"
+      }}</span>
+      } @else{
+      <app-loader-component></app-loader-component>
+      }
+    </button>
+  </mat-dialog-actions>
+</form>
+}

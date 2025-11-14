@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ROUTER_PATHS } from '../../../../core/constants/router-path.constant';
 import { LoginComponent } from './components/login-component/login-component';
 import { noAuthGuard } from '../../../../core/guards/no-auth-guard/no-auth-guard';
+import { ROUTER_PATHS } from '../../../../core/constants/router-path.constant';
 
-const { LOGIN } = ROUTER_PATHS;
 const routes: Routes = [
-  { path: '', redirectTo: LOGIN, pathMatch: 'full' },
+  {
+    path: '',
+    redirectTo: ROUTER_PATHS.LOGIN,
+    pathMatch: 'full',
+  },
 
   {
-    path: LOGIN,
+    path: ROUTER_PATHS.LOGIN,
     canMatch: [noAuthGuard],
     component: LoginComponent,
   },
@@ -19,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LoginRoutingModule { }
+export class LoginRoutingModule {}

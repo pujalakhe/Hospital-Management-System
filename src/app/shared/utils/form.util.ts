@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators } from '@angular/forms';
 
 export function disableControls(
   form: FormGroup,
@@ -41,6 +41,35 @@ export function resetControls(
       control.reset();
     } else {
       console.warn(`Control '${name}' not found in form.`);
+    }
+  });
+}
+
+export function setValidators(
+  form: FormGroup,
+  requiredControls: string[] | string,
+  clearControls: string[] | string
+): void {
+  const requiredList = Array.isArray(requiredControls)
+    ? requiredControls
+    : [requiredControls];
+  const clearList = Array.isArray(clearControls)
+    ? clearControls
+    : [clearControls];
+
+  requiredList.forEach((controlName) => {
+    const control = form.get(controlName);
+    if (control) {
+      control.setValidators([Validators.required]);
+      control.updateValueAndValidity({ emitEvent: false });
+    }
+  });
+
+  clearList.forEach((controlName) => {
+    const control = form.get(controlName);
+    if (control) {
+      control.clearValidators();
+      control.updateValueAndValidity({ emitEvent: false });
     }
   });
 }

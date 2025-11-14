@@ -33,7 +33,7 @@ import {
   MatButtonToggleGroup,
   MatButtonToggle,
 } from '@angular/material/button-toggle';
-
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 @NgModule({
   exports: [
     MatSidenavModule,
@@ -70,6 +70,7 @@ import {
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatTreeModule,
+    MatProgressBarModule,
   ],
 })
 export class MaterialModule {}

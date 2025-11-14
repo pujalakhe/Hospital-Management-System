@@ -1,0 +1,9 @@
+// <button mat-flat-button (click)="openCheckInDialogBox()">
+//   {{ (checkInStatus$ | async) ? "Check Out" : "Check In" }}
+//   {{ checkInStatus$ | async | json }}
+// </button>
+
+.profile-header {
+  background-color: gray;
+  flex-direction: row;
+}
