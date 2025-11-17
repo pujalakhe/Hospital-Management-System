@@ -1,0 +1,90 @@
+<div class="p-6 bg-gray-50 min-h-[calc(100vh-200px)]">
+  <!-- Header Section -->
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-semibold text-gray-800">Attendance Details</h2>
+    <button mat-raised-button color="primary" (click)="close()">
+      Close
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading$ | async" class="flex justify-center items-center min-h-[200px]">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error$ | async as error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <strong class="font-bold">Error!</strong>
+    <span class="block sm:inline"> {{ error }}</span>
+  </div>
+
+  <!-- Detail Card -->
+  <ng-container *ngIf="detail$ | async as detail">
+    <div *ngIf="detail" class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md p-6 space-y-4">
+      <h3 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4">Employee Attendance Detail</h3>
+
+      <div class="space-y-3 text-gray-700">
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600 w-1/3">Name:</span>
+          <span class="w-2/3 text-right">{{ detail.employeeName || '—' }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600 w-1/3">Department:</span>
+          <span class="w-2/3 text-right">{{ detail.departmentName || '—' }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600 w-1/3">Date:</span>
+          <span class="w-2/3 text-right">{{ (detail.date | date: 'fullDate') || '—' }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600 w-1/3">Status:</span>
+          <span class="w-2/3 text-right" [ngClass]="{
+            'text-green-600 font-semibold': detail.status === 'Present',
+            'text-yellow-600 font-semibold': detail.status === 'Late',
+            'text-red-600 font-semibold': detail.status === 'Absent',
+            'text-blue-600 font-semibold': detail.status === 'Half Day',
+            'text-gray-600': !detail.status
+          }">
+            {{ detail.status || '—' }}
+          </span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600">Check In:</span>
+          <span>{{ detail.checkIn || '—' }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600">Check Out:</span>
+          <span>{{ detail.checkOut || '—' }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600">Total Hours:</span>
+          <span>{{ detail.totalHours || 0 }} hrs</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="font-medium text-gray-600">Work Location:</span>
+          <span>{{ detail.workLocation == 1 ? 'Office' : 'Remote' }}</span>
+
+        </div>
+      </div>
+
+      <div class="pt-4 mt-4 border-t">
+        <p class="font-medium text-gray-800 mb-1">Notes:</p>
+        <p class="bg-gray-100 rounded-md p-3 text-gray-700">
+          {{ detail.notes || 'No notes available' }}
+        </p>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Empty State -->
+  <div *ngIf="!(loading$ | async) && !(detail$ | async)" class="text-center text-gray-500 mt-10">
+    No attendance details found.
+  </div>
+</div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import * as AttendanceListActions from '../../store/attendance-list/attendanceList.action';
 import { AttendanceListRequest } from '../../models/attendance.model';
 import {
@@ -16,6 +16,7 @@ import {
 } from '../../models/attendance.model';
 import { SortDirection } from '../../../../../shared/constants/basetable.constant';
 import { TableColumn } from '../../../../../shared/model/table-column.model';
+import { AttendanceDetailComponent } from '../attendance-detail/attendance-detail-component';
 
 
 @Component({
@@ -114,8 +115,13 @@ export class AttendanceListComponent implements OnInit {
         // Handle delete action
         break;
       case 'view':
-        // Handle view action
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.width = '600px';
+          dialogConfig.height = 'auto';
+          dialogConfig.data = event.row;
+          this.dialog.open(AttendanceDetailComponent, dialogConfig);
         break;
+     
     }
   }
 
