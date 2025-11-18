@@ -4,4 +4,7 @@ export const ROUTER_PATHS = {
   CHANGE_PASSWORD: 'change-password',
   DASHBOARD: 'dashboard',
   RESET_PASSWORD: 'reset-password',
+  LEAVE: 'leave',
+  COUNT: 'count',
+  LIST: 'list',
 };
