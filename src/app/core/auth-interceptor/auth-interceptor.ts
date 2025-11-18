@@ -1,74 +1,42 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpInterceptor,
+  HttpErrorResponse,
   HttpRequest,
-  HttpHandler,
-  HttpEvent,
   HttpResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpInterceptorFn, HttpHandlerFn } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
+import { AUTH_TOKEN_KEY } from '../constants/storage.constants';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { throwError } from 'rxjs';
+import { ROUTER_PATHS } from '../constants/router-path.constant';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    console.log(`[Interceptor] ${request.method} → ${request.url}`);
+export const authInterceptor: HttpInterceptorFn = (
+  req,
+  next: HttpHandlerFn
+) => {
+  const token = localStorage.getItem(AUTH_TOKEN_KEY);
+  const router = inject(Router); // Angular v18+
 
-    switch (request.method) {
-      case 'GET':
-        return this.handleGet(request, next);
-      case 'POST':
-        return this.handlePost(request, next);
-      case 'PUT':
-        return this.handlePut(request, next);
-      default:
-        return next.handle(request);
-    }
-  }
+  const modifiedReq = token
+    ? req.clone({ setHeaders: { Authorization: `Bearer ${token}` } })
+    : req;
 
-  private handleGet(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const modifiedRequest = request.clone({});
+  // console.log(`[Interceptor] ${req.method} → ${req.url}`);
 
-    return next
-      .handle(modifiedRequest)
-      .pipe(tap((event) => this.logResponse(event)));
-  }
+  return next(modifiedReq).pipe(
+    tap((event) => {
+      if (event instanceof HttpResponse) {
+        // console.log('[Response received]', event.status, event.url);
+      }
+    }),
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401 || error.status === 403) {
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        router.navigate([ROUTER_PATHS.LOGIN]);
+      }
 
-  private handlePost(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const modifiedRequest = request.clone({
-      //setHeaders: { 'Content-Type': 'application/json' },
-    });
-
-    return next
-      .handle(modifiedRequest)
-      .pipe(tap((event) => this.logResponse(event)));
-  }
-
-  private handlePut(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const modifiedRequest = request.clone({
-      //setHeaders: { 'Content-Type': 'application/json' },
-    });
-
-    return next
-      .handle(modifiedRequest)
-      .pipe(tap((event) => this.logResponse(event)));
-  }
-
-  private logResponse(event: HttpEvent<any>) {
-    if (event instanceof HttpResponse) {
-      console.log('[Response received]', event.status, event.url);
-    }
-  }
-}
+      return throwError(() => error);
+    })
+  );
+};
